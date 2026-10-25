@@ -53,12 +53,12 @@ let meld_json meld =
 let legal_action_json id =
   `Assoc [ ("id", `Int id); ("key", `String (Action_catalog.key id)) ]
 
-let of_state state seat =
+let of_state ?choices state seat =
   let view = Observation.create state seat in
   let legal = Action_catalog.legal state seat in
   let hint_shanten, hint_ukeire, hint_qualifying_waits, hint_qualifying_value =
     match state.State.phase with
-    | State.Awaiting_discard _ -> Heuristic.discard_hints state seat
+    | State.Awaiting_discard _ -> Heuristic.discard_hints ?choices state seat
     | _ ->
         ( Array.make Tile.standard_kind_count (-1),
           Array.make Tile.standard_kind_count 0,

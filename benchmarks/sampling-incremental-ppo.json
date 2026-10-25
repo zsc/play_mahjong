@@ -1,0 +1,66 @@
+{
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "cpu_count": 10,
+  "workers": 1,
+  "torch": "2.14.1",
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "build": "dune native",
+  "seed_start": 12000000,
+  "sampling_seed": 71,
+  "backend_sha256": "fea5306e257f8f15d35d5593b910c4da77324a44b10b75f263ce2d6d44540723",
+  "checkpoint_sha256": "4df1cee50425552bf57c0ac027a7c0452d66d6e0a12e9bfac13cbcc003a372f2",
+  "config": {
+    "mode": "ppo",
+    "batch_size": 16,
+    "chunk_size": 0,
+    "games": 240,
+    "repeats": 3,
+    "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+    "output": "benchmarks/sampling-incremental-ppo.json"
+  },
+  "repeats": [
+    {
+      "repeat": 0,
+      "seconds": 1.9552232918795198,
+      "games_per_second": 122.74812856248887,
+      "samples": 3480,
+      "boundary_calls": {
+        "new": 240,
+        "advance_batch": 329,
+        "close": 240
+      },
+      "inference_calls": 314,
+      "mean_inference_batch": 11.0828025477707,
+      "trajectory_sha256": "0991a3f2dde7e6a7e89cff67a8d95620d09752fffd5cef3e487c38095d185709"
+    },
+    {
+      "repeat": 1,
+      "seconds": 1.928621165920049,
+      "games_per_second": 124.44123513780269,
+      "samples": 3480,
+      "boundary_calls": {
+        "new": 240,
+        "advance_batch": 329,
+        "close": 240
+      },
+      "inference_calls": 314,
+      "mean_inference_batch": 11.0828025477707,
+      "trajectory_sha256": "0991a3f2dde7e6a7e89cff67a8d95620d09752fffd5cef3e487c38095d185709"
+    },
+    {
+      "repeat": 2,
+      "seconds": 1.9719067080877721,
+      "games_per_second": 121.70961182678694,
+      "samples": 3480,
+      "boundary_calls": {
+        "new": 240,
+        "advance_batch": 329,
+        "close": 240
+      },
+      "inference_calls": 314,
+      "mean_inference_batch": 11.0828025477707,
+      "trajectory_sha256": "0991a3f2dde7e6a7e89cff67a8d95620d09752fffd5cef3e487c38095d185709"
+    }
+  ],
+  "median_seconds": 1.9552232918795198
+}

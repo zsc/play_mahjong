@@ -1,5 +1,79 @@
 # 环境性能审计（2026-10-26）
 
+## 第三轮：合并调用、复用计算和批量推理
+
+本地 Apple M5、单进程、原生构建、CPU 单线程推理；固定 BC checkpoint，240 局，
+种子 12000000 起，3 次重复的墙钟中位数。`benchmark_sampling.py` 将指纹计算排除在计时外；
+不包含进程启动、压缩、GPU 更新。原始 JSON 位于 `benchmarks/sampling-*.json`。
+
+| 路径 | 本轮优化前 | 优化后 | 吞吐倍数 |
+| --- | ---: | ---: | ---: |
+| PPO（旧采样顺序） | 4.466 s | 2.757 s | 1.62× |
+| PPO（16 局合批） | 4.466 s | 1.955 s | 2.28× |
+| 教师数据（不含压缩） | 5.599 s | 2.913 s | 1.92× |
+
+这些是相对上一轮分块 DP 版本的增益。20 局完整观察/特征/动作/结算基准为 0.373 秒，
+摘要仍为 `7502ee94d480a670c2859e8e9545e1eab1b249676f804f0998f6dabcaea3ecab`。
+远端 Ryzen 3900X 同机前后基准为 **2.386×** 吞吐（`remote-before-ppo.json` / `remote-batch-ppo.json`）。
+
+- `teacher_chunk` 每次最多生成 64 个教师决策，复用同一份弃牌候选给观察提示和教师选择。
+- `advance_batch` 在同一个 OCaml 状态机内执行对手和 scaffold 动作，停在模型弃牌点或终局。
+  批次校验失败会回滚全部牌局；非法动作仍然报错，不自动换动作。
+- 可见牌计数由 34 次遍历改为一次；结构 frontier 的合并结果有界缓存；候选弃牌和摸牌
+  增量更新对应花色及特殊形统计。旧参考算法保留，30,000 手随机比较以及增减牌对照通过。
+- PPO 每进程同时推进至多 16 局，再一次前向。240 局的边界调用从 65,333 次降为 809 次，
+  推理从 3,557 次降为 314 次，实际平均 batch 约 11.1。每盘各自结算和 GAE，行为权重固定。
+- **合批会改变随机数消费顺序。**同采样模式可复现；旧模式保留为 batch-size=1。
+  单路新旧路径的 features/mask/action/log-prob/value/reward/GAE 逐项一致，
+  多路验证 log-prob 与冻结策略一致、动作合法、回报无跨盘混接、精确恢复一致。
+- 原生与 JSON-lines 后备接口均通过新批量契约测试。仍使用 JSON 传递模型决策观察，
+  没有宣称已实现全二进制特征 ABI，也没有更改规则或教师策略。
+- 已同步到独立目录 `/home/zsc/play_mahjong_releases/batch-20261026`，历史部署不覆盖。
+  远端按锁文件补齐 pytest 9.1.1；原生测试 22 项和批量/恢复测试 10 项通过后启动新训练分支。
+- 新分支已完成 40×480 = 19,200 局、274,099 个模型决策，累计采样 56.250 秒、
+  参数更新 10.041 秒；单批采样中位数 1.330 秒。详情 `benchmarks/ppo-batch-v2-training.json`。
+  训练耗时不等于棋力：该分支未超过开发集原候选，最终独立验收采用原 PPO40 + 保护。
+  目前仍无升级 GPU 的必要，采样耗时高于参数更新且没有显存不足。
+
+```sh
+uv run python training/benchmark_sampling.py --mode ppo --batch-size 16 --output /tmp/ppo-batch.json
+uv run python training/benchmark_sampling.py --mode teacher --chunk-size 64 --output /tmp/teacher-chunk.json
+uv run python training/train_ppo.py --init training/checkpoints/bc-qualified-fast30k-v1.pt \
+  --output training/checkpoints/new-run.pt --workers 8 --rollout-batch-size 16 \
+  --games-per-update 480 --updates 40 --scaffold-variant qualified-tenpai --opponent-variant qualified-tenpai
+```
+
+## 第二轮优化与远端落地
+
+用户要求继续加速并训练人测候选后，增加了按花色/字牌分解的动态规划。
+每个块保留 `(面子数, 是否有雀头)` 对应的最大搭子数；三门数牌共享 `5^9` 懒计算表，
+字牌使用独立 `5^7` 表，全局合并保留面子/雀头约束。十个状态以 30 位整数打包，
+不把各花色的一个最优标量直接相加。普通向听、七对/十三幺的原有启发式语义不变。
+原递归实现继续作为参考，30,000 组普通/密集单花色计数、0–4 个副露做逐项对照。
+表由代码在运行时计算，没有提交预生成二进制或改变规则版本。
+
+- 本机相同 20 局：原始版本 15.107 秒 → 第一轮缓存 7.013 秒 → 分块版本 0.914 秒。
+  JSON-lines 版本 0.952 秒，完整轨迹摘要仍相同。
+- 远端独立目录 `/home/zsc/play_mahjong_releases/frontier-20261026-0710` 构建测试通过，
+  同种子 20 局 1.822 秒，与本机轨迹摘要相同。此时旧 24 个生成任务仍在运行。
+- 新数据种子 `13000000..13029999`，8 worker、24 个 1250 局分片，
+  **30,000 局实际生成及压缩写盘 444.302 秒（约 7.4 分钟，67.52 局/秒）**。
+  2,371,105 条决策全部通过数据契约/合法标签/种子去重/回报结算校验。
+- 没有终止旧任务或覆盖历史实验。Linux FFI 构建改为原子替换共享库文件，
+  避免截断运行中进程 mmap 的 inode。
+- BC 新增 `--vectorized-batches`：整批取数、设备端批量花色增强，
+  六种排列 × 全部 122 个动作与逐条参考增强完全一致；数据哈希每次训练只算一次。
+- PPO 复用采样 Pool，新增 `--resume` 恢复 optimizer、更新计数、配置与 RNG。
+  同 CPU 上“两次连续更新”和“第一次快照恢复再更新”的模型/optimizer 逐 bit 一致。
+  旧 checkpoint 缺少恢复状态时明确拒绝 resume，可显式 `--init` warm start。
+
+原始证据见 `benchmarks/env-block-frontier-*.json`、`qualified-fast30k-generation.json`、
+`qualified-fast30k-validation.json` 和 `ppo-exact-resume.json`。
+本轮数据/训练/人测判据见 `docs/human-test-plan.md`。下方保留第一轮测量及当时状态，
+其中“只在本地”和“尚无精确 resume”已被本节更新。
+
+## 第一轮审计记录
+
 目前先不升级 GPU。当前数据生成受 CPU 上的向听/进张计算限制；已有 RTX 2080 SUPER
 在本次检查时空闲。性能优化不能替代完整规则验收：当前仍是 `mcr-wmo2006-stage1`。
 

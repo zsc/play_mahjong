@@ -11,6 +11,7 @@ def merge_reports(reports: list[dict]) -> dict:
     if not reports:
         raise ValueError("at least one evaluation report is required")
     contract_keys = (
+        "ruleset_id", "feature_encoding_version", "action_catalog_version", "engine_source_sha256", "checkpoint_sha256",
         "policy",
         "model_scope",
         "discard_guard",

@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import random
+import time
 from pathlib import Path
 
 import numpy as np
@@ -95,6 +96,45 @@ class SuitAugmentedDataset(Dataset):
             torch.from_numpy(mask),
             torch.tensor(action, dtype=torch.long),
             torch.tensor(self.returns[index], dtype=torch.float32),
+        )
+
+
+class VectorizedLoader:
+    """Index whole CPU batches, avoiding one Python Dataset call per row."""
+
+    def __init__(self, dataset: TensorDataset, batch_size: int, shuffle: bool) -> None:
+        self.dataset, self.batch_size, self.shuffle = dataset, batch_size, shuffle
+
+    def __iter__(self):
+        order = torch.randperm(len(self.dataset)) if self.shuffle else torch.arange(len(self.dataset))
+        for indices in order.split(self.batch_size):
+            yield tuple(tensor[indices] for tensor in self.dataset.tensors)
+
+
+class BatchSuitAugmenter:
+    def __init__(self, device: torch.device) -> None:
+        feature_indices = np.tile(np.arange(FEATURE_SIZE), (6, 1))
+        mask_indices = np.tile(np.arange(ACTION_COUNT), (6, 1))
+        for index, permutation in enumerate(SUIT_PERMUTATIONS):
+            for offset in SUIT_FEATURE_BLOCKS:
+                feature_indices[index, offset:offset + 27] = (
+                    np.arange(offset, offset + 27).reshape(3, 9)[list(permutation)].reshape(-1)
+                )
+            for offset in (DISCARD_START, CONCEALED_KONG_START, ADDED_KONG_START):
+                mask_indices[index, offset:offset + 27] = (
+                    np.arange(offset, offset + 27).reshape(3, 9)[list(permutation)].reshape(-1)
+                )
+        self.feature_indices = torch.as_tensor(feature_indices, device=device)
+        self.mask_indices = torch.as_tensor(mask_indices, device=device)
+        self.action_indices = torch.as_tensor(np.argsort(mask_indices, axis=1), device=device)
+
+    def __call__(self, features, masks, actions, permutations=None):
+        if permutations is None:
+            permutations = torch.randint(6, (len(actions),), device=features.device)
+        return (
+            features.gather(1, self.feature_indices[permutations]),
+            masks.gather(1, self.mask_indices[permutations]),
+            self.action_indices[permutations, actions],
         )
 
 
@@ -250,6 +290,7 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=512)
     parser.add_argument("--num-workers", type=int, default=0)
+    parser.add_argument("--vectorized-batches", action="store_true")
     parser.add_argument("--learning-rate", type=float, default=1e-3)
     parser.add_argument("--hidden", type=int, default=256)
     parser.add_argument("--validation-fraction", type=float, default=0.15)
@@ -259,6 +300,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.num_workers < 0:
         raise SystemExit("--num-workers must be non-negative")
+    if args.vectorized_batches and args.num_workers:
+        raise SystemExit("--vectorized-batches requires --num-workers 0")
 
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -313,7 +356,7 @@ def main() -> None:
             returns[train_indices],
             args.seed + 1,
         )
-        if args.suit_augment
+        if args.suit_augment and not args.vectorized_batches
         else TensorDataset(
             torch.from_numpy(features[train_indices]),
             torch.from_numpy(masks[train_indices]),
@@ -331,7 +374,7 @@ def main() -> None:
         ),
     }
     loaders = {
-        name: DataLoader(
+        name: VectorizedLoader(dataset, args.batch_size, name == "train") if args.vectorized_batches else DataLoader(
             dataset,
             batch_size=args.batch_size,
             shuffle=name == "train",
@@ -361,8 +404,13 @@ def main() -> None:
     best_validation = float("inf")
     history: list[dict] = []
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    dataset_sha256 = hashlib.sha256(
+        "".join(f"{path.name}:{sha256(path)}\n" for path in args.data).encode()
+    ).hexdigest()
+    augmenter = BatchSuitAugmenter(device) if args.suit_augment and args.vectorized_batches else None
 
     for epoch in range(1, args.epochs + 1):
+        epoch_start = time.perf_counter()
         model.train()
         train_losses = []
         for batch_features, batch_masks, batch_actions, batch_returns in loaders["train"]:
@@ -370,6 +418,8 @@ def main() -> None:
             batch_masks = batch_masks.to(device)
             batch_actions = batch_actions.to(device)
             batch_returns = batch_returns.to(device)
+            if augmenter is not None:
+                batch_features, batch_masks, batch_actions = augmenter(batch_features, batch_masks, batch_actions)
             logits, values = model(batch_features)
             policy_loss = masked_cross_entropy(logits, batch_actions, batch_masks)
             value_loss = nn.functional.mse_loss(values, batch_returns)
@@ -406,6 +456,7 @@ def main() -> None:
                 validation_actions.append(batch_actions.cpu())
         row = {
             "epoch": epoch,
+            "epoch_seconds": time.perf_counter() - epoch_start,
             "train_loss": float(np.mean(train_losses)),
             "validation_loss": float(np.mean(validation_losses)),
             "validation_action_accuracy": correct / max(total, 1),
@@ -432,9 +483,7 @@ def main() -> None:
                 "epoch": epoch,
                 "history": history,
                 "dataset": [str(path) for path in args.data],
-                "dataset_sha256": hashlib.sha256(
-                    "".join(f"{path.name}:{sha256(path)}\n" for path in args.data).encode()
-                ).hexdigest(),
+                "dataset_sha256": dataset_sha256,
                 "initial_checkpoint": (
                     str(args.init_checkpoint) if args.init_checkpoint is not None else None
                 ),
@@ -443,6 +492,10 @@ def main() -> None:
                 "discard_only": args.discard_only,
                 "suit_augmentation": args.suit_augment,
                 "num_workers": args.num_workers,
+                "vectorized_batches": args.vectorized_batches,
+                "training_config": vars(args) | {"data": [str(path) for path in args.data],
+                                                  "output": str(args.output),
+                                                  "init_checkpoint": str(args.init_checkpoint) if args.init_checkpoint else None},
                 "discard_guard": args.discard_guard,
                 "teacher_variant": teacher_variant,
                 "scaffold_variant": scaffold_variant,

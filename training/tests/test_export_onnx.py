@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 
+import pytest
 import torch
-from export_onnx import RULESET_ID, export_model
+from export_onnx import RULESET_ID, evaluation_record, export_model
 from mahjong_ai.actions import ACTION_CATALOG_VERSION, ACTION_COUNT
 from mahjong_ai.features import FEATURE_ENCODING_VERSION, FEATURE_SIZE, OBSERVATION_VERSION
 from model import PolicyValueNet
@@ -57,7 +58,19 @@ def test_onnx_export_writes_contract_and_parity(tmp_path) -> None:
             }
         )
     )
-    manifest = export_model(checkpoint_path, output, [evaluation_path])
+    manifest = export_model(checkpoint_path, output, [evaluation_path], "teacher-optimal")
     assert manifest["evaluations"][0]["games"] == 1600
     assert manifest["evaluations"][0]["mean_net_score"] == 1.25
     assert manifest["evaluations"][0]["sha256"]
+    assert manifest["deployment"]["discard_guard"] == "teacher-optimal"
+    assert manifest["contract"]["discard_guard"] == "teacher-optimal"
+    assert manifest["training"]["discard_guard"] is None
+
+
+def test_export_rejects_evaluation_of_different_weights(tmp_path):
+    checkpoint = tmp_path / "model.pt"
+    checkpoint.write_bytes(b"current weights")
+    report = tmp_path / "report.json"
+    report.write_text(json.dumps({"checkpoint": str(checkpoint), "checkpoint_sha256": "0" * 64}))
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        evaluation_record(report, checkpoint)

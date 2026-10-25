@@ -339,14 +339,34 @@ let test_observation_json () =
   Alcotest.(check int) "action catalog size" Action_catalog.size
     (Yojson.Safe.Util.member "action_count" json |> Yojson.Safe.Util.to_int)
 
+let test_known_counts_reference () =
+  for seed = 0 to 19 do
+    let state = ref (State.initial seed 27) in
+    for _ = 0 to 120 do
+      for seat = 0 to 3 do
+        let expected = Array.init 34 (State.known_tile_count !state seat) in
+        Alcotest.(check (array int)) "single-pass visibility matches reference"
+          expected (State.known_tile_counts !state seat)
+      done;
+      match Observation.actor !state with
+      | None -> ()
+      | Some seat ->
+          let action = Option.get (Heuristic.choose_action !state seat) in
+          state := (match Engine.step !state seat action with Ok next -> next | Error e -> failwith e)
+    done
+  done
+
 let test_shanten_cache_reference () =
   let rng = Rng.create 12000000 in
-  for sample = 0 to 1499 do
+  for sample = 0 to 29999 do
     let meld_count = sample mod 5 in
     let hand = Array.make Tile.standard_kind_count 0 in
     for _ = 1 to 13 - (3 * meld_count) + (sample mod 2) do
       let rec draw () =
-        let kind = Rng.next_int rng Tile.standard_kind_count in
+        let kind =
+          if sample mod 3 = 0 then Rng.next_int rng 9
+          else Rng.next_int rng Tile.standard_kind_count
+        in
         if hand.(kind) >= 4 then draw ()
         else hand.(kind) <- hand.(kind) + 1
       in
@@ -354,8 +374,34 @@ let test_shanten_cache_reference () =
     done;
     let before = Array.copy hand in
     let expected = Shanten.of_counts_uncached ~meld_count hand in
+    Alcotest.(check int) "block frontier equals standard recursive reference"
+      (Shanten.min_standard_reference ~meld_count hand)
+      (Shanten.min_standard ~meld_count hand);
     Alcotest.(check int) "memoized result equals recursive reference" expected
       (Shanten.of_counts ~meld_count hand);
+    let evaluator = Shanten.make_evaluator ~meld_count hand in
+    Alcotest.(check int) "incremental initial equals reference" expected (Shanten.evaluate evaluator);
+    if sample < 1000 then begin
+      for kind = 0 to 33 do
+        if hand.(kind) < 4 then begin
+          hand.(kind) <- hand.(kind) + 1;
+          Shanten.adjust evaluator kind 1;
+          Alcotest.(check int) "incremental draw equals reference"
+            (Shanten.of_counts_uncached ~meld_count hand) (Shanten.evaluate evaluator);
+          hand.(kind) <- hand.(kind) - 1;
+          Shanten.adjust evaluator kind (-1)
+        end;
+        if hand.(kind) > 0 then begin
+          hand.(kind) <- hand.(kind) - 1;
+          Shanten.adjust evaluator kind (-1);
+          Alcotest.(check int) "incremental discard equals reference"
+            (Shanten.of_counts_uncached ~meld_count hand) (Shanten.evaluate evaluator);
+          hand.(kind) <- hand.(kind) + 1;
+          Shanten.adjust evaluator kind 1
+        end
+      done;
+      Alcotest.(check int) "incremental restored" expected (Shanten.evaluate evaluator)
+    end;
     Array.fill hand 0 Tile.standard_kind_count 0;
     ignore (Shanten.of_counts ~meld_count hand);
     Alcotest.(check int) "key does not retain a mutable counts array" expected
@@ -380,6 +426,7 @@ let () =
         Alcotest.test_case "observation privacy" `Quick test_observation_hides_other_hands;
         Alcotest.test_case "concealed kong privacy" `Quick test_observation_hides_live_kong_kind;
         Alcotest.test_case "observation json" `Quick test_observation_json;
+        Alcotest.test_case "known counts reference" `Quick test_known_counts_reference;
         Alcotest.test_case "action catalog" `Quick test_action_catalog;
         Alcotest.test_case "shanten" `Quick test_shanten;
         Alcotest.test_case "shanten cache reference" `Quick test_shanten_cache_reference;

@@ -1,0 +1,123 @@
+{
+  "selected_at_utc": "2026-10-25T23:40:36.889087+00:00",
+  "criterion": "highest development mean net score among all 18 declared configurations",
+  "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+  "checkpoint_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62",
+  "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+  "discard_guard": "teacher-optimal",
+  "scaffold_variant": "qualified-tenpai",
+  "development_report": "training/runs/batch-dev67-ppo40-teacher-optimal.json",
+  "development_report_sha256": "b81dd38adb07bb8c992850cf9db082ab2a472eb84d40368adcce35066c35a3c5",
+  "holdout_seed_start": 6600000,
+  "holdout_games": 6400,
+  "candidates": [
+    {
+      "report": "training/runs/batch-dev67-bc-none.json",
+      "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+      "guard": "none",
+      "mean_net_score": 0.113125
+    },
+    {
+      "report": "training/runs/batch-dev67-bc-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.415
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo10-none.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0010.pt",
+      "guard": "none",
+      "mean_net_score": 0.595625
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo10-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0010.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.67
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo20-none.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0020.pt",
+      "guard": "none",
+      "mean_net_score": -0.17625
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo20-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0020.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.96625
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo30-none.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0030.pt",
+      "guard": "none",
+      "mean_net_score": 0.1775
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo30-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0030.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.87125
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo40-none.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "guard": "none",
+      "mean_net_score": -0.00875
+    },
+    {
+      "report": "training/runs/batch-dev67-ppo40-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 1.004375
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-10-none.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0010.pt",
+      "guard": "none",
+      "mean_net_score": 0.30375
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-10-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0010.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.854375
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-20-none.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0020.pt",
+      "guard": "none",
+      "mean_net_score": 0.13875
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-20-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0020.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.571875
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-30-none.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0030.pt",
+      "guard": "none",
+      "mean_net_score": -0.098125
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-30-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0030.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.649375
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-40-none.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0040.pt",
+      "guard": "none",
+      "mean_net_score": 0.31375
+    },
+    {
+      "report": "training/runs/batch-dev67-v2-40-teacher-optimal.json",
+      "checkpoint": "training/checkpoints/ppo-batch-v2-u0040.pt",
+      "guard": "teacher-optimal",
+      "mean_net_score": 0.684375
+    }
+  ]
+}

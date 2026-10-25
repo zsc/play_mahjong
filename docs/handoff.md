@@ -1,6 +1,32 @@
 # 麻将 AI 项目交接
 
-更新时间：2026-10-26 07:03（Asia/Singapore）
+更新时间：2026-10-26（Asia/Singapore；本节覆盖下方历史记录）
+
+## 最新进度
+
+- 优化已部署到 `/home/zsc/play_mahjong_releases/batch-20261026`，之前的 frontier 部署和
+  `/home/zsc/play_mahjong` 未覆盖。直接 SSH 在应用进程不可达，仍通过独立 tmux 会话执行 SSH。
+  tmux 读取 Downloads 可能被 macOS 拒绝，上传/下载经 `/tmp` 中转。
+- 向听分块 DP、增量候选计算、合并缓存、单遍可见牌计数、teacher_chunk、advance_batch、
+  每进程 16 局批量推理已实现。相对上轮分块版本，本地 PPO 2.28×、教师数据 1.92×；
+  远端相同 240 局三次中位数 10.725→4.495 秒（2.386×）。轨迹摘要保持一致。
+- 30,000 局 qualified 教师数据已在 frontier 部署的 `training/data/qualified-fast30k/` 生成并校验；
+  种子 13000000..13029999，2,371,105 样本，444.302 秒含压缩。
+- BC 已完成 40 epochs；随后 PPO v1 已完成 40×480 局（种子 14000000 起）。
+- 新批量采样 PPO v2 从 v1-u0040 warm start，再完成 40×480 局（种子 15000000 起）；
+  8 个常驻进程、16 局/进程、CUDA 更新，快照已取回本地 `training/checkpoints/ppo-batch-v2-u*.pt`。
+- PPO 支持保存优化器、RNG、配置并精确 `--resume`；改变 sampler 使用明确的 `--init` 新分支。
+- 最新核心 22 项、Python 123 项通过；批量接口 JSON-lines 对照 9 项、远端批量/恢复 10 项通过。
+  规则仍是 stage1，完整番种排斥、补牌来源链、整场和网页/Pages 尚未完成。
+- 人测选择及独立验收见 `docs/human-test-plan.md`；完整证据见 `docs/env-performance.md`。
+  下方旧模型失败记录仅为历史，不能用来替代新模型的独立验收结果。
+- **人测门槛已通过**：选定 v1-u0040 + teacher-optimal。6,400 局相对 closed 的配对差
+  +1.3930，CI [0.8855, 1.9004]；相对 qualified +0.1578，CI [-0.2848, 0.6005]。
+  v2 没有在开发集超过旧候选。不能宣称纯模型或复合模型强于 qualified。
+- `./scripts/play_candidate.sh` 可开始本地终端人测；ONNX 100 局 1,460 决策数值/动作对照通过。
+  详见 `docs/model-card-human-candidate-20261026.md`。holdout 6600000..6606399 已使用，不能再调参后复用作最终验收。
+
+## 以下是历史交接记录
 
 ## 接手补充：环境效率审计
 

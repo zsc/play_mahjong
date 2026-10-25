@@ -29,8 +29,12 @@ ocamlfind ocamlopt -package yojson -linkpkg -output-obj -o "$tmp/entry.o" \
 
 ocaml_where=$(ocamlc -where)
 cc -shared -fPIC -O2 -I "$ocaml_where" -I "$root/ocaml/mahjong_ffi" \
-  -o "$output" "$root/ocaml/mahjong_ffi/wrapper.c" "$tmp/entry.o" \
+  -o "$tmp/mahjong_ffi.so" "$root/ocaml/mahjong_ffi/wrapper.c" "$tmp/entry.o" \
   "$ocaml_where/libasmrun_pic.a" "$ocaml_where/libthreadsnat.a" \
   -ldl -lpthread -lm
+
+# Never truncate an inode that an existing rollout worker has mmap'ed.
+cp "$tmp/mahjong_ffi.so" "$output.new.$$"
+mv -f "$output.new.$$" "$output"
 
 printf 'wrote %s\n' "$output"

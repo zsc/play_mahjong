@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "games": 100,
+  "seed_start": 12500000,
+  "samples": 1460,
+  "backend": "onnxruntime CPUExecutionProvider",
+  "all_actions_identical": true,
+  "logits_max_abs_error": 2.47955322265625e-05,
+  "value_max_abs_error": 2.3748725652694702e-06,
+  "discard_guard": "teacher-optimal",
+  "onnx_sha256": "2d5b8d0c91032a940b0c1644f5201be38c591dc49965170150a22ec7336fa8ec",
+  "checkpoint_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62"
+}

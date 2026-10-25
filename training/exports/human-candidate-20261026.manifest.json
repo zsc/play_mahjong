@@ -1,0 +1,178 @@
+{
+  "format_version": 1,
+  "model_id": "ppo-qualified-fast30k-v1-u0040",
+  "stage": "masked_ppo_discard",
+  "is_smoke": false,
+  "is_random": false,
+  "created_at": "2026-10-25T23:40:39.179998+00:00",
+  "files": {
+    "checkpoint": {
+      "path": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62"
+    },
+    "onnx": {
+      "path": "training/exports/human-candidate-20261026.onnx",
+      "sha256": "2d5b8d0c91032a940b0c1644f5201be38c591dc49965170150a22ec7336fa8ec"
+    }
+  },
+  "contract": {
+    "ruleset_id": "mcr-wmo2006-stage1",
+    "observation_version": 1,
+    "feature_encoding_version": 6,
+    "action_catalog_version": 1,
+    "feature_size": 771,
+    "action_count": 122,
+    "hidden": 256,
+    "teacher_variant": null,
+    "scaffold_variant": "qualified-tenpai",
+    "learned_scope": "discard decisions only; hu and reactions use heuristic",
+    "discard_guard": "teacher-optimal"
+  },
+  "deployment": {
+    "discard_guard": "teacher-optimal",
+    "scaffold_variant": "qualified-tenpai",
+    "policy_description": "trained discard network + heuristic scaffold + teacher-optimal discard protection",
+    "guard_applied_by": "caller constructs the supplied mask; guard is not embedded in ONNX"
+  },
+  "io": {
+    "inputs": [
+      {
+        "name": "features",
+        "shape": [
+          "batch",
+          771
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "mask",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "value",
+        "shape": [
+          "batch"
+        ],
+        "dtype": "float32"
+      }
+    ],
+    "mask_semantics": "true means legal; legal logits use argmax after applying the supplied mask",
+    "value_semantics": "tanh-scaled expected final score divided by 64, not a win probability",
+    "seat_mapping": "absolute seat indices 0..3 and one-hot seat/round winds; no relative-seat rotation",
+    "normalization": "see feature_encoding_version 6; counts are divided by their tile limits and hint arrays are clipped",
+    "selection": "deterministic argmax; illegal logits must never be selected by the caller"
+  },
+  "training": {
+    "seed": 20261027,
+    "epoch": null,
+    "updates": 40,
+    "workers": 8,
+    "best_validation_loss": null,
+    "dataset": null,
+    "dataset_sha256": null,
+    "initial_checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+    "teacher_bc_coefficient": 0.5,
+    "discard_guard": "none",
+    "opponent_variant": "qualified-tenpai",
+    "config": {
+      "games_per_update": 480,
+      "workers": 8,
+      "ppo_epochs": 4,
+      "minibatch_size": 512,
+      "learning_rate": 5e-05,
+      "clip_ratio": 0.2,
+      "value_coefficient": 0.5,
+      "entropy_coefficient": 0.01,
+      "teacher_bc_coefficient": 0.5,
+      "discard_guard": "none",
+      "scaffold_variant": "qualified-tenpai",
+      "opponent_variant": "qualified-tenpai",
+      "gamma": 0.99,
+      "gae_lambda": 0.95,
+      "seed": 20261027,
+      "seed_start": 14000000,
+      "max_steps": 2000
+    },
+    "engine_source_sha256": null,
+    "initial_checkpoint_sha256": null
+  },
+  "evaluations": [
+    {
+      "path": "training/runs/batch-dev67-ppo40-teacher-optimal.json",
+      "sha256": "b81dd38adb07bb8c992850cf9db082ab2a472eb84d40368adcce35066c35a3c5",
+      "policy": "model",
+      "model_scope": "discard",
+      "discard_guard": "teacher-optimal",
+      "heuristic_variant": null,
+      "scaffold_variant": "qualified-tenpai",
+      "opponent_variant": "qualified-tenpai",
+      "games": 1600,
+      "seed_start": 6700000,
+      "mean_net_score": 1.004375,
+      "mean_standard_error": 0.7585331149436725,
+      "win_rate": 0.249375,
+      "discard_rate": 0.1325,
+      "exhaustive_draw_rate": 0.071875,
+      "paired_baseline": null
+    },
+    {
+      "path": "training/runs/human-holdout66-candidate.json",
+      "sha256": "bb0ef296c071f098c77a2cfa6537877c71dc82ae82dad6a24f3c2d0fe5e3ad5b",
+      "policy": "model",
+      "model_scope": "discard",
+      "discard_guard": "teacher-optimal",
+      "heuristic_variant": null,
+      "scaffold_variant": "qualified-tenpai",
+      "opponent_variant": "qualified-tenpai",
+      "games": 6400,
+      "seed_start": 6600000,
+      "mean_net_score": 0.4621875,
+      "mean_standard_error": 0.3748027444353396,
+      "win_rate": 0.2396875,
+      "discard_rate": 0.14515625,
+      "exhaustive_draw_rate": 0.0746875,
+      "paired_baseline": null
+    }
+  ],
+  "parity": {
+    "backend": "onnxruntime CPUExecutionProvider",
+    "samples": 2,
+    "logits_max_abs_error": 6.103515625e-05,
+    "value_max_abs_error": 1.1920928955078125e-07
+  },
+  "dependencies": {
+    "torch": "2.14.1",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.31.0"
+  },
+  "opset": 18,
+  "real_observation_parity": {
+    "passed": true,
+    "games": 100,
+    "seed_start": 12500000,
+    "samples": 1460,
+    "backend": "onnxruntime CPUExecutionProvider",
+    "all_actions_identical": true,
+    "logits_max_abs_error": 2.193450927734375e-05,
+    "value_max_abs_error": 2.9243528842926025e-06,
+    "discard_guard": "teacher-optimal",
+    "onnx_sha256": "2d5b8d0c91032a940b0c1644f5201be38c591dc49965170150a22ec7336fa8ec",
+    "checkpoint_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62"
+  },
+  "human_test_evidence": "benchmarks/human-candidate-holdout.json",
+  "model_card": "docs/model-card-human-candidate-20261026.md"
+}

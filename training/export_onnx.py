@@ -47,6 +47,8 @@ def validate_checkpoint(checkpoint: dict) -> None:
 
 def evaluation_record(path: Path, checkpoint_path: Path) -> dict:
     report = json.loads(path.read_text())
+    if report.get("checkpoint_sha256") is not None and report["checkpoint_sha256"] != sha256(checkpoint_path):
+        raise ValueError(f"evaluation checkpoint checksum mismatch in {path}")
     reported_checkpoint = report.get("checkpoint")
     if reported_checkpoint is not None and Path(reported_checkpoint).resolve() != checkpoint_path.resolve():
         raise ValueError(
@@ -79,9 +81,13 @@ def export_model(
     checkpoint_path: Path,
     output: Path,
     evaluation_paths: list[Path] | None = None,
+    deployment_discard_guard: str | None = None,
 ) -> dict:
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     validate_checkpoint(checkpoint)
+    guard = deployment_discard_guard if deployment_discard_guard is not None else checkpoint.get("discard_guard", "none")
+    if guard not in ("none", "teacher-optimal"):
+        raise ValueError("unsupported deployment discard guard")
     model = PolicyValueNet(hidden=int(checkpoint["hidden"]))
     model.load_state_dict(checkpoint["model"])
     model.eval()
@@ -151,7 +157,14 @@ def export_model(
             "teacher_variant": checkpoint.get("teacher_variant"),
             "scaffold_variant": checkpoint.get("scaffold_variant"),
             "learned_scope": checkpoint.get("learned_scope"),
-            "discard_guard": checkpoint.get("discard_guard"),
+            "discard_guard": guard,
+        },
+        "deployment": {
+            "discard_guard": guard,
+            "scaffold_variant": checkpoint.get("scaffold_variant"),
+            "policy_description": "trained discard network + heuristic scaffold" +
+                                  (" + teacher-optimal discard protection" if guard != "none" else ""),
+            "guard_applied_by": "caller constructs the supplied mask; guard is not embedded in ONNX",
         },
         "io": {
             "inputs": [
@@ -180,6 +193,9 @@ def export_model(
             "teacher_bc_coefficient": checkpoint.get("teacher_bc_coefficient"),
             "discard_guard": checkpoint.get("discard_guard"),
             "opponent_variant": checkpoint.get("opponent_variant"),
+            "config": checkpoint.get("training_config"),
+            "engine_source_sha256": checkpoint.get("engine_source_sha256"),
+            "initial_checkpoint_sha256": checkpoint.get("initial_checkpoint_sha256"),
         },
         "evaluations": [
             evaluation_record(path, checkpoint_path) for path in (evaluation_paths or [])
@@ -205,8 +221,9 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--evaluation", type=Path, nargs="*", default=[])
+    parser.add_argument("--deployment-discard-guard", choices=("none", "teacher-optimal"))
     args = parser.parse_args()
-    manifest = export_model(args.checkpoint, args.output, args.evaluation)
+    manifest = export_model(args.checkpoint, args.output, args.evaluation, args.deployment_discard_guard)
     manifest["files"]["onnx"]["path"] = str(args.output)
     manifest_path = args.manifest or args.output.with_suffix(".manifest.json")
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")

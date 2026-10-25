@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "replay_sha256": "743e88aad51725aa78a3d3aae6d168507a24015a127db5564b5606152a73e97d",
+  "actions": 124,
+  "seed": 16000000,
+  "outcome": {
+    "kind": "exhaustive-draw"
+  },
+  "interactive_smoke": {
+    "seed": 16000001,
+    "rejected_input": "999",
+    "accepted_action": 12,
+    "returned_to_next_decision": true,
+    "quit_cleanly": true
+  },
+  "scope": "agent-operated smoke, not human playing feedback"
+}

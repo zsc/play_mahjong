@@ -110,6 +110,21 @@ let known_tile_count state viewer kind =
   in
   counts
 
+(* Same visibility as known_tile_count, collected in one pass. *)
+let known_tile_counts state viewer =
+  let counts = Tile_counts.empty () in
+  let add instance =
+    let kind = Tile.instance_kind instance in
+    if Tile.is_standard_kind kind then counts.(kind) <- counts.(kind) + 1
+  in
+  List.iter add state.seats.(viewer).hand;
+  Array.iteri (fun owner seat ->
+      List.iter add seat.river;
+      List.iter (fun meld ->
+          if owner = viewer || not meld.Meld.concealed then
+            List.iter add meld.instances) seat.melds) state.seats;
+  counts
+
 let validate state =
   let owners = Array.make Tile.physical_tile_count (-1) in
   let error = ref None in

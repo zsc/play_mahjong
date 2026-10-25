@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import random
 from collections.abc import Callable
 from pathlib import Path
@@ -9,7 +11,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from mahjong_ai.actions import ACTION_CATALOG_VERSION, ACTION_COUNT, DISCARD_START, HU
-from mahjong_ai.engine import MahjongEngine
+from mahjong_ai.engine import DEFAULT_LIBRARY, ROOT, MahjongEngine
 from mahjong_ai.features import (
     FEATURE_ENCODING_VERSION,
     FEATURE_SIZE,
@@ -190,6 +192,18 @@ def main() -> None:
     discards = sum(row["discarder"] == row["model_seat"] for row in rows if row["outcome"] == "win")
     draws = sum(row["outcome"] == "exhaustive-draw" for row in rows)
     report = {
+        "ruleset_id": RULESET_ID,
+        "feature_encoding_version": FEATURE_ENCODING_VERSION,
+        "action_catalog_version": ACTION_CATALOG_VERSION,
+        "engine_sha256": hashlib.sha256(Path(os.environ.get(
+            "MAHJONG_FFI_SERVER", os.environ.get("MAHJONG_FFI_LIBRARY", DEFAULT_LIBRARY)
+        )).read_bytes()).hexdigest(),
+        "engine_source_sha256": hashlib.sha256(b"".join(
+            path.name.encode() + path.read_bytes()
+            for path in sorted((ROOT / "ocaml/mahjong_core/lib").glob("*.ml"))
+            if not path.name.startswith("._")
+        )).hexdigest(),
+        "checkpoint_sha256": hashlib.sha256(args.checkpoint.read_bytes()).hexdigest() if args.checkpoint else None,
         "policy": args.policy,
         "model_scope": args.model_scope if args.policy == "model" else None,
         "discard_guard": args.discard_guard if args.policy == "model" else None,

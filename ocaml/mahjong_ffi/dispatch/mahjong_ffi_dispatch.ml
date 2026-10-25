@@ -55,9 +55,99 @@ let evaluation_json (evaluation : Fan.evaluation) =
       ("awards", `List awards);
     ]
 
+let apply_action state seat action_id =
+  match Action_catalog.action_of_id state seat action_id with
+  | None -> invalid_arg ("action is not legal: " ^ string_of_int action_id)
+  | Some action -> (match Engine.step state seat action with
+      | Ok next -> next | Error message -> invalid_arg message)
+
+let teacher state seat variant =
+  match Heuristic.choose_action_id_with_variant state seat variant with
+  | Some action -> action | None -> invalid_arg "teacher has no action"
+
+let prepared_decision state seat variant =
+  let choices = match state.State.phase with
+    | State.Awaiting_discard _ -> Some (Heuristic.choices_for_state state seat)
+    | _ -> None
+  in
+  let action = match Heuristic.choose_action_id_with_variant ?choices state seat variant with
+    | Some value -> value | None -> invalid_arg "teacher has no action"
+  in
+  (action, Observation_json.of_state ?choices state seat)
+
+(* Advance through ordinary engine transitions, stopping only at a learned-policy
+   decision. No automatic action is substituted for a submitted illegal action. *)
+let advance json =
+  let handle = int_member "game" json in
+  let model_seat = int_member "model_seat" json in
+  if model_seat < 0 || model_seat > 3 then invalid_arg "model_seat must be in 0..3";
+  let limit = int_member "max_steps" json in
+  let scaffold = member "scaffold_variant" json |> Yojson.Safe.Util.to_string in
+  let opponent = member "opponent_variant" json |> Yojson.Safe.Util.to_string in
+  let state = current handle in
+  let is_decision state =
+    match state.State.phase with
+    | State.Awaiting_discard seat when seat = model_seat ->
+        not (List.exists (Action.equal Action.Hu) (Engine.legal_actions state seat))
+    | _ -> false
+  in
+  let state = match member "action_id" json with
+    | `Null -> state
+    | value ->
+        if not (is_decision state) then invalid_arg "submitted action outside model decision";
+        apply_action state model_seat (Yojson.Safe.Util.to_int value)
+  in
+  let rec loop state =
+    match state.State.phase with
+    | State.Ended outcome -> (state, [ ("outcome", Observation_json.outcome_json outcome) ])
+    | _ when state.revision >= limit -> invalid_arg "game exceeded max_steps"
+    | _ when is_decision state ->
+        let action, observation = prepared_decision state model_seat scaffold in
+        (state, [ ("observation", observation); ("teacher_action", `Int action) ])
+    | _ ->
+        let seat = Option.get (Observation.actor state) in
+        let variant = if seat = model_seat then scaffold else opponent in
+        loop (apply_action state seat (teacher state seat variant))
+  in
+  let next, fields = loop state in
+  Hashtbl.replace games handle next;
+  `Assoc (("game", `Int handle) :: ("revision", `Int next.revision) :: fields)
+
+let teacher_chunk json =
+  let handle = int_member "game" json in
+  let limit = int_member "max_steps" json in
+  let count = int_member "count" json in
+  if count < 1 || count > 256 then invalid_arg "chunk count must be in 1..256";
+  let variant = member "variant" json |> Yojson.Safe.Util.to_string in
+  let rec loop state remaining rows =
+    match state.State.phase with
+    | State.Ended outcome -> (state, List.rev rows, Observation_json.outcome_json outcome)
+    | _ when state.revision >= limit -> invalid_arg "game exceeded max_steps"
+    | _ when remaining = 0 -> (state, List.rev rows, `Null)
+    | _ ->
+        let seat = Option.get (Observation.actor state) in
+        let action, observation = prepared_decision state seat variant in
+        let row = `Assoc [ ("seat", `Int seat); ("action", `Int action);
+                          ("revision", `Int state.revision); ("observation", observation) ] in
+        loop (apply_action state seat action) (remaining - 1) (row :: rows)
+  in
+  let next, rows, outcome = loop (current handle) count [] in
+  Hashtbl.replace games handle next;
+  ok [ ("rows", `List rows); ("outcome", outcome) ]
+
 let handle_request request =
   let json = Yojson.Safe.from_string request in
   match Yojson.Safe.Util.member "op" json |> Yojson.Safe.Util.to_string with
+  | "advance_batch" ->
+      let requests = member "requests" json |> Yojson.Safe.Util.to_list in
+      let handles = List.map (int_member "game") requests in
+      if List.length handles <> List.length (List.sort_uniq compare handles) then
+        invalid_arg "duplicate game in batch";
+      (* Commit all games together, so errors never leave a half-applied batch. *)
+      let saved = List.map (fun handle -> (handle, current handle)) handles in
+      (try ok [ ("results", `List (List.map advance requests)) ]
+       with exn -> List.iter (fun (handle, state) -> Hashtbl.replace games handle state) saved; raise exn)
+  | "teacher_chunk" -> teacher_chunk json
   | "new" ->
       let seed = int_member "seed" json in
       let round_wind = Yojson.Safe.Util.to_string (member "round_wind" json) |> Tile.of_string in

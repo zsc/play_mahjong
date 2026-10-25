@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import multiprocessing as mp
 import random
 import time
+from contextlib import nullcontext
 from pathlib import Path
 
 import numpy as np
@@ -171,7 +173,12 @@ def rollout_range(
     opponent_variant: str,
     gamma: float,
     gae_lambda: float,
+    batch_size: int = 1,
 ) -> tuple[list[dict], dict[str, int], list[int]]:
+    if batch_size > 1:
+        return rollout_batched(engine, model, device, seed_base, games, worker_index, worker_count,
+                               max_steps, discard_guard, scaffold_variant, opponent_variant,
+                               gamma, gae_lambda, batch_size)
     rows: list[dict] = []
     outcomes = {"win": 0, "exhaustive-draw": 0}
     model_scores: list[int] = []
@@ -199,6 +206,71 @@ def rollout_range(
     return rows, outcomes, model_scores
 
 
+def rollout_batched(
+    engine, model, device, seed_base, games, worker_index, worker_count, max_steps,
+    discard_guard, scaffold_variant, opponent_variant, gamma, gae_lambda, batch_size,
+):
+    """Independent games share inference; rewards and GAE remain per game/seat.
+
+    Batched categorical sampling has its own reproducible RNG ordering. It is not
+    bit-identical to the legacy sequential sampler for the same sampling seed.
+    """
+    offsets = list(range(worker_index, games, worker_count))
+    rows, scores = [], []
+    outcomes = {"win": 0, "exhaustive-draw": 0}
+    for start in range(0, len(offsets), batch_size):
+        trajectories = []
+        try:
+            for offset in offsets[start:start + batch_size]:
+                trajectories.append({"game": engine.new_game(seed_base + offset), "seat": offset % 4,
+                                     "rows": [], "action": None, "outcome": None})
+            active = trajectories[:]
+            while active:
+                responses = engine.advance_batch([
+                    {"game": item["game"], "model_seat": item["seat"], "action_id": item["action"],
+                     "max_steps": max_steps, "scaffold_variant": scaffold_variant,
+                     "opponent_variant": opponent_variant} for item in active
+                ])
+                pending, observations = [], []
+                for item, response in zip(active, responses, strict=True):
+                    if "outcome" in response:
+                        item["outcome"] = response["outcome"]
+                    else:
+                        pending.append(item)
+                        observations.append(response)
+                active = pending
+                if not active:
+                    break
+                features = np.stack([encode_observation(r["observation"]) for r in observations])
+                masks = np.stack([restricted_discard_mask(r["observation"], discard_guard) for r in observations])
+                with torch.inference_mode():
+                    logits, values = model(torch.from_numpy(features).to(device), torch.from_numpy(masks).to(device))
+                    distribution = Categorical(logits=logits)
+                    actions = distribution.sample()
+                    log_probs = distribution.log_prob(actions).cpu().tolist()
+                    actions = actions.cpu().tolist()
+                    values = values.cpu().tolist()
+                for i, item in enumerate(active):
+                    item["action"] = actions[i]
+                    item["rows"].append({"features": features[i], "mask": masks[i], "action": actions[i],
+                                         "teacher_action": observations[i]["teacher_action"],
+                                         "old_log_probability": log_probs[i], "value": values[i], "reward": 0.0})
+            for item in trajectories:
+                outcome = item["outcome"]
+                score = outcome.get("deltas", [0, 0, 0, 0])[item["seat"]]
+                game_rows = item["rows"]
+                if game_rows:
+                    game_rows[-1]["reward"] = float(score) / 64.0
+                    compute_gae(game_rows, gamma, gae_lambda)
+                    rows.extend(game_rows)
+                outcomes[outcome["kind"]] += 1
+                scores.append(int(score))
+        finally:
+            for item in trajectories:
+                engine.close(item["game"])
+    return rows, outcomes, scores
+
+
 def rollout_worker(payload: dict) -> tuple[list[dict], dict[str, int], list[int]]:
     torch.set_num_threads(1)
     torch.manual_seed(int(payload["sampling_seed"]))
@@ -222,6 +294,7 @@ def rollout_worker(payload: dict) -> tuple[list[dict], dict[str, int], list[int]
             str(payload["opponent_variant"]),
             float(payload["gamma"]),
             float(payload["gae_lambda"]),
+            int(payload.get("rollout_batch_size", 1)),
         )
 
 
@@ -238,6 +311,8 @@ def collect_rollouts(
     opponent_variant: str,
     gamma: float,
     gae_lambda: float,
+    worker_pool=None,
+    rollout_batch_size: int = 1,
 ) -> tuple[list[dict], dict[str, int], list[int]]:
     if workers == 1:
         torch.manual_seed(sampling_seed)
@@ -256,6 +331,7 @@ def collect_rollouts(
                 opponent_variant,
                 gamma,
                 gae_lambda,
+                rollout_batch_size,
             )
 
     state_dict = {name: value.detach().cpu() for name, value in model.state_dict().items()}
@@ -274,10 +350,12 @@ def collect_rollouts(
             "opponent_variant": opponent_variant,
             "gamma": gamma,
             "gae_lambda": gae_lambda,
+            "rollout_batch_size": rollout_batch_size,
         }
         for worker_index in range(workers)
     ]
-    with mp.get_context("spawn").Pool(processes=workers) as pool:
+    pool_context = nullcontext(worker_pool) if worker_pool is not None else mp.get_context("spawn").Pool(processes=workers)
+    with pool_context as pool:
         results = pool.map(rollout_worker, payloads)
     rows: list[dict] = []
     outcomes: dict[str, int] = {}
@@ -358,11 +436,15 @@ def ppo_update(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Masked PPO for discard decisions against fixed heuristic opponents")
-    parser.add_argument("--init", type=Path, required=True)
+    source = parser.add_mutually_exclusive_group(required=True)
+    source.add_argument("--init", type=Path)
+    source.add_argument("--resume", type=Path, help="Restore optimizer, RNG and saved training settings; updates is the total target")
     parser.add_argument("--output", type=Path, default=Path("training/checkpoints/ppo-discard-v1.pt"))
     parser.add_argument("--updates", type=int, default=20)
     parser.add_argument("--games-per-update", type=int, default=64)
     parser.add_argument("--workers", type=int, default=1)
+    parser.add_argument("--rollout-batch-size", type=int, default=16,
+                        help="Games sharing native advance/inference per worker; 1 keeps the legacy sampler")
     parser.add_argument("--ppo-epochs", type=int, default=4)
     parser.add_argument("--minibatch-size", type=int, default=512)
     parser.add_argument("--learning-rate", type=float, default=1e-4)
@@ -384,111 +466,162 @@ def main() -> None:
     args = parser.parse_args()
     if args.workers <= 0:
         raise SystemExit("--workers must be positive")
+    if args.rollout_batch_size <= 0:
+        raise SystemExit("--rollout-batch-size must be positive")
     if args.snapshot_every < 0:
         raise SystemExit("--snapshot-every must be non-negative")
 
+    device = choose_device(args.device)
+    model, initial_checkpoint = load_initial_model(args.resume or args.init, device)
+    resume_keys = (
+        "games_per_update", "workers", "ppo_epochs", "minibatch_size", "learning_rate", "clip_ratio",
+        "value_coefficient", "entropy_coefficient", "teacher_bc_coefficient", "discard_guard",
+        "scaffold_variant", "opponent_variant", "gamma", "gae_lambda", "seed", "seed_start", "max_steps",
+        "rollout_batch_size",
+    )
+    if args.resume:
+        if "rng_state" not in initial_checkpoint or "training_config" not in initial_checkpoint:
+            raise ValueError("legacy checkpoint cannot be resumed exactly; use --init for a documented warm start")
+        for key in resume_keys:
+            value = initial_checkpoint["training_config"].get(key, 1) if key == "rollout_batch_size" else initial_checkpoint["training_config"][key]
+            setattr(args, key, value)
     rng = random.Random(args.seed)
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
-    device = choose_device(args.device)
-    model, initial_checkpoint = load_initial_model(args.init, device)
     scaffold_variant = resolve_scaffold_variant(args.scaffold_variant, initial_checkpoint)
     optimiser = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=1e-4)
     history: list[dict] = []
+    start_update = 0
+    if args.resume:
+        optimiser.load_state_dict(initial_checkpoint["optimizer"])
+        history = list(initial_checkpoint["history"])
+        start_update = int(initial_checkpoint["update"])
+        saved_rng = initial_checkpoint["rng_state"]
+        rng.setstate(saved_rng["shuffle"])
+        np.random.set_state((saved_rng["numpy"][0], np.asarray(saved_rng["numpy"][1], dtype=np.uint32),
+                             *saved_rng["numpy"][2:]))
+        torch.set_rng_state(saved_rng["torch"].cpu())
+        if device.type == "cuda" and saved_rng["cuda"]:
+            torch.cuda.set_rng_state_all([state.cpu() for state in saved_rng["cuda"]])
+        print(f"resuming update {start_update}; restored saved rollout/training settings", flush=True)
+    training_config = {key: getattr(args, key) for key in resume_keys}
+    source_root = Path(__file__).resolve().parents[1]
+    source_digest = hashlib.sha256()
+    for path in sorted((source_root / "ocaml/mahjong_core/lib").glob("*.ml")):
+        if not path.name.startswith("._"):
+            source_digest.update(path.name.encode())
+            source_digest.update(path.read_bytes())
+    source_sha256 = source_digest.hexdigest()
+    initial_sha256 = hashlib.sha256((args.resume or args.init).read_bytes()).hexdigest()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     if args.snapshot_every > 0:
         args.snapshot_dir.mkdir(parents=True, exist_ok=True)
 
-    for update in range(1, args.updates + 1):
-        model.eval()
-        seed_base = args.seed_start + (update - 1) * args.games_per_update
-        if device.type == "cuda":
-            torch.cuda.synchronize(device)
-        rollout_start = time.perf_counter()
-        rows, outcomes, model_scores = collect_rollouts(
-            model,
-            device,
-            seed_base,
-            args.games_per_update,
-            args.workers,
-            args.seed + update * 100003,
-            args.max_steps,
-            args.discard_guard,
-            scaffold_variant,
-            args.opponent_variant,
-            args.gamma,
-            args.gae_lambda,
-        )
-        if device.type == "cuda":
-            torch.cuda.synchronize(device)
-        rollout_seconds = time.perf_counter() - rollout_start
+    pool_context = mp.get_context("spawn").Pool(processes=args.workers) if args.workers > 1 else nullcontext(None)
+    with pool_context as worker_pool:
+        for update in range(start_update + 1, args.updates + 1):
+            model.eval()
+            seed_base = args.seed_start + (update - 1) * args.games_per_update
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+            rollout_start = time.perf_counter()
+            rows, outcomes, model_scores = collect_rollouts(
+                model,
+                device,
+                seed_base,
+                args.games_per_update,
+                args.workers,
+                args.seed + update * 100003,
+                args.max_steps,
+                args.discard_guard,
+                scaffold_variant,
+                args.opponent_variant,
+                args.gamma,
+                args.gae_lambda,
+                worker_pool=worker_pool,
+                rollout_batch_size=args.rollout_batch_size,
+            )
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+            rollout_seconds = time.perf_counter() - rollout_start
 
-        if not rows:
-            raise RuntimeError("rollout batch had no learned-policy decisions")
-        model.train()
-        update_start = time.perf_counter()
-        metrics = ppo_update(
-            model,
-            optimiser,
-            rows,
-            device,
-            args.ppo_epochs,
-            args.minibatch_size,
-            args.clip_ratio,
-            args.value_coefficient,
-            args.entropy_coefficient,
-            args.teacher_bc_coefficient,
-            rng,
-        )
-        if device.type == "cuda":
-            torch.cuda.synchronize(device)
-        update_seconds = time.perf_counter() - update_start
-        row = {
-            "update": update,
-            "games": args.games_per_update,
-            "workers": args.workers,
-            "samples": len(rows),
-            "rollout_seconds": rollout_seconds,
-            "update_seconds": update_seconds,
-            "rollout_games_per_second": args.games_per_update / rollout_seconds,
-            "rollout_samples_per_second": len(rows) / rollout_seconds,
-            "mean_net_score": float(np.mean(model_scores)),
-            "wins": outcomes.get("win", 0),
-            "exhaustive_draws": outcomes.get("exhaustive-draw", 0),
-            **metrics,
-        }
-        history.append(row)
-        print(json.dumps(row), flush=True)
-        checkpoint = {
-            "format_version": 1,
-            "algorithm": "masked_ppo_discard",
-            "ruleset_id": RULESET_ID,
-            "observation_version": OBSERVATION_VERSION,
-            "feature_encoding_version": FEATURE_ENCODING_VERSION,
-            "action_catalog_version": ACTION_CATALOG_VERSION,
-            "feature_size": int(model.feature_size),
-            "action_count": int(model.action_count),
-            "hidden": initial_checkpoint["hidden"],
-            "model": model.state_dict(),
-            "optimizer": optimiser.state_dict(),
-            "update": update,
-            "history": history,
-            "training_seed": args.seed,
-            "workers": args.workers,
-            "initial_checkpoint": str(args.init),
-            "opponent": "ocaml-structural-shanten-heuristic-v1",
-            "opponent_variant": args.opponent_variant,
-            "learned_scope": "discard decisions only; hu and reactions use heuristic",
-            "teacher_bc_coefficient": args.teacher_bc_coefficient,
-            "discard_guard": args.discard_guard,
-            "scaffold_variant": scaffold_variant,
-            "is_smoke": update * args.games_per_update < 1000,
-        }
-        torch.save(checkpoint, args.output)
-        if args.snapshot_every > 0 and update % args.snapshot_every == 0:
-            snapshot = args.snapshot_dir / f"{args.output.stem}-u{update:04d}.pt"
-            torch.save(checkpoint, snapshot)
-            print(f"saved snapshot {snapshot}", flush=True)
+            if not rows:
+                raise RuntimeError("rollout batch had no learned-policy decisions")
+            model.train()
+            update_start = time.perf_counter()
+            metrics = ppo_update(
+                model,
+                optimiser,
+                rows,
+                device,
+                args.ppo_epochs,
+                args.minibatch_size,
+                args.clip_ratio,
+                args.value_coefficient,
+                args.entropy_coefficient,
+                args.teacher_bc_coefficient,
+                rng,
+            )
+            if device.type == "cuda":
+                torch.cuda.synchronize(device)
+            update_seconds = time.perf_counter() - update_start
+            row = {
+                "update": update,
+                "games": args.games_per_update,
+                "workers": args.workers,
+                "rollout_batch_size": args.rollout_batch_size,
+                "samples": len(rows),
+                "rollout_seconds": rollout_seconds,
+                "update_seconds": update_seconds,
+                "rollout_games_per_second": args.games_per_update / rollout_seconds,
+                "rollout_samples_per_second": len(rows) / rollout_seconds,
+                "mean_net_score": float(np.mean(model_scores)),
+                "wins": outcomes.get("win", 0),
+                "exhaustive_draws": outcomes.get("exhaustive-draw", 0),
+                **metrics,
+            }
+            history.append(row)
+            print(json.dumps(row), flush=True)
+            checkpoint = {
+                "format_version": 1,
+                "algorithm": "masked_ppo_discard",
+                "ruleset_id": RULESET_ID,
+                "observation_version": OBSERVATION_VERSION,
+                "feature_encoding_version": FEATURE_ENCODING_VERSION,
+                "action_catalog_version": ACTION_CATALOG_VERSION,
+                "feature_size": int(model.feature_size),
+                "action_count": int(model.action_count),
+                "hidden": initial_checkpoint["hidden"],
+                "model": model.state_dict(),
+                "optimizer": optimiser.state_dict(),
+                "update": update,
+                "history": history,
+                "training_seed": args.seed,
+                "workers": args.workers,
+                "initial_checkpoint": initial_checkpoint.get("initial_checkpoint") if args.resume else str(args.init),
+                "training_config": training_config,
+                "engine_source_sha256": source_sha256,
+                "initial_checkpoint_sha256": initial_sha256,
+                "sampler_version": "native-advance-categorical-batch-v1" if args.rollout_batch_size > 1 else "sequential-v1",
+                "rng_state": {
+                    "shuffle": rng.getstate(),
+                    "numpy": (np.random.get_state()[0], np.random.get_state()[1].tolist(), *np.random.get_state()[2:]),
+                    "torch": torch.get_rng_state(),
+                    "cuda": torch.cuda.get_rng_state_all() if device.type == "cuda" else [],
+                },
+                "opponent": "ocaml-structural-shanten-heuristic-v1",
+                "opponent_variant": args.opponent_variant,
+                "learned_scope": "discard decisions only; hu and reactions use heuristic",
+                "teacher_bc_coefficient": args.teacher_bc_coefficient,
+                "discard_guard": args.discard_guard,
+                "scaffold_variant": scaffold_variant,
+                "is_smoke": update * args.games_per_update < 1000,
+            }
+            torch.save(checkpoint, args.output)
+            if args.snapshot_every > 0 and update % args.snapshot_every == 0:
+                snapshot = args.snapshot_dir / f"{args.output.stem}-u{update:04d}.pt"
+                torch.save(checkpoint, snapshot)
+                print(f"saved snapshot {snapshot}", flush=True)
 
     print(f"saved {args.output}")
 

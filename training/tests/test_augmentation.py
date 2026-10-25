@@ -15,11 +15,49 @@ from mahjong_ai.actions import (
 from mahjong_ai.features import FEATURE_SIZE, HINT_SHANTEN_OFFSET, HINT_UKEIRE_OFFSET
 from mahjong_ai.teachers import resolve_scaffold_variant
 from train_bc import (
+    BatchSuitAugmenter,
     SuitAugmentedDataset,
+    VectorizedLoader,
     action_category_metrics,
     load_versioned_dataset,
     restrict_to_teacher_optimal,
 )
+
+
+def test_batch_augmentation_matches_reference_for_every_action_and_permutation() -> None:
+    rows = 122
+    rng = np.random.default_rng(17)
+    features = rng.random((rows, FEATURE_SIZE), dtype=np.float32)
+    masks = rng.random((rows, rows)) > 0.5
+    np.fill_diagonal(masks, True)
+    actions = np.arange(rows)
+    reference = SuitAugmentedDataset(features, masks, actions, np.zeros(rows, dtype=np.float32), seed=17)
+    augmenter = BatchSuitAugmenter(torch.device("cpu"))
+    for permutation in range(6):
+        class FixedRng:
+            def __init__(self, value):
+                self.value = value
+
+            def integers(self, _):
+                return self.value
+        reference.rng = FixedRng(permutation)
+        actual = augmenter(torch.from_numpy(features), torch.from_numpy(masks), torch.from_numpy(actions),
+                           torch.full((rows,), permutation))
+        expected = [reference[index] for index in range(rows)]
+        for field in range(3):
+            assert torch.equal(actual[field], torch.stack([row[field] for row in expected]))
+        assert actual[1][torch.arange(rows), actual[2]].all()
+
+
+def test_vectorized_loader_covers_every_row_including_final_batch() -> None:
+    features = torch.arange(23).reshape(-1, 1)
+    dataset = torch.utils.data.TensorDataset(features, features * 2)
+    for shuffle in (False, True):
+        batches = list(VectorizedLoader(dataset, 7, shuffle))
+        result = torch.cat([batch[0] for batch in batches]).flatten()
+        assert torch.equal(result.sort().values, torch.arange(23))
+        assert all(torch.equal(batch[1], batch[0] * 2) for batch in batches)
+        assert len(batches[-1][0]) == 2
 
 
 def test_action_category_metrics_cover_catalog_boundaries() -> None:

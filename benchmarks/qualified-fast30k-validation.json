@@ -1,0 +1,278 @@
+{
+  "valid": true,
+  "teacher_variant": "qualified-tenpai",
+  "games": 30000,
+  "decisions": 2371105,
+  "action_counts": [
+    27943,
+    536507,
+    97528,
+    1301,
+    861,
+    1020,
+    1254,
+    927,
+    895,
+    1164,
+    1829,
+    0,
+    41958,
+    32854,
+    25350,
+    29378,
+    29715,
+    27940,
+    32722,
+    42591,
+    56181,
+    50006,
+    40719,
+    32855,
+    36557,
+    36884,
+    34978,
+    39624,
+    49589,
+    62180,
+    55555,
+    46974,
+    38826,
+    42331,
+    42425,
+    40942,
+    45358,
+    54903,
+    66257,
+    78862,
+    79450,
+    80092,
+    80689,
+    81266,
+    81891,
+    81974,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "shards": [
+    {
+      "path": "training/data/qualified-fast30k/shard-000.npz",
+      "games": 1250,
+      "decisions": 98538,
+      "sha256": "cc5c36b3b499c9fa54f3e6ba4f2fc5b83dbdbce5fce23ceaaa8960ebcba99455"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-001.npz",
+      "games": 1250,
+      "decisions": 96837,
+      "sha256": "9bb3144af5ade77fca922bfa85b087afa46604c9a5816787f564acf2846369ba"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-002.npz",
+      "games": 1250,
+      "decisions": 98416,
+      "sha256": "7c5737dde5ee52e951925bac79dea703205810c723f78ecbf7d7a3812962b15b"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-003.npz",
+      "games": 1250,
+      "decisions": 97939,
+      "sha256": "c969a6cbe620b4375eda46e8ac6ceab1a5f7f5ede19abf13b1d9dcbf5e81111c"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-004.npz",
+      "games": 1250,
+      "decisions": 97183,
+      "sha256": "34f353bf4b220d50e4d73f80a907d5a1ca7c2a0683826750f70f2c0d1acdfc90"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-005.npz",
+      "games": 1250,
+      "decisions": 98519,
+      "sha256": "c102284a770d5421546a18c6ba23c1b0dde31f73b4c81943663c4b5e8252eac7"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-006.npz",
+      "games": 1250,
+      "decisions": 99859,
+      "sha256": "19f9333dbf0ab5661c510da346be2e54954c33410a1d1f0beeb8242210f86ee0"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-007.npz",
+      "games": 1250,
+      "decisions": 100046,
+      "sha256": "0cbfa6bbc87450014f5d93ec4018e0fac7e62543caf7c0cdbdb1302fe5cea139"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-008.npz",
+      "games": 1250,
+      "decisions": 98679,
+      "sha256": "15b5346163685df7c4870bb78bfdb64f48ae216d75b1f0728fa5c252ae64a14a"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-009.npz",
+      "games": 1250,
+      "decisions": 99321,
+      "sha256": "c53a3bf85166e373b9315d2991e5edac5f543c52851909d16544e59406051900"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-010.npz",
+      "games": 1250,
+      "decisions": 99002,
+      "sha256": "212d37d2ca1dddb65d8914ef1416fe34fb6e94b70f55fc4bcd73d0d269b8fee5"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-011.npz",
+      "games": 1250,
+      "decisions": 99631,
+      "sha256": "d1ddf5cf7f5a4c16628276b492b3a8cfba8d91f670a490053881c32a05b1ce09"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-012.npz",
+      "games": 1250,
+      "decisions": 97306,
+      "sha256": "10db0521910c4430aa583d6beb64ebed63047a980a9130cacf510b8a51cf38d0"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-013.npz",
+      "games": 1250,
+      "decisions": 98770,
+      "sha256": "a00a40c9893835cfb07942ea6774db89a2b4409ff71728c655b53e90cc583e23"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-014.npz",
+      "games": 1250,
+      "decisions": 100005,
+      "sha256": "702fa519c1ddb4913dc314878bbc0720f1efbd40be362765bc64579154973ad6"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-015.npz",
+      "games": 1250,
+      "decisions": 98419,
+      "sha256": "688e3e0bb36476dbb5108b93bf245d79ca5f85b16b7b90c759b74baf69027e08"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-016.npz",
+      "games": 1250,
+      "decisions": 99949,
+      "sha256": "e275997d6a067f2f488a6e0ac7b0d0f1832971aff08fc907ce8b715d5d20665d"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-017.npz",
+      "games": 1250,
+      "decisions": 97604,
+      "sha256": "8816045aaf570ed82374b2c7da34f3235635305b5a33394d210b4872e66c9a55"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-018.npz",
+      "games": 1250,
+      "decisions": 99491,
+      "sha256": "403ee94c90cbbd490a05402ea0adaf62f21a8ca8bec27bdf4daca16b70bb6d24"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-019.npz",
+      "games": 1250,
+      "decisions": 100316,
+      "sha256": "92d6333e9650d9564d6f435bb666591c15c7993e1b4c769c0738eaaa1e7d69d3"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-020.npz",
+      "games": 1250,
+      "decisions": 97533,
+      "sha256": "12f7eedf46c67a12d54edd8b77b2ea310ae2303794860e2709691b6c813dd105"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-021.npz",
+      "games": 1250,
+      "decisions": 98367,
+      "sha256": "f95a5df84b455026dd7e72fdb3e4d4cad54ce1904329bf8baad6b124b59bdd06"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-022.npz",
+      "games": 1250,
+      "decisions": 99827,
+      "sha256": "18bed6e458ae1af047d0602a8db4dc54006f13ac46364291bd9d24b608344fc6"
+    },
+    {
+      "path": "training/data/qualified-fast30k/shard-023.npz",
+      "games": 1250,
+      "decisions": 99548,
+      "sha256": "2bfc44ad9a69c5f97ff036871e9f369f4b4f9a6828234f2a127679cbda6fc617"
+    }
+  ],
+  "seed_min": 13000000,
+  "seed_max": 13029999
+}

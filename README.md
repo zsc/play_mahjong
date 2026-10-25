@@ -2,7 +2,10 @@
 
 本项目使用 OCaml 实现单一规则核心，Python/PyTorch 负责训练，通过 C ABI/ctypes、JSON-lines 子进程与 WASM 服务本地训练和浏览器。目标规则是 WMO 2006 Mahjong Competition Rules（MCR）。
 
-> 当前是阶段一：已有 OCaml 规则状态机、观察层、C ABI、teacher 数据、BC、受保护评估和 masked PPO 入口；81 番完整算番、16 手整场、WASM 网页和 ONNX 部署尚未完成。当前 BC 复合策略未统计证明强于教师，不能当成强 AI；详见 `docs/rules.md`、`docs/progress.md` 与模型卡。
+> 当前仍是阶段一，不是完整 MCR。已有通过独立 6,400 局门槛的“PPO 模型 + 启发式保护”人测候选及 ONNX 导出；未证明强于 qualified 教师。完整番种排斥、补牌来源链、16 手整场、WASM 网页和 Pages 尚未完成。
+
+本机可直接运行 `./scripts/play_candidate.sh` 开始中文终端对战，输入动作 ID，`q` 退出。
+实际成绩、权重来源和限制见 [人测候选模型卡](docs/model-card-human-candidate-20261026.md)。
 
 ## 目录
 
@@ -109,7 +112,7 @@ uv run python training/compare_runs.py \
 - 81 番完整金标准、全部组合/排斥关系和规范歧义认证
 - 16 手整场与庄家/圈风轮转
 - v6 语义下的 DAgger/PPO 增益、对手池、自博弈和冻结对手评估曲线
-- ONNX 导出、可运行 WASM、浏览器对局、Worker 推理和 GitHub Pages 部署
+- ONNX 的 WASM/WebGPU 数值验证、可运行 WASM、浏览器对局、Worker 推理和 GitHub Pages 部署
 
 完整规则来源与边界见 `docs/rules.md`，技术契约见 `docs/architecture.md`。
 
@@ -121,3 +124,19 @@ PPO 日志区分采样与参数更新耗时。用真实对局复测（输出路�
 ```sh
 uv run python training/profile_env.py --games 20 --output /tmp/mahjong-env-profile.json
 ```
+
+本轮已实现分块/增量向听、合并 JSON 调用、教师候选复用及 PPO 多局批量推理。
+相对上一轮分块版本，远端同机采样基准为 2.386 倍吞吐。`--rollout-batch-size 1` 保留逐局采样，
+默认 16 局合批；合批改变随机数消费顺序，checkpoint 会记录采样配置。
+
+```sh
+uv run python training/benchmark_sampling.py --mode ppo --batch-size 16 --output /tmp/batch-benchmark.json
+uv run python training/generate_parallel.py --help
+uv run python training/validate_dataset.py --help
+uv run python training/train_bc.py --help  # --vectorized-batches --suit-augment
+uv run python training/train_ppo.py --resume training/checkpoints/your-run.pt \
+  --output training/checkpoints/your-run-resumed.pt --updates 80
+```
+
+`--resume` 恢复优化器、随机状态及保存的训练/采样配置，`--updates` 为累计目标；
+`--init` 是新分支 warm start。大数据、所有历史 checkpoint 和完整日志保留在训练产物目录。

@@ -1,0 +1,129 @@
+{
+  "games": 30000,
+  "seed_start": 13000000,
+  "workers": 8,
+  "teacher_variant": "qualified-tenpai",
+  "wall_seconds": 444.3023676830053,
+  "shards": [
+    {
+      "shard": 0,
+      "games": 1250,
+      "seconds": 147.36384154399275
+    },
+    {
+      "shard": 1,
+      "games": 1250,
+      "seconds": 143.4066981470096
+    },
+    {
+      "shard": 2,
+      "games": 1250,
+      "seconds": 145.84750735700072
+    },
+    {
+      "shard": 3,
+      "games": 1250,
+      "seconds": 139.70590825700492
+    },
+    {
+      "shard": 4,
+      "games": 1250,
+      "seconds": 139.77411181799835
+    },
+    {
+      "shard": 5,
+      "games": 1250,
+      "seconds": 146.01833780200104
+    },
+    {
+      "shard": 6,
+      "games": 1250,
+      "seconds": 145.42421046699747
+    },
+    {
+      "shard": 7,
+      "games": 1250,
+      "seconds": 142.79343753099965
+    },
+    {
+      "shard": 8,
+      "games": 1250,
+      "seconds": 148.46088831599627
+    },
+    {
+      "shard": 9,
+      "games": 1250,
+      "seconds": 143.63412540500576
+    },
+    {
+      "shard": 10,
+      "games": 1250,
+      "seconds": 150.53071846300736
+    },
+    {
+      "shard": 11,
+      "games": 1250,
+      "seconds": 142.32239250000566
+    },
+    {
+      "shard": 12,
+      "games": 1250,
+      "seconds": 147.47820247200434
+    },
+    {
+      "shard": 13,
+      "games": 1250,
+      "seconds": 152.92106814900762
+    },
+    {
+      "shard": 14,
+      "games": 1250,
+      "seconds": 146.78671817500435
+    },
+    {
+      "shard": 15,
+      "games": 1250,
+      "seconds": 154.55138091799745
+    },
+    {
+      "shard": 16,
+      "games": 1250,
+      "seconds": 141.4640510169993
+    },
+    {
+      "shard": 17,
+      "games": 1250,
+      "seconds": 141.85260976699647
+    },
+    {
+      "shard": 18,
+      "games": 1250,
+      "seconds": 138.3688777589996
+    },
+    {
+      "shard": 19,
+      "games": 1250,
+      "seconds": 140.67096046099323
+    },
+    {
+      "shard": 20,
+      "games": 1250,
+      "seconds": 142.12062172099832
+    },
+    {
+      "shard": 21,
+      "games": 1250,
+      "seconds": 140.82001359100104
+    },
+    {
+      "shard": 22,
+      "games": 1250,
+      "seconds": 144.66159505600808
+    },
+    {
+      "shard": 23,
+      "games": 1250,
+      "seconds": 142.37406253399968
+    }
+  ]
+}

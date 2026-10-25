@@ -18,7 +18,8 @@ def indexed_deltas(report: dict) -> dict[tuple[int, int], int]:
 
 
 def paired_comparison(candidate: dict, baseline: dict) -> dict:
-    contract_keys = ("opponent_variant", "opponent", "seat_rotation")
+    contract_keys = ("opponent_variant", "opponent", "seat_rotation", "ruleset_id",
+                     "feature_encoding_version", "action_catalog_version", "engine_source_sha256")
     mismatches = {
         key: (candidate.get(key), baseline.get(key))
         for key in contract_keys

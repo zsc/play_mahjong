@@ -1,0 +1,75 @@
+{
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "cpu_count": 10,
+  "workers": 1,
+  "torch": "2.14.1",
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "build": "dune native",
+  "seed_start": 12000000,
+  "sampling_seed": 71,
+  "backend_sha256": "41ade217e1d39931494244e3d54ea7af215d53e7bc18867ec975581401c1faf4",
+  "checkpoint_sha256": "4df1cee50425552bf57c0ac027a7c0452d66d6e0a12e9bfac13cbcc003a372f2",
+  "config": {
+    "mode": "ppo",
+    "batch_size": 1,
+    "chunk_size": 0,
+    "games": 240,
+    "repeats": 3,
+    "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+    "output": "benchmarks/sampling-before-ppo.json"
+  },
+  "repeats": [
+    {
+      "repeat": 0,
+      "seconds": 4.5068551250733435,
+      "games_per_second": 53.25221098516991,
+      "samples": 3557,
+      "boundary_calls": {
+        "new": 240,
+        "actor": 20043,
+        "observe": 5204,
+        "heuristic": 19803,
+        "step": 19803,
+        "close": 240
+      },
+      "inference_calls": 3557,
+      "mean_inference_batch": 1.0,
+      "trajectory_sha256": "7513edd0780a81fe6bf470e9e6a851449b9a7372c592d750b96162fdd57099ed"
+    },
+    {
+      "repeat": 1,
+      "seconds": 4.463322208030149,
+      "games_per_second": 53.77160527828486,
+      "samples": 3557,
+      "boundary_calls": {
+        "new": 240,
+        "actor": 20043,
+        "observe": 5204,
+        "heuristic": 19803,
+        "step": 19803,
+        "close": 240
+      },
+      "inference_calls": 3557,
+      "mean_inference_batch": 1.0,
+      "trajectory_sha256": "7513edd0780a81fe6bf470e9e6a851449b9a7372c592d750b96162fdd57099ed"
+    },
+    {
+      "repeat": 2,
+      "seconds": 4.465648542158306,
+      "games_per_second": 53.74359350814583,
+      "samples": 3557,
+      "boundary_calls": {
+        "new": 240,
+        "actor": 20043,
+        "observe": 5204,
+        "heuristic": 19803,
+        "step": 19803,
+        "close": 240
+      },
+      "inference_calls": 3557,
+      "mean_inference_batch": 1.0,
+      "trajectory_sha256": "7513edd0780a81fe6bf470e9e6a851449b9a7372c592d750b96162fdd57099ed"
+    }
+  ],
+  "median_seconds": 4.465648542158306
+}

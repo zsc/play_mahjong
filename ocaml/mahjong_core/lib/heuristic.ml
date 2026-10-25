@@ -16,7 +16,7 @@ type reaction_policy =
   | No_chow
 
 let unseen_counts (state : State.t) seat =
-  Array.init Tile.standard_kind_count (fun kind -> max 0 (4 - State.known_tile_count state seat kind))
+  Array.map (fun count -> max 0 (4 - count)) (State.known_tile_counts state seat)
 
 let fan_context state seat =
   {
@@ -27,12 +27,19 @@ let fan_context state seat =
     flags = Fan.no_flags;
   }
 
-let ukeire ~meld_count ~base unseen counts =
+let ukeire ?evaluator ~meld_count ~base unseen counts =
   let total = ref 0 in
   for kind = 0 to Tile.standard_kind_count - 1 do
     if unseen.(kind) > 0 then begin
       counts.(kind) <- counts.(kind) + 1;
-      let next = Shanten.of_counts ~meld_count counts in
+      let next = match evaluator with
+        | None -> Shanten.of_counts ~meld_count counts
+        | Some e ->
+            Shanten.adjust e kind 1;
+            let value = Shanten.evaluate e in
+            Shanten.adjust e kind (-1);
+            value
+      in
       counts.(kind) <- counts.(kind) - 1;
       if next < base then total := !total + unseen.(kind)
     end
@@ -59,24 +66,27 @@ let qualifying_stats ~melds ~context ~unseen counts =
 
 let discard_choices ~meld_count ~melds ~context ~unseen ~score_waits counts =
   let choices = ref [] in
+  let evaluator = Shanten.make_evaluator ~meld_count counts in
   for kind = 0 to Tile.standard_kind_count - 1 do
     if counts.(kind) > 0 then begin
       counts.(kind) <- counts.(kind) - 1;
-      let shanten = Shanten.of_counts ~meld_count counts in
-      let ukeire = ukeire ~meld_count ~base:shanten unseen counts in
+      Shanten.adjust evaluator kind (-1);
+      let shanten = Shanten.evaluate evaluator in
+      let ukeire = ukeire ~evaluator ~meld_count ~base:shanten unseen counts in
       let qualifying_waits, qualifying_value =
         if score_waits && shanten = 0 then
           qualifying_stats ~melds ~context ~unseen counts
         else (0, 0)
       in
       counts.(kind) <- counts.(kind) + 1;
+      Shanten.adjust evaluator kind 1;
       choices := { kind; shanten; ukeire; qualifying_waits; qualifying_value } :: !choices
     end
   done;
   !choices
 
-let choose_discard ~meld_count ~melds ~context ~unseen ~score_waits counts =
-  match discard_choices ~meld_count ~melds ~context ~unseen ~score_waits counts with
+let best_discard choices =
+  match choices with
   | [] -> None
   | first :: rest ->
       Some
@@ -93,7 +103,10 @@ let choose_discard ~meld_count ~melds ~context ~unseen ~score_waits counts =
              else best)
            first rest)
 
-let discard_hints state seat =
+let choose_discard ~meld_count ~melds ~context ~unseen ~score_waits counts =
+  best_discard (discard_choices ~meld_count ~melds ~context ~unseen ~score_waits counts)
+
+let choices_for_state state seat =
   let standard_instances =
     List.filter
       (fun instance -> Tile.is_standard_kind (Tile.instance_kind instance))
@@ -103,10 +116,11 @@ let discard_hints state seat =
   let unseen = unseen_counts state seat in
   let melds = state.seats.(seat).melds in
   let context = fan_context state seat in
-  let choices =
-    discard_choices ~meld_count:(List.length melds) ~melds ~context ~unseen
-      ~score_waits:true counts
-  in
+  discard_choices ~meld_count:(List.length melds) ~melds ~context ~unseen
+    ~score_waits:true counts
+
+let discard_hints ?choices state seat =
+  let choices = match choices with Some values -> values | None -> choices_for_state state seat in
   let shanten = Array.make Tile.standard_kind_count (-1) in
   let ukeire = Array.make Tile.standard_kind_count 0 in
   let qualifying_waits = Array.make Tile.standard_kind_count 0 in
@@ -215,7 +229,7 @@ let choose_reaction ~policy (state : State.t) seat actions =
        | _ -> actions);
     match !best_action with Some action -> action | None -> Action.Pass
 
-let choose_action_with_policy policy (state : State.t) seat =
+let choose_action_with_policy ?choices policy (state : State.t) seat =
   let actions = Engine.legal_actions state seat in
   match actions with
   | [] -> None
@@ -234,12 +248,8 @@ let choose_action_with_policy policy (state : State.t) seat =
           (match concealed_kong with
            | Some action -> Some action
            | None ->
-               let counts = Tile_counts.of_instances state.seats.(seat).hand in
-               let unseen = unseen_counts state seat in
-               let melds = state.seats.(seat).melds in
                let choice =
-                 choose_discard ~meld_count:(List.length melds) ~melds
-                   ~context:(fan_context state seat) ~unseen ~score_waits:true counts
+                 best_discard (match choices with Some values -> values | None -> choices_for_state state seat)
                in
                (match choice with
                 | None -> None
@@ -259,7 +269,7 @@ let choose_action_id state seat =
   | None -> None
   | Some action -> Some (Action_catalog.id_of_action state seat action)
 
-let choose_action_id_with_variant state seat variant =
+let choose_action_id_with_variant ?choices state seat variant =
   let policy =
     match variant with
     | "default" -> Any_improvement
@@ -271,6 +281,6 @@ let choose_action_id_with_variant state seat variant =
     | "no-chow" -> No_chow
     | value -> invalid_arg ("unknown heuristic variant: " ^ value)
   in
-  match choose_action_with_policy policy state seat with
+  match choose_action_with_policy ?choices policy state seat with
   | None -> None
   | Some action -> Some (Action_catalog.id_of_action state seat action)

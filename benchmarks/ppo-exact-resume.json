@@ -1,0 +1,10 @@
+{
+  "seed_start": 12400000,
+  "updates": 2,
+  "workers": 2,
+  "games_per_update": 4,
+  "model_bitwise_equal": true,
+  "optimizer_bitwise_equal": true,
+  "shuffle_rng_equal": true,
+  "scope": "CPU same machine; no cross-device bitwise guarantee"
+}

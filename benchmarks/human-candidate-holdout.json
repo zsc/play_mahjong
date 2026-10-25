@@ -1,0 +1,279 @@
+{
+  "evaluation_gate_passed": true,
+  "criteria": {
+    "closed_ci95_lower_gt": 0,
+    "qualified_ci95_lower_gt": -1
+  },
+  "selection": {
+    "selected_at_utc": "2026-10-25T23:40:36.889087+00:00",
+    "criterion": "highest development mean net score among all 18 declared configurations",
+    "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+    "checkpoint_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62",
+    "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+    "discard_guard": "teacher-optimal",
+    "scaffold_variant": "qualified-tenpai",
+    "development_report": "training/runs/batch-dev67-ppo40-teacher-optimal.json",
+    "development_report_sha256": "b81dd38adb07bb8c992850cf9db082ab2a472eb84d40368adcce35066c35a3c5",
+    "holdout_seed_start": 6600000,
+    "holdout_games": 6400,
+    "candidates": [
+      {
+        "report": "training/runs/batch-dev67-bc-none.json",
+        "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+        "guard": "none",
+        "mean_net_score": 0.113125
+      },
+      {
+        "report": "training/runs/batch-dev67-bc-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/bc-qualified-fast30k-v1.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.415
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo10-none.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0010.pt",
+        "guard": "none",
+        "mean_net_score": 0.595625
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo10-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0010.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.67
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo20-none.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0020.pt",
+        "guard": "none",
+        "mean_net_score": -0.17625
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo20-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0020.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.96625
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo30-none.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0030.pt",
+        "guard": "none",
+        "mean_net_score": 0.1775
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo30-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0030.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.87125
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo40-none.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+        "guard": "none",
+        "mean_net_score": -0.00875
+      },
+      {
+        "report": "training/runs/batch-dev67-ppo40-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 1.004375
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-10-none.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0010.pt",
+        "guard": "none",
+        "mean_net_score": 0.30375
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-10-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0010.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.854375
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-20-none.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0020.pt",
+        "guard": "none",
+        "mean_net_score": 0.13875
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-20-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0020.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.571875
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-30-none.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0030.pt",
+        "guard": "none",
+        "mean_net_score": -0.098125
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-30-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0030.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.649375
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-40-none.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0040.pt",
+        "guard": "none",
+        "mean_net_score": 0.31375
+      },
+      {
+        "report": "training/runs/batch-dev67-v2-40-teacher-optimal.json",
+        "checkpoint": "training/checkpoints/ppo-batch-v2-u0040.pt",
+        "guard": "teacher-optimal",
+        "mean_net_score": 0.684375
+      }
+    ]
+  },
+  "comparisons": {
+    "closed": {
+      "candidate": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "baseline": "heuristic",
+      "games": 6400,
+      "mean_difference": 1.39296875,
+      "standard_error": 0.2588892116256668,
+      "ci95": [
+        0.8855458952136932,
+        1.900391604786307
+      ],
+      "candidate_mean_net_score": 0.4621875,
+      "baseline_mean_net_score": -0.93078125
+    },
+    "qualified": {
+      "candidate": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "baseline": "heuristic",
+      "games": 6400,
+      "mean_difference": 0.1578125,
+      "standard_error": 0.22583639155045415,
+      "ci95": [
+        -0.2848268274388901,
+        0.6004518274388901
+      ],
+      "candidate_mean_net_score": 0.4621875,
+      "baseline_mean_net_score": 0.304375
+    }
+  },
+  "reports": {
+    "candidate": {
+      "ruleset_id": "mcr-wmo2006-stage1",
+      "feature_encoding_version": 6,
+      "action_catalog_version": 1,
+      "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+      "checkpoint_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62",
+      "policy": "model",
+      "model_scope": "discard",
+      "discard_guard": "teacher-optimal",
+      "heuristic_variant": null,
+      "scaffold_variant": "qualified-tenpai",
+      "opponent_variant": "qualified-tenpai",
+      "checkpoint": "training/checkpoints/ppo-qualified-fast30k-v1-u0040.pt",
+      "opponent": "ocaml-structural-shanten-heuristic-v1",
+      "seat_rotation": "model seat rotates 0,1,2,3",
+      "checkpoint_metadata": {
+        "algorithm": "masked_ppo_discard",
+        "ruleset_id": "mcr-wmo2006-stage1",
+        "teacher_variant": null,
+        "scaffold_variant": "qualified-tenpai",
+        "best_validation_loss": null,
+        "is_smoke": false,
+        "dataset_sha256": null
+      },
+      "games": 6400,
+      "seed_start": 6600000,
+      "mean_net_score": 0.4621875,
+      "std_net_score": 29.98421955482717,
+      "mean_standard_error": 0.3748027444353396,
+      "win_rate": 0.2396875,
+      "discard_rate": 0.14515625,
+      "exhaustive_draw_rate": 0.0746875,
+      "wall_seconds": 36.70609191688709,
+      "workers": 4,
+      "shard_directory": "training/runs/human-holdout66-candidate-shards"
+    },
+    "closed": {
+      "ruleset_id": "mcr-wmo2006-stage1",
+      "feature_encoding_version": 6,
+      "action_catalog_version": 1,
+      "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+      "checkpoint_sha256": null,
+      "policy": "heuristic",
+      "model_scope": null,
+      "discard_guard": null,
+      "heuristic_variant": "closed",
+      "scaffold_variant": null,
+      "opponent_variant": "qualified-tenpai",
+      "checkpoint": null,
+      "opponent": "ocaml-structural-shanten-heuristic-v1",
+      "seat_rotation": "model seat rotates 0,1,2,3",
+      "checkpoint_metadata": {
+        "algorithm": null,
+        "ruleset_id": null,
+        "teacher_variant": null,
+        "scaffold_variant": null,
+        "best_validation_loss": null,
+        "is_smoke": null,
+        "dataset_sha256": null
+      },
+      "games": 6400,
+      "seed_start": 6600000,
+      "mean_net_score": -0.93078125,
+      "std_net_score": 29.136197563399882,
+      "mean_standard_error": 0.3642024695424985,
+      "win_rate": 0.21390625,
+      "discard_rate": 0.1525,
+      "exhaustive_draw_rate": 0.08328125,
+      "wall_seconds": 35.214691375149414,
+      "workers": 4,
+      "shard_directory": "training/runs/human-holdout66-closed-shards"
+    },
+    "qualified": {
+      "ruleset_id": "mcr-wmo2006-stage1",
+      "feature_encoding_version": 6,
+      "action_catalog_version": 1,
+      "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+      "checkpoint_sha256": null,
+      "policy": "heuristic",
+      "model_scope": null,
+      "discard_guard": null,
+      "heuristic_variant": "qualified-tenpai",
+      "scaffold_variant": null,
+      "opponent_variant": "qualified-tenpai",
+      "checkpoint": null,
+      "opponent": "ocaml-structural-shanten-heuristic-v1",
+      "seat_rotation": "model seat rotates 0,1,2,3",
+      "checkpoint_metadata": {
+        "algorithm": null,
+        "ruleset_id": null,
+        "teacher_variant": null,
+        "scaffold_variant": null,
+        "best_validation_loss": null,
+        "is_smoke": null,
+        "dataset_sha256": null
+      },
+      "games": 6400,
+      "seed_start": 6600000,
+      "mean_net_score": 0.304375,
+      "std_net_score": 29.735062561534413,
+      "mean_standard_error": 0.37168828201918014,
+      "win_rate": 0.23734375,
+      "discard_rate": 0.14765625,
+      "exhaustive_draw_rate": 0.07828125,
+      "wall_seconds": 28.59111704188399,
+      "workers": 4,
+      "shard_directory": "training/runs/human-holdout66-qualified-shards"
+    }
+  },
+  "full_report_sha256": {
+    "candidate": "bb0ef296c071f098c77a2cfa6537877c71dc82ae82dad6a24f3c2d0fe5e3ad5b",
+    "closed": "27148575f72eebeadbe29676626ec4580b19f6f5555be4c89ea37d6762e88397",
+    "qualified": "a7c2fc9d9eaeeb71754b2527308542f685ee11159f7dfdf627e3b925bc26ed57"
+  },
+  "remaining_acceptance": [],
+  "human_test_ready": true,
+  "acceptance_evidence": {
+    "parity": "benchmarks/human-candidate-onnx-parity.json",
+    "entry": "benchmarks/human-candidate-entry.json"
+  }
+}

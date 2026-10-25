@@ -25,11 +25,25 @@ def play_game(
     round_wind: str,
     max_steps: int,
     teacher_variant: str,
+    chunk_size: int = 64,
 ) -> tuple[dict, list[dict]]:
     game = engine.new_game(seed, round_wind)
     decisions: list[dict] = []
     outcome: dict | None = None
     try:
+        if chunk_size > 0:
+            while outcome is None:
+                response = engine.teacher_chunk(game, teacher_variant, max_steps, chunk_size)
+                for row in response["rows"]:
+                    observation = row["observation"]
+                    mask = action_mask(observation)
+                    if not mask[row["action"]]:
+                        raise RuntimeError("teacher selected illegal action")
+                    decisions.append({"features": encode_observation(observation), "mask": mask,
+                                      "action": row["action"], "seat": row["seat"],
+                                      "revision": row["revision"], "seed": seed})
+                outcome = response["outcome"]
+            return outcome, decisions
         for revision in range(max_steps):
             actor = engine.actor(game)
             if actor is None:
