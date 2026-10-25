@@ -1,0 +1,40 @@
+{
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "platform": "macOS-26.6-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.12.15",
+  "transport": "ctypes-json",
+  "workers": 1,
+  "batch_size": 1,
+  "games": 20,
+  "seed_start": 12000000,
+  "teacher_variant": "qualified-tenpai",
+  "decisions": 1584,
+  "wall_seconds": 6.372375833103433,
+  "decisions_per_second": 248.57290930195663,
+  "games_per_second": 3.1385468346206644,
+  "seconds": {
+    "new": 0.00043320818804204464,
+    "actor": 0.005235295509919524,
+    "observe": 5.713894554646686,
+    "encode": 0.05971724935807288,
+    "mask": 0.0015238344203680754,
+    "teacher": 0.5496334005147219,
+    "step": 0.013952777720987797,
+    "terminal_observe": 0.0004376247525215149,
+    "close": 7.88331963121891e-05
+  },
+  "calls": {
+    "new": 20,
+    "actor": 1604,
+    "observe": 1584,
+    "encode": 1584,
+    "mask": 1584,
+    "teacher": 1584,
+    "step": 1584,
+    "terminal_observe": 20,
+    "close": 20
+  },
+  "trajectory_sha256": "7502ee94d480a670c2859e8e9545e1eab1b249676f804f0998f6dabcaea3ecab",
+  "notes": "Includes fingerprint/validation overhead; no NPZ compression, training or GPU work."
+}

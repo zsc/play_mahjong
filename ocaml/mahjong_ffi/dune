@@ -1,0 +1,15 @@
+(executable
+ (name mahjong_ffi_entry)
+ (modules mahjong_ffi_entry)
+ (libraries mahjong_ffi_dispatch)
+ (modes object))
+
+(rule
+ (targets mahjong_ffi.so)
+ (deps mahjong_ffi_entry.exe.o wrapper.c link.sh (file %{ocaml_where}/libasmrun.a) (file %{ocaml_where}/libthreadsnat.a))
+ (action
+  (run sh link.sh %{ocaml_where} %{targets} mahjong_ffi_entry.exe.o)))
+
+(alias
+ (name ffi)
+ (deps mahjong_ffi.so))

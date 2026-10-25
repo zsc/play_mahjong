@@ -1,0 +1,4 @@
+(test
+ (name test_core)
+ (libraries mahjong_core alcotest))
+

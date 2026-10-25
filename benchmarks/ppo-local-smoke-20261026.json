@@ -1,0 +1,48 @@
+{
+  "is_smoke": true,
+  "seed_start": 12200000,
+  "games_per_update": 4,
+  "workers": 2,
+  "epochs": 1,
+  "device": "cpu",
+  "finite_weights": true,
+  "weights_changed": true,
+  "history": [
+    {
+      "update": 1,
+      "games": 4,
+      "workers": 2,
+      "samples": 45,
+      "rollout_seconds": 0.9341117080766708,
+      "update_seconds": 0.022858374984934926,
+      "rollout_games_per_second": 4.282143094251512,
+      "rollout_samples_per_second": 48.17410981032951,
+      "mean_net_score": -2.5,
+      "wins": 4,
+      "exhaustive_draws": 0,
+      "policy_loss": -2.6490953430879927e-08,
+      "value_loss": 0.049234211444854736,
+      "entropy": 0.5113652348518372,
+      "approx_kl": -4.512407392187612e-10,
+      "teacher_bc_loss": 0.6579514741897583
+    },
+    {
+      "update": 2,
+      "games": 4,
+      "workers": 2,
+      "samples": 54,
+      "rollout_seconds": 1.2116206670179963,
+      "update_seconds": 0.0018985411152243614,
+      "rollout_games_per_second": 3.301363297016613,
+      "rollout_samples_per_second": 44.568404509724274,
+      "mean_net_score": 0.25,
+      "wins": 4,
+      "exhaustive_draws": 0,
+      "policy_loss": 3.432786002122157e-07,
+      "value_loss": 0.1194259524345398,
+      "entropy": 0.5111976265907288,
+      "approx_kl": 3.783060087414469e-09,
+      "teacher_bc_loss": 0.4581575393676758
+    }
+  ]
+}

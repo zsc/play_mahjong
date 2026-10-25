@@ -1,0 +1,16 @@
+REMOTE AUDIT
+               total        used        free      shared  buff/cache   available
+Mem:            62Gi       6.4Gi        39Gi       5.0Mi        16Gi        55Gi
+Swap:           31Gi          0B        31Gi
+
+name, memory.total [MiB], memory.used [MiB], utilization.gpu [%], power.draw [W]
+NVIDIA GeForce RTX 2080 SUPER, 8192 MiB, 16 MiB, 0 %, 7.05 W
+
+training/logs/generate-qualified-30k-0.log ['generated 620/1250 games']
+training/logs/generate-qualified-30k-7.log ['generated 600/1250 games']
+training/logs/generate-qualified-30k-8.log ['generated 380/1250 games']
+training/logs/generate-qualified-30k-23.log ['generated 360/1250 games']
+Completed shards: 0 sidecars: 0
+{"rollout_games": 4, "rows": 65, "rollout_seconds": 7.716472858999623, "outcomes": {"win": 4, "exhaustive-draw": 0}, "scores": [36, -17, -8, -19], "hidden": 256, "parameters": 295035, "torch": "2.14.1+cu126", "note": "CPU rollout during 24 active data-generation workers; not an idle-machine scaling test"}
+{"update_device": "cpu", "update_seconds": 0.02224058599676937, "epochs": 4, "minibatch": 512, "samples": 65, "metrics": {"policy_loss": -0.03453608229756355, "value_loss": 0.027766278013586998, "entropy": 0.5890782475471497, "approx_kl": 0.017522333306260407, "teacher_bc_loss": 0.46373365074396133}, "peak_allocated_mib": null}
+{"update_device": "cuda", "update_seconds": 0.02393949800170958, "epochs": 4, "minibatch": 512, "samples": 65, "metrics": {"policy_loss": -0.03453608741983771, "value_loss": 0.027766279876232147, "entropy": 0.5890782326459885, "approx_kl": 0.017522341571748257, "teacher_bc_loss": 0.46373360604047775}, "peak_allocated_mib": 25.59228515625}

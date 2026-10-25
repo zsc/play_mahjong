@@ -1,0 +1,4 @@
+(executable
+ (name mahjong_ffi_server)
+ (modules mahjong_ffi_server)
+ (libraries mahjong_ffi_dispatch))

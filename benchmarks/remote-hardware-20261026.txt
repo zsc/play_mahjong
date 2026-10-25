@@ -1,0 +1,90 @@
+zsc-X570-UD
+ 06:56:38 up 18:58,  2 users,  load average: 24.09, 24.06, 23.38
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           43 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  24
+On-line CPU(s) list:                     0-23
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 9 3900X 12-Core Processor
+CPU family:                              23
+Model:                                   113
+Thread(s) per core:                      2
+Core(s) per socket:                      12
+Socket(s):                               1
+Stepping:                                0
+Frequency boost:                         enabled
+CPU max MHz:                             3800.0000
+CPU min MHz:                             2200.0000
+BogoMIPS:                                7585.89
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local clzero irperf xsaveerptr rdpru wbnoinvd arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avic v_vmsave_vmload vgif v_spec_ctrl umip rdpid overflow_recov succor smca sme sev sev_es ibpb_exit_to_user
+Virtualization:                          AMD-V
+L1d cache:                               384 KiB (12 instances)
+L1i cache:                               384 KiB (12 instances)
+L2 cache:                                6 MiB (12 instances)
+L3 cache:                                64 MiB (4 instances)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-23
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Mitigation; untrained return thunk; SMT enabled with STIBP protection
+Vulnerability Spec rstack overflow:      Mitigation; safe RET
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; IBPB conditional; STIBP always-on; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Not affected
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Mitigation; IBPB before exit to userspace
+Mon Oct 26 06:56:38 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 2080 ...    Off |   00000000:09:00.0 Off |                  N/A |
+| 48%   32C    P8              7W /  250W |      16MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            1543      G   /usr/lib/xorg/Xorg                        9MiB |
+|    0   N/A  N/A            1647      G   /usr/bin/gnome-shell                      3MiB |
++-----------------------------------------------------------------------------------------+
+  83563       26:09 99.8  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9000000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-0.npz
+  83564       26:09 99.3  0.3 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9001250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-1.npz
+  83565       26:09 99.3  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9002500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-2.npz
+  83566       26:09 99.1  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9003750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-3.npz
+  83567       26:09 99.7  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9005000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-4.npz
+  83568       26:09 99.3  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9006250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-5.npz
+  83569       26:09 99.4  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9007500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-6.npz
+  83570       26:09 98.7  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9008750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-7.npz
+  84118       16:04 99.4  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9010000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-8.npz
+  84119       16:04 99.1  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9011250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-9.npz
+  84120       16:04 99.4  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9012500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-10.npz
+  84121       16:04 99.4  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9013750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-11.npz
+  84122       16:04 99.6  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9015000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-12.npz
+  84123       16:04 99.3  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9016250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-13.npz
+  84124       16:04 99.8  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9017500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-14.npz
+  84125       16:04 99.6  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9018750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-15.npz
+  84126       16:04 99.6  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9020000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-16.npz
+  84127       16:04 99.3  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9021250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-17.npz
+  84128       16:04 99.1  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9022500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-18.npz
+  84129       16:04 99.6  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9023750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-19.npz
+  84130       16:04 99.9  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9025000 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-20.npz
+  84131       16:04 99.9  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9026250 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-21.npz
+  84132       16:04 99.7  0.2 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9027500 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-22.npz
+  84133       16:04 99.6  0.1 /home/zsc/mahjong-venv/bin/python training/generate_bc.py --games 1250 --seed-start 9028750 --teacher-variant qualified-tenpai --output training/data/qualified-tenpai-v1-30k/shard-23.npz

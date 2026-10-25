@@ -1,0 +1,4089 @@
+{
+  "format_version": 1,
+  "model_id": "bc-heuristic-v1",
+  "sha256": "80700eb15fb5fbf17ae717fac6c6fcee72e6d728a4130dd55854841e3b057f8e",
+  "algorithm": "behavior_cloning",
+  "training_stage": "behavior_cloning",
+  "is_smoke": false,
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "observation_version": 1,
+  "action_catalog_version": 1,
+  "feature_size": 499,
+  "action_count": 122,
+  "learned_scope": "discard decisions only; hu, reactions, kongs and flowers use the heuristic controller",
+  "inputs": [
+    {
+      "name": "features",
+      "shape": [
+        "batch",
+        499
+      ],
+      "dtype": "float32"
+    },
+    {
+      "name": "action_mask",
+      "shape": [
+        "batch",
+        122
+      ],
+      "dtype": "bool"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "masked_policy_logits",
+      "shape": [
+        "batch",
+        122
+      ],
+      "dtype": "float32"
+    },
+    {
+      "name": "value",
+      "shape": [
+        "batch"
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "normalization": "all count features divided by physical maxima; see training/mahjong_ai/features.py",
+  "seat_encoding": "relative player seat with four fixed seat winds F1..F4",
+  "mask_semantics": "true means legal; illegal logits are filled with the dtype minimum before softmax",
+  "training_seed": 20261026,
+  "dataset_sha256": "9b334d546bbb3bd347bf5d03585c7aa54a5d6b7903b0f137e7d34c4f75ccf52f",
+  "source_checkpoint": "training/checkpoints/bc-heuristic-v1.pt",
+  "evaluation": {
+    "policy": "model",
+    "model_scope": "discard",
+    "checkpoint": "training/checkpoints/bc-heuristic-v1.pt",
+    "checkpoint_metadata": {
+      "algorithm": "behavior_cloning",
+      "ruleset_id": "mcr-wmo2006-stage1",
+      "best_validation_loss": 0.8989149377896235,
+      "is_smoke": false,
+      "dataset_sha256": "9b334d546bbb3bd347bf5d03585c7aa54a5d6b7903b0f137e7d34c4f75ccf52f"
+    },
+    "games": 400,
+    "seed_start": 500000,
+    "opponent": "ocaml-structural-shanten-heuristic-v1",
+    "seat_rotation": "model seat rotates 0,1,2,3",
+    "mean_net_score": 0.5825,
+    "std_net_score": 89.8685377590365,
+    "mean_standard_error": 4.493426887951825,
+    "win_rate": 0.2025,
+    "discard_rate": 0.1475,
+    "exhaustive_draw_rate": 0.0825,
+    "rows": [
+      {
+        "seed": 500000,
+        "model_seat": 0,
+        "decisions": 124,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500001,
+        "model_seat": 1,
+        "decisions": 68,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500002,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500003,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500004,
+        "model_seat": 0,
+        "decisions": 7,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500005,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500006,
+        "model_seat": 2,
+        "decisions": 122,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": 60
+      },
+      {
+        "seed": 500007,
+        "model_seat": 3,
+        "decisions": 117,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500008,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": 297
+      },
+      {
+        "seed": 500009,
+        "model_seat": 1,
+        "decisions": 70,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500010,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500011,
+        "model_seat": 3,
+        "decisions": 77,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 11,
+        "model_delta": 35
+      },
+      {
+        "seed": 500012,
+        "model_seat": 0,
+        "decisions": 71,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500013,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500014,
+        "model_seat": 2,
+        "decisions": 99,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 11,
+        "model_delta": -19
+      },
+      {
+        "seed": 500015,
+        "model_seat": 3,
+        "decisions": 123,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 12,
+        "model_delta": -8
+      },
+      {
+        "seed": 500016,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 92,
+        "model_delta": 300
+      },
+      {
+        "seed": 500017,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500018,
+        "model_seat": 2,
+        "decisions": 57,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500019,
+        "model_seat": 3,
+        "decisions": 119,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500020,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500021,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500022,
+        "model_seat": 2,
+        "decisions": 96,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500023,
+        "model_seat": 3,
+        "decisions": 66,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500024,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500025,
+        "model_seat": 1,
+        "decisions": 106,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 28,
+        "model_delta": -8
+      },
+      {
+        "seed": 500026,
+        "model_seat": 2,
+        "decisions": 116,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500027,
+        "model_seat": 3,
+        "decisions": 115,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500028,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500029,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500030,
+        "model_seat": 2,
+        "decisions": 64,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500031,
+        "model_seat": 3,
+        "decisions": 15,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500032,
+        "model_seat": 0,
+        "decisions": 124,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 11,
+        "model_delta": -8
+      },
+      {
+        "seed": 500033,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500034,
+        "model_seat": 2,
+        "decisions": 125,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500035,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500036,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500037,
+        "model_seat": 1,
+        "decisions": 74,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 9,
+        "model_delta": 33
+      },
+      {
+        "seed": 500038,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500039,
+        "model_seat": 3,
+        "decisions": 84,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 16,
+        "model_delta": -24
+      },
+      {
+        "seed": 500040,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500041,
+        "model_seat": 1,
+        "decisions": 7,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500042,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500043,
+        "model_seat": 3,
+        "decisions": 113,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500044,
+        "model_seat": 0,
+        "decisions": 69,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500045,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500046,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500047,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500048,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500049,
+        "model_seat": 1,
+        "decisions": 88,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500050,
+        "model_seat": 2,
+        "decisions": 13,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 3,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500051,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 92,
+        "model_delta": -100
+      },
+      {
+        "seed": 500052,
+        "model_seat": 0,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500053,
+        "model_seat": 1,
+        "decisions": 118,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500054,
+        "model_seat": 2,
+        "decisions": 80,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500055,
+        "model_seat": 3,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500056,
+        "model_seat": 0,
+        "decisions": 46,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500057,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500058,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500059,
+        "model_seat": 3,
+        "decisions": 28,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 3,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500060,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500061,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500062,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500063,
+        "model_seat": 3,
+        "decisions": 81,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 3,
+        "total_fan": 16,
+        "model_delta": -24
+      },
+      {
+        "seed": 500064,
+        "model_seat": 0,
+        "decisions": 115,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500065,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500066,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500067,
+        "model_seat": 3,
+        "decisions": 15,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 91,
+        "model_delta": -8
+      },
+      {
+        "seed": 500068,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500069,
+        "model_seat": 1,
+        "decisions": 115,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500070,
+        "model_seat": 2,
+        "decisions": 104,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 19,
+        "model_delta": -27
+      },
+      {
+        "seed": 500071,
+        "model_seat": 3,
+        "decisions": 127,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500072,
+        "model_seat": 0,
+        "decisions": 80,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500073,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500074,
+        "model_seat": 2,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500075,
+        "model_seat": 3,
+        "decisions": 119,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500076,
+        "model_seat": 0,
+        "decisions": 50,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 16,
+        "model_delta": -8
+      },
+      {
+        "seed": 500077,
+        "model_seat": 1,
+        "decisions": 38,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500078,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500079,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500080,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500081,
+        "model_seat": 1,
+        "decisions": 42,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 11,
+        "model_delta": -19
+      },
+      {
+        "seed": 500082,
+        "model_seat": 2,
+        "decisions": 17,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 15,
+        "model_delta": 39
+      },
+      {
+        "seed": 500083,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 91,
+        "model_delta": -8
+      },
+      {
+        "seed": 500084,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500085,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500086,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500087,
+        "model_seat": 3,
+        "decisions": 91,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500088,
+        "model_seat": 0,
+        "decisions": 57,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500089,
+        "model_seat": 1,
+        "decisions": 66,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 19,
+        "model_delta": -27
+      },
+      {
+        "seed": 500090,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500091,
+        "model_seat": 3,
+        "decisions": 116,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500092,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500093,
+        "model_seat": 1,
+        "decisions": 42,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500094,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500095,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500096,
+        "model_seat": 0,
+        "decisions": 91,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 24,
+        "model_delta": -8
+      },
+      {
+        "seed": 500097,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500098,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500099,
+        "model_seat": 3,
+        "decisions": 36,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 90,
+        "model_delta": -8
+      },
+      {
+        "seed": 500100,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500101,
+        "model_seat": 1,
+        "decisions": 98,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500102,
+        "model_seat": 2,
+        "decisions": 99,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500103,
+        "model_seat": 3,
+        "decisions": 103,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500104,
+        "model_seat": 0,
+        "decisions": 90,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500105,
+        "model_seat": 1,
+        "decisions": 123,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 3,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500106,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500107,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500108,
+        "model_seat": 0,
+        "decisions": 63,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500109,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500110,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 92,
+        "model_delta": -100
+      },
+      {
+        "seed": 500111,
+        "model_seat": 3,
+        "decisions": 6,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 90,
+        "model_delta": -8
+      },
+      {
+        "seed": 500112,
+        "model_seat": 0,
+        "decisions": 88,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500113,
+        "model_seat": 1,
+        "decisions": 91,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 3,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500114,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500115,
+        "model_seat": 3,
+        "decisions": 97,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 12,
+        "model_delta": -8
+      },
+      {
+        "seed": 500116,
+        "model_seat": 0,
+        "decisions": 79,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": 33
+      },
+      {
+        "seed": 500117,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500118,
+        "model_seat": 2,
+        "decisions": 40,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500119,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500120,
+        "model_seat": 0,
+        "decisions": 70,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 27,
+        "model_delta": -35
+      },
+      {
+        "seed": 500121,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -8
+      },
+      {
+        "seed": 500122,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500123,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500124,
+        "model_seat": 0,
+        "decisions": 7,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500125,
+        "model_seat": 1,
+        "decisions": 105,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 12,
+        "model_delta": 36
+      },
+      {
+        "seed": 500126,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500127,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500128,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500129,
+        "model_seat": 1,
+        "decisions": 102,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 18,
+        "model_delta": -26
+      },
+      {
+        "seed": 500130,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500131,
+        "model_seat": 3,
+        "decisions": 90,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 9,
+        "model_delta": 33
+      },
+      {
+        "seed": 500132,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500133,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500134,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500135,
+        "model_seat": 3,
+        "decisions": 40,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500136,
+        "model_seat": 0,
+        "decisions": 113,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500137,
+        "model_seat": 1,
+        "decisions": 115,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500138,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500139,
+        "model_seat": 3,
+        "decisions": 118,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500140,
+        "model_seat": 0,
+        "decisions": 44,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500141,
+        "model_seat": 1,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500142,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500143,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500144,
+        "model_seat": 0,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500145,
+        "model_seat": 1,
+        "decisions": 43,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 3,
+        "total_fan": 91,
+        "model_delta": -8
+      },
+      {
+        "seed": 500146,
+        "model_seat": 2,
+        "decisions": 111,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500147,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500148,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": 297
+      },
+      {
+        "seed": 500149,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": 297
+      },
+      {
+        "seed": 500150,
+        "model_seat": 2,
+        "decisions": 123,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500151,
+        "model_seat": 3,
+        "decisions": 119,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 9,
+        "model_delta": 33
+      },
+      {
+        "seed": 500152,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": 297
+      },
+      {
+        "seed": 500153,
+        "model_seat": 1,
+        "decisions": 13,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500154,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500155,
+        "model_seat": 3,
+        "decisions": 78,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 23,
+        "model_delta": 47
+      },
+      {
+        "seed": 500156,
+        "model_seat": 0,
+        "decisions": 63,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 15,
+        "model_delta": -8
+      },
+      {
+        "seed": 500157,
+        "model_seat": 1,
+        "decisions": 120,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500158,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500159,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500160,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500161,
+        "model_seat": 1,
+        "decisions": 56,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500162,
+        "model_seat": 2,
+        "decisions": 116,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500163,
+        "model_seat": 3,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500164,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500165,
+        "model_seat": 1,
+        "decisions": 108,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500166,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500167,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500168,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500169,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500170,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500171,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500172,
+        "model_seat": 0,
+        "decisions": 60,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500173,
+        "model_seat": 1,
+        "decisions": 6,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500174,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500175,
+        "model_seat": 3,
+        "decisions": 130,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500176,
+        "model_seat": 0,
+        "decisions": 118,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500177,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500178,
+        "model_seat": 2,
+        "decisions": 39,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500179,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500180,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500181,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500182,
+        "model_seat": 2,
+        "decisions": 35,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500183,
+        "model_seat": 3,
+        "decisions": 123,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500184,
+        "model_seat": 0,
+        "decisions": 42,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 8,
+        "model_delta": -16
+      },
+      {
+        "seed": 500185,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500186,
+        "model_seat": 2,
+        "decisions": 74,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 17,
+        "model_delta": -25
+      },
+      {
+        "seed": 500187,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500188,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500189,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500190,
+        "model_seat": 2,
+        "decisions": 91,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500191,
+        "model_seat": 3,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500192,
+        "model_seat": 0,
+        "decisions": 83,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500193,
+        "model_seat": 1,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500194,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500195,
+        "model_seat": 3,
+        "decisions": 76,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 26,
+        "model_delta": -34
+      },
+      {
+        "seed": 500196,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500197,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 91,
+        "model_delta": 115
+      },
+      {
+        "seed": 500198,
+        "model_seat": 2,
+        "decisions": 101,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 11,
+        "model_delta": -19
+      },
+      {
+        "seed": 500199,
+        "model_seat": 3,
+        "decisions": 103,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 27,
+        "model_delta": -8
+      },
+      {
+        "seed": 500200,
+        "model_seat": 0,
+        "decisions": 79,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500201,
+        "model_seat": 1,
+        "decisions": 59,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 12,
+        "model_delta": 36
+      },
+      {
+        "seed": 500202,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500203,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500204,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500205,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500206,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500207,
+        "model_seat": 3,
+        "decisions": 96,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500208,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500209,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500210,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500211,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500212,
+        "model_seat": 0,
+        "decisions": 116,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500213,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500214,
+        "model_seat": 2,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500215,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500216,
+        "model_seat": 0,
+        "decisions": 121,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500217,
+        "model_seat": 1,
+        "decisions": 115,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500218,
+        "model_seat": 2,
+        "decisions": 114,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500219,
+        "model_seat": 3,
+        "decisions": 81,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500220,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500221,
+        "model_seat": 1,
+        "decisions": 57,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500222,
+        "model_seat": 2,
+        "decisions": 17,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500223,
+        "model_seat": 3,
+        "decisions": 55,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500224,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500225,
+        "model_seat": 1,
+        "decisions": 88,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500226,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500227,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500228,
+        "model_seat": 0,
+        "decisions": 78,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500229,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 91,
+        "model_delta": -8
+      },
+      {
+        "seed": 500230,
+        "model_seat": 2,
+        "decisions": 21,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500231,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500232,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500233,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500234,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500235,
+        "model_seat": 3,
+        "decisions": 114,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500236,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500237,
+        "model_seat": 1,
+        "decisions": 69,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500238,
+        "model_seat": 2,
+        "decisions": 27,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500239,
+        "model_seat": 3,
+        "decisions": 7,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500240,
+        "model_seat": 0,
+        "decisions": 13,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500241,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500242,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500243,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500244,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500245,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500246,
+        "model_seat": 2,
+        "decisions": 101,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 11,
+        "model_delta": -19
+      },
+      {
+        "seed": 500247,
+        "model_seat": 3,
+        "decisions": 118,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500248,
+        "model_seat": 0,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": 291
+      },
+      {
+        "seed": 500249,
+        "model_seat": 1,
+        "decisions": 69,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500250,
+        "model_seat": 2,
+        "decisions": 15,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500251,
+        "model_seat": 3,
+        "decisions": 97,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500252,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500253,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500254,
+        "model_seat": 2,
+        "decisions": 84,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 26,
+        "model_delta": -34
+      },
+      {
+        "seed": 500255,
+        "model_seat": 3,
+        "decisions": 107,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 12,
+        "model_delta": -20
+      },
+      {
+        "seed": 500256,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500257,
+        "model_seat": 1,
+        "decisions": 49,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 3,
+        "total_fan": 8,
+        "model_delta": -8
+      },
+      {
+        "seed": 500258,
+        "model_seat": 2,
+        "decisions": 48,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500259,
+        "model_seat": 3,
+        "decisions": 87,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 25,
+        "model_delta": -8
+      },
+      {
+        "seed": 500260,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500261,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500262,
+        "model_seat": 2,
+        "decisions": 96,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 12,
+        "model_delta": 36
+      },
+      {
+        "seed": 500263,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500264,
+        "model_seat": 0,
+        "decisions": 11,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500265,
+        "model_seat": 1,
+        "decisions": 70,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500266,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500267,
+        "model_seat": 3,
+        "decisions": 92,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 10,
+        "model_delta": -8
+      },
+      {
+        "seed": 500268,
+        "model_seat": 0,
+        "decisions": 116,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500269,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500270,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500271,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 91,
+        "model_delta": 115
+      },
+      {
+        "seed": 500272,
+        "model_seat": 0,
+        "decisions": 8,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500273,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500274,
+        "model_seat": 2,
+        "decisions": 100,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 20,
+        "model_delta": 44
+      },
+      {
+        "seed": 500275,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500276,
+        "model_seat": 0,
+        "decisions": 61,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500277,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500278,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500279,
+        "model_seat": 3,
+        "decisions": 105,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 28,
+        "model_delta": -36
+      },
+      {
+        "seed": 500280,
+        "model_seat": 0,
+        "decisions": 24,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500281,
+        "model_seat": 1,
+        "decisions": 10,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500282,
+        "model_seat": 2,
+        "decisions": 114,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500283,
+        "model_seat": 3,
+        "decisions": 48,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500284,
+        "model_seat": 0,
+        "decisions": 117,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500285,
+        "model_seat": 1,
+        "decisions": 113,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 3,
+        "total_fan": 15,
+        "model_delta": -8
+      },
+      {
+        "seed": 500286,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500287,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500288,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500289,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500290,
+        "model_seat": 2,
+        "decisions": 37,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500291,
+        "model_seat": 3,
+        "decisions": 65,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500292,
+        "model_seat": 0,
+        "decisions": 90,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500293,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500294,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500295,
+        "model_seat": 3,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500296,
+        "model_seat": 0,
+        "decisions": 117,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500297,
+        "model_seat": 1,
+        "decisions": 62,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 27,
+        "model_delta": -35
+      },
+      {
+        "seed": 500298,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500299,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": 114
+      },
+      {
+        "seed": 500300,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500301,
+        "model_seat": 1,
+        "decisions": 127,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500302,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 92,
+        "model_delta": -100
+      },
+      {
+        "seed": 500303,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500304,
+        "model_seat": 0,
+        "decisions": 86,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500305,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500306,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500307,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500308,
+        "model_seat": 0,
+        "decisions": 127,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 12,
+        "model_delta": -8
+      },
+      {
+        "seed": 500309,
+        "model_seat": 1,
+        "decisions": 110,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 15,
+        "model_delta": 39
+      },
+      {
+        "seed": 500310,
+        "model_seat": 2,
+        "decisions": 38,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 13,
+        "model_delta": 37
+      },
+      {
+        "seed": 500311,
+        "model_seat": 3,
+        "decisions": 69,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 16,
+        "model_delta": -8
+      },
+      {
+        "seed": 500312,
+        "model_seat": 0,
+        "decisions": 77,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 14,
+        "model_delta": -22
+      },
+      {
+        "seed": 500313,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500314,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500315,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -8
+      },
+      {
+        "seed": 500316,
+        "model_seat": 0,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500317,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500318,
+        "model_seat": 2,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500319,
+        "model_seat": 3,
+        "decisions": 62,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 14,
+        "model_delta": -8
+      },
+      {
+        "seed": 500320,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500321,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500322,
+        "model_seat": 2,
+        "decisions": 124,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500323,
+        "model_seat": 3,
+        "decisions": 120,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500324,
+        "model_seat": 0,
+        "decisions": 82,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 9,
+        "model_delta": -17
+      },
+      {
+        "seed": 500325,
+        "model_seat": 1,
+        "decisions": 81,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500326,
+        "model_seat": 2,
+        "decisions": 52,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500327,
+        "model_seat": 3,
+        "decisions": 116,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 12,
+        "model_delta": 36
+      },
+      {
+        "seed": 500328,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500329,
+        "model_seat": 1,
+        "decisions": 122,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500330,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 91,
+        "model_delta": -99
+      },
+      {
+        "seed": 500331,
+        "model_seat": 3,
+        "decisions": 12,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500332,
+        "model_seat": 0,
+        "decisions": 58,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500333,
+        "model_seat": 1,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500334,
+        "model_seat": 2,
+        "decisions": 113,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500335,
+        "model_seat": 3,
+        "decisions": 114,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500336,
+        "model_seat": 0,
+        "decisions": 55,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 13,
+        "model_delta": 37
+      },
+      {
+        "seed": 500337,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500338,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500339,
+        "model_seat": 3,
+        "decisions": 105,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500340,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500341,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500342,
+        "model_seat": 2,
+        "decisions": 24,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": null,
+        "total_fan": 25,
+        "model_delta": -33
+      },
+      {
+        "seed": 500343,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500344,
+        "model_seat": 0,
+        "decisions": 93,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 15,
+        "model_delta": -23
+      },
+      {
+        "seed": 500345,
+        "model_seat": 1,
+        "decisions": 93,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 16,
+        "model_delta": -24
+      },
+      {
+        "seed": 500346,
+        "model_seat": 2,
+        "decisions": 49,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 15,
+        "model_delta": -8
+      },
+      {
+        "seed": 500347,
+        "model_seat": 3,
+        "decisions": 29,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500348,
+        "model_seat": 0,
+        "decisions": 121,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 24,
+        "model_delta": -32
+      },
+      {
+        "seed": 500349,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500350,
+        "model_seat": 2,
+        "decisions": 118,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500351,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500352,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500353,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 90,
+        "model_delta": -8
+      },
+      {
+        "seed": 500354,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500355,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500356,
+        "model_seat": 0,
+        "decisions": 13,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500357,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500358,
+        "model_seat": 2,
+        "decisions": 122,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500359,
+        "model_seat": 3,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500360,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500361,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500362,
+        "model_seat": 2,
+        "decisions": 11,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 91,
+        "model_delta": -8
+      },
+      {
+        "seed": 500363,
+        "model_seat": 3,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500364,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500365,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500366,
+        "model_seat": 2,
+        "decisions": 86,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 1,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500367,
+        "model_seat": 3,
+        "decisions": 49,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 10,
+        "model_delta": -18
+      },
+      {
+        "seed": 500368,
+        "model_seat": 0,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500369,
+        "model_seat": 1,
+        "decisions": 32,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 9,
+        "model_delta": -8
+      },
+      {
+        "seed": 500370,
+        "model_seat": 2,
+        "decisions": 52,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 13,
+        "model_delta": -21
+      },
+      {
+        "seed": 500371,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 0,
+        "total_fan": 91,
+        "model_delta": 115
+      },
+      {
+        "seed": 500372,
+        "model_seat": 0,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500373,
+        "model_seat": 1,
+        "decisions": 122,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500374,
+        "model_seat": 2,
+        "decisions": 82,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 1,
+        "total_fan": 11,
+        "model_delta": -8
+      },
+      {
+        "seed": 500375,
+        "model_seat": 3,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500376,
+        "model_seat": 0,
+        "decisions": 123,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500377,
+        "model_seat": 1,
+        "decisions": 109,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500378,
+        "model_seat": 2,
+        "decisions": 100,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 3,
+        "total_fan": 8,
+        "model_delta": -8
+      },
+      {
+        "seed": 500379,
+        "model_seat": 3,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500380,
+        "model_seat": 0,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500381,
+        "model_seat": 1,
+        "decisions": 83,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 27,
+        "model_delta": -35
+      },
+      {
+        "seed": 500382,
+        "model_seat": 2,
+        "decisions": 12,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 3,
+        "total_fan": 89,
+        "model_delta": -8
+      },
+      {
+        "seed": 500383,
+        "model_seat": 3,
+        "decisions": 122,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500384,
+        "model_seat": 0,
+        "decisions": 112,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 15,
+        "model_delta": -8
+      },
+      {
+        "seed": 500385,
+        "model_seat": 1,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": 294
+      },
+      {
+        "seed": 500386,
+        "model_seat": 2,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 89,
+        "model_delta": -97
+      },
+      {
+        "seed": 500387,
+        "model_seat": 3,
+        "decisions": 118,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      },
+      {
+        "seed": 500388,
+        "model_seat": 0,
+        "decisions": 103,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": null,
+        "total_fan": 8,
+        "model_delta": -16
+      },
+      {
+        "seed": 500389,
+        "model_seat": 1,
+        "decisions": 2,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 89,
+        "model_delta": 113
+      },
+      {
+        "seed": 500390,
+        "model_seat": 2,
+        "decisions": 3,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500391,
+        "model_seat": 3,
+        "decisions": 76,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 26,
+        "model_delta": -8
+      },
+      {
+        "seed": 500392,
+        "model_seat": 0,
+        "decisions": 120,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 3,
+        "total_fan": 12,
+        "model_delta": -8
+      },
+      {
+        "seed": 500393,
+        "model_seat": 1,
+        "decisions": 5,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 2,
+        "total_fan": 88,
+        "model_delta": 112
+      },
+      {
+        "seed": 500394,
+        "model_seat": 2,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 3,
+        "discarder": 2,
+        "total_fan": 88,
+        "model_delta": -96
+      },
+      {
+        "seed": 500395,
+        "model_seat": 3,
+        "decisions": 75,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": 2,
+        "total_fan": 13,
+        "model_delta": -8
+      },
+      {
+        "seed": 500396,
+        "model_seat": 0,
+        "decisions": 4,
+        "outcome": "win",
+        "winner": 2,
+        "discarder": 1,
+        "total_fan": 88,
+        "model_delta": -8
+      },
+      {
+        "seed": 500397,
+        "model_seat": 1,
+        "decisions": 1,
+        "outcome": "win",
+        "winner": 0,
+        "discarder": null,
+        "total_fan": 90,
+        "model_delta": -98
+      },
+      {
+        "seed": 500398,
+        "model_seat": 2,
+        "decisions": 52,
+        "outcome": "win",
+        "winner": 1,
+        "discarder": 0,
+        "total_fan": 24,
+        "model_delta": -8
+      },
+      {
+        "seed": 500399,
+        "model_seat": 3,
+        "decisions": 110,
+        "outcome": "exhaustive-draw",
+        "winner": null,
+        "discarder": null,
+        "total_fan": null,
+        "model_delta": 0
+      }
+    ]
+  },
+  "parity": {
+    "cpu_logits_max_abs_error": 9.5367431640625e-07,
+    "cpu_value_max_abs_error": 1.2665987014770508e-07
+  },
+  "dependency_versions": {
+    "torch": "2.14.1",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.31.0"
+  },
+  "exported_at": "2026-10-25T16:54:18.648073+00:00"
+}

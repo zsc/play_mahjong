@@ -1,0 +1,5 @@
+(executable
+ (name mahjong_wasm)
+ (modules mahjong_wasm)
+ (libraries mahjong_ffi_dispatch js_of_ocaml)
+ (modes byte))

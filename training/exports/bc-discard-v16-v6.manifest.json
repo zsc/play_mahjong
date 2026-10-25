@@ -1,0 +1,102 @@
+{
+  "format_version": 1,
+  "model_id": "bc-discard-v16-v6",
+  "stage": "behavior_cloning",
+  "is_smoke": false,
+  "is_random": false,
+  "created_at": "2026-10-25T20:02:31.489403+00:00",
+  "files": {
+    "checkpoint": {
+      "path": "training/checkpoints/bc-discard-v16-v6.pt",
+      "sha256": "35a9443b472d1279de2fdf7faebb1d496dbe274c839c17bfe3806bc8aafd13a4"
+    },
+    "onnx": {
+      "path": "training/exports/bc-discard-v16-v6.onnx",
+      "sha256": "d75ead0ba1d53c3b13db3affd80dfe2135991da63c6e7d9e12fa1b8dcdf473a3"
+    }
+  },
+  "contract": {
+    "ruleset_id": "mcr-wmo2006-stage1",
+    "observation_version": 1,
+    "feature_encoding_version": 6,
+    "action_catalog_version": 1,
+    "feature_size": 771,
+    "action_count": 122,
+    "hidden": 256,
+    "teacher_variant": null,
+    "scaffold_variant": null,
+    "learned_scope": "standard discard decisions only",
+    "discard_guard": "none"
+  },
+  "io": {
+    "inputs": [
+      {
+        "name": "features",
+        "shape": [
+          "batch",
+          771
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "mask",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "value",
+        "shape": [
+          "batch"
+        ],
+        "dtype": "float32"
+      }
+    ],
+    "mask_semantics": "true means legal; legal logits use argmax after applying the supplied mask",
+    "value_semantics": "tanh-scaled expected final score divided by 64, not a win probability",
+    "seat_mapping": "absolute seat indices 0..3 and one-hot seat/round winds; no relative-seat rotation",
+    "normalization": "see feature_encoding_version 6; counts are divided by their tile limits and hint arrays are clipped",
+    "selection": "deterministic argmax; illegal logits must never be selected by the caller"
+  },
+  "training": {
+    "seed": 20261102,
+    "epoch": 32,
+    "best_validation_loss": 0.7583626754143659,
+    "dataset": [
+      "training/data/v6-corrected-shards/teacher-v6-0-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-1-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-2-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-3-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-4-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-5-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-6-125.npz",
+      "training/data/v6-corrected-shards/teacher-v6-7-125.npz"
+    ],
+    "dataset_sha256": "1d3c1ef3bdfe81871a3d20bca26a7bb88d1d9d170f66c38d619669f4385076a3",
+    "initial_checkpoint": null
+  },
+  "parity": {
+    "backend": "onnxruntime CPUExecutionProvider",
+    "samples": 2,
+    "logits_max_abs_error": 1.9073486328125e-05,
+    "value_max_abs_error": 4.954636096954346e-07
+  },
+  "dependencies": {
+    "torch": "2.14.1",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.31.0"
+  },
+  "opset": 18
+}

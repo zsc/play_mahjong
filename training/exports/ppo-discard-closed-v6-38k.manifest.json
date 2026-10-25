@@ -1,0 +1,93 @@
+{
+  "format_version": 1,
+  "model_id": "ppo-discard-closed-v6-38k",
+  "stage": "masked_ppo_discard",
+  "is_smoke": false,
+  "is_random": false,
+  "created_at": "2026-10-25T21:24:49.863837+00:00",
+  "files": {
+    "checkpoint": {
+      "path": "training/checkpoints/ppo-discard-closed-v6-38k.pt",
+      "sha256": "98eb634c47d43e16d761994472996af05af35d5564519b4900c3e5b39682278a"
+    },
+    "onnx": {
+      "path": "training/exports/ppo-discard-closed-v6-38k.onnx",
+      "sha256": "a20eb9e54048094d902d33186b4f7361c1087bd77174b4454bcbdeb1ebaf9f6c"
+    }
+  },
+  "contract": {
+    "ruleset_id": "mcr-wmo2006-stage1",
+    "observation_version": 1,
+    "feature_encoding_version": 6,
+    "action_catalog_version": 1,
+    "feature_size": 771,
+    "action_count": 122,
+    "hidden": 256,
+    "teacher_variant": null,
+    "scaffold_variant": "closed",
+    "learned_scope": "discard decisions only; hu and reactions use heuristic",
+    "discard_guard": "none"
+  },
+  "io": {
+    "inputs": [
+      {
+        "name": "features",
+        "shape": [
+          "batch",
+          771
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "mask",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "shape": [
+          "batch",
+          122
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "value",
+        "shape": [
+          "batch"
+        ],
+        "dtype": "float32"
+      }
+    ],
+    "mask_semantics": "true means legal; legal logits use argmax after applying the supplied mask",
+    "value_semantics": "tanh-scaled expected final score divided by 64, not a win probability",
+    "seat_mapping": "absolute seat indices 0..3 and one-hot seat/round winds; no relative-seat rotation",
+    "normalization": "see feature_encoding_version 6; counts are divided by their tile limits and hint arrays are clipped",
+    "selection": "deterministic argmax; illegal logits must never be selected by the caller"
+  },
+  "training": {
+    "seed": 20261102,
+    "epoch": null,
+    "best_validation_loss": null,
+    "dataset": null,
+    "dataset_sha256": null,
+    "initial_checkpoint": "training/checkpoints/bc-discard-closed-v6-38k.pt"
+  },
+  "parity": {
+    "backend": "onnxruntime CPUExecutionProvider",
+    "samples": 2,
+    "logits_max_abs_error": 6.103515625e-05,
+    "value_max_abs_error": 1.3113021850585938e-06
+  },
+  "dependencies": {
+    "torch": "2.14.1",
+    "onnx": "1.23.2",
+    "onnxruntime": "1.31.0"
+  },
+  "opset": 18
+}

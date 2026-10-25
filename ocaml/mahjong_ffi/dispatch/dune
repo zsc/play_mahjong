@@ -1,0 +1,4 @@
+(library
+ (name mahjong_ffi_dispatch)
+ (libraries mahjong_core yojson))
+
