@@ -20,7 +20,7 @@ npm run dev
 相同种子重开会重现同一牌墙；换种子请修改输入框。
 
 「保存回放」在终局后可用；JSON 包含完整动作和结算，导入后标记为历史回放。
-「训练记录」显示 6,400 局独立验收、开发集比较及真实后续训练记录；训练得分明确区别于固定对手评估。
+「训练记录」显示 184,000 盘棋力测试、209 万盘训练的开发/验收结果、早期 6,400 局独立验收及真实后续训练记录；训练得分明确区别于固定对手评估。
 
 ## 静态构建
 
@@ -28,14 +28,19 @@ npm run dev
 cd web
 npm run prepare:assets
 MAHJONG_BASE=/play_mahjong/ npm run build
+npm run test:release
+npm run stage:pages
 npm run preview
 ```
 
 `MAHJONG_BASE` 必须匹配部署子路径；省略时为相对路径 `./`。
 将 `web/dist` 放到普通静态 HTTP 服务或 GitHub Pages 即可，不需要推理后端。
-hash 导航不会依赖服务器路由。仓库当前没有 Git 远端配置，因此尚未发布到公网 Pages。
-`.github/workflows/pages.yml` 提供手动触发的构建/发布；需要先配置仓库 Pages 使用 GitHub Actions。
-本地验证不等于该远端工作流已经运行。
+hash 导航不会依赖服务器路由。目标仓库为 `https://github.com/zsc/play_mahjong`。
+`stage:pages` 将构建产物复制到 `docs/`，保留手写文档，生成 `.nojekyll`。提交并推送后，
+在 Settings → Pages 中选择 **Deploy from a branch → main → /docs**。
+目标网址为 `https://zsc.github.io/play_mahjong/`；启用并完成部署前不代表已经上线。
+`.github/workflows/pages.yml` 在 main 推送和 PR 时重新构建并运行静态验收，不自动切换 Pages 发布源。
+本地通过不等于 GitHub 工作流已经通过。
 
 小型精选权重 `web/assets/candidate.onnx` 随源码保留，SHA-256 为
 `2d5b8d0c91032a940b0c1644f5201be38c591dc49965170150a22ec7336fa8ec`。

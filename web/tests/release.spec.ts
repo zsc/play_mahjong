@@ -1,0 +1,33 @@
+import { test, expect } from '@playwright/test';
+
+test('static release: WASM, human action, evidence and hash navigation', async ({ page }) => {
+  const url = process.env.STATIC_TEST_URL || 'http://127.0.0.1:4174/play_mahjong/';
+  const failures: string[] = [];
+  page.on('pageerror', e => failures.push(e.message));
+  page.on('response', response => { if (response.status() >= 400) failures.push(`${response.status()} ${response.url()}`); });
+  await page.addInitScript(() => Object.defineProperty(navigator, 'gpu', { value: undefined }));
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(url);
+  await expect(page.locator('#engine-status')).toContainText('WASM · 本机推理');
+  await expect(page.locator('#error')).toBeHidden();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.locator('#hint').click();
+  await expect(page.locator('#advice')).not.toBeEmpty();
+  const before = await page.locator('#step-count').textContent();
+  await page.locator('.hand button').first().click();
+  await page.locator('#discard').click();
+  await expect(page.locator('#step-count')).not.toHaveText(before!);
+  await page.getByRole('link', { name: '训练记录', exact: true }).click();
+  await expect(page.locator('#training-content')).toContainText('32,000');
+  await expect(page.locator('#training-content')).toContainText('尚未证明');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.reload();
+  await expect(page.locator('#training-page')).toBeVisible();
+  const notices = await page.request.get(new URL('THIRD_PARTY_NOTICES.txt', url).href);
+  expect(notices.ok()).toBe(true);
+  expect(await notices.text()).toContain('mahjong-mcr-java');
+  await page.getByRole('link', { name: '关于人测', exact: true }).click();
+  await expect(page.locator('#about-page')).toContainText('不是完整国标麻将成品');
+  await page.screenshot({ path: 'test-results/release-mobile.png', fullPage: true });
+  expect(failures).toEqual([]);
+});

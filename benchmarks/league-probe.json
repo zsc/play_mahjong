@@ -1,0 +1,102 @@
+{
+  "purpose": "full-action distillation runtime probe; training scores are not strength evidence",
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "model_kind": "tile-shared-v1",
+  "linux_library_sha256": "24f7aed2e833ba3876153b5b6608e6ae57e0165d859361dd498a6c3034e3d9ec",
+  "sofy_task": 61039,
+  "sofy_job": "bifrost-2026101909272800-zhousc6",
+  "records": {
+    "desk": {
+      "workers": 8,
+      "batch_size": 16,
+      "games_per_update": 128,
+      "history": [
+        {
+          "update": 1,
+          "games": 128,
+          "samples": 11090,
+          "phase": "distill",
+          "rollout_seconds": 2.0929119649954373,
+          "update_seconds": 0.4152160969970282,
+          "mean_training_score": 2.109375,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.46296103795369464,
+          "teacher_agreement": 0.8500285049279531
+        },
+        {
+          "update": 2,
+          "games": 128,
+          "samples": 10410,
+          "phase": "distill",
+          "rollout_seconds": 0.8870515329908812,
+          "update_seconds": 0.12402804299199488,
+          "mean_training_score": -0.28125,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.4322592616081238,
+          "teacher_agreement": 0.8716038664182028
+        },
+        {
+          "update": 3,
+          "games": 128,
+          "samples": 11113,
+          "phase": "distill",
+          "rollout_seconds": 0.9213139320054324,
+          "update_seconds": 0.10304687399184331,
+          "mean_training_score": 0.40625,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.3906755894422531,
+          "teacher_agreement": 0.8855346441268921
+        }
+      ]
+    },
+    "sofy": {
+      "workers": 8,
+      "batch_size": 16,
+      "games_per_update": 128,
+      "history": [
+        {
+          "update": 1,
+          "games": 128,
+          "samples": 11090,
+          "phase": "distill",
+          "rollout_seconds": 2.6162032780002846,
+          "update_seconds": 12.678498310999203,
+          "mean_training_score": 2.109375,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.4629613508780797,
+          "teacher_agreement": 0.8500285049279531
+        },
+        {
+          "update": 2,
+          "games": 128,
+          "samples": 10410,
+          "phase": "distill",
+          "rollout_seconds": 0.8378171459999066,
+          "update_seconds": 2.6593230159996892,
+          "mean_training_score": -0.28125,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.4322596987088521,
+          "teacher_agreement": 0.8716038664182028
+        },
+        {
+          "update": 3,
+          "games": 128,
+          "samples": 11113,
+          "phase": "distill",
+          "rollout_seconds": 0.8760791640006573,
+          "update_seconds": 0.07503253799950471,
+          "mean_training_score": 0.40625,
+          "self_play_games": 128,
+          "opponent_pool": [],
+          "teacher_bc_loss": 0.39067596197128296,
+          "teacher_agreement": 0.8855346441268921
+        }
+      ]
+    }
+  }
+}

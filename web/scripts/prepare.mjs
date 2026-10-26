@@ -6,6 +6,7 @@ import path from 'node:path';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const web = path.join(root, 'web');
+copyFileSync(path.join(root, 'THIRD_PARTY_NOTICES.md'), path.join(web, 'public/THIRD_PARTY_NOTICES.txt'));
 execFileSync('sh', [path.join(root, 'scripts/build_web_engine.sh')], { cwd: root, stdio: 'inherit' });
 const loader = path.join(web, 'public/runtime/engine.js');
 let code = readFileSync(loader, 'utf8');

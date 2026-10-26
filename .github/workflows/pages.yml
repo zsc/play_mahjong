@@ -1,10 +1,12 @@
-name: Build and publish browser demo
+name: Validate browser release
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
-  pages: write
-  id-token: write
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -27,21 +29,18 @@ jobs:
       - name: Compile the shared rules and prepare verified model
         run: OPAM_SWITCH=$(opam switch show) npm run prepare:assets
         working-directory: web
-      - id: pages
-        uses: actions/configure-pages@v5
       - run: npm run build
         working-directory: web
         env:
-          MAHJONG_BASE: ${{ steps.pages.outputs.base_path }}/
-      - uses: actions/upload-pages-artifact@v3
+          MAHJONG_BASE: /play_mahjong/
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
+      - name: Test the production site before publishing
+        run: npm run test:release
+        working-directory: web
+        env:
+          STATIC_TEST_URL: http://127.0.0.1:4174/play_mahjong/
+      - uses: actions/upload-artifact@v4
         with:
+          name: verified-static-site
           path: web/dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4

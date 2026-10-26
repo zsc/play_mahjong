@@ -4,6 +4,17 @@
 
 ## 最新进度
 
+- **当前优先发布网页，用户要求不再连接 air4。**目标 origin 为 `https://github.com/zsc/play_mahjong.git`。
+  静态产物已整理到 `docs/`，Pages 使用 main → /docs；结果和发布步骤见 `docs/release-20261026.md`。
+  新的全动作模型尚未通过独立棋力验收，网页继续使用旧 PPO40 复合策略。
+- 全动作 `decision_batch`、tile-shared-v1、每玩家轨迹、冻结对手池和 distill/PPO 路线已实现。
+  本地 MPS 蒸馏完成 64×1024=65,536 盘，5,325,390 个样本；
+  `training/runs/league-local-warm-20261026/u0064.pt` 已落盘，SHA 与训练摘要在
+  `benchmarks/league-local-warm-summary.json`。教师一致率不是独立棋力，未导出到网页。
+  远端只完成 61039 探针，59350 已取消，后续 warm 提交因 SSH 超时未启动；本轮没有重连。
+  新开发种子段 60000000 起尚未评估，最终 holdout 62000000..62015999 未使用。
+  训练恢复/导出/arena 针对性 9 项通过，MPS 恢复 RNG 已保存但未验证逐 bit 恢复。
+
 - SOFY 四分支 PPO 已完成 2,097,152 盘（59337..59340），开发集选定 b2-u32；
   新 6,400 局 holdout 对旧候选 +0.104，CI [-0.315, 0.522]，未证明提升，不替换网页模型。
   18.4 万盘棋力测试（59346、59347）进一步确认：主测试每策略 32,000 盘、8,000 同墙四座组，

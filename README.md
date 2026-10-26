@@ -10,6 +10,8 @@
 浏览器人测：`cd web && npm ci && npm run prepare:assets && npm run dev`，然后打开
 `http://127.0.0.1:5173/`。提供人机对局、AI 观战、回放和真实训练记录，规则与推理均在本机 Worker 中执行。
 完整启动、静态子路径构建和验证说明见 [浏览器人测](docs/browser-human-test.md)。
+本次 [发布清单与结果汇总](docs/release-20261026.md) 对应 `main` 分支的 `docs/` 静态站；
+GitHub Pages 请选择 **Deploy from a branch → main → /docs**。
 
 [棋力测量与 18.4 万盘结果](docs/arena-evaluation.md)记录同墙四座、按牌墙分组的置信区间和人测方式。
 [SOFY 大规模 PPO](docs/sofy-ppo-plan.md)已完成四分支共 2,097,152 盘，尚未证明优于网页旧候选。
@@ -118,7 +120,7 @@ uv run python training/compare_runs.py \
 
 - 81 番完整金标准、全部组合/排斥关系和规范歧义认证
 - 16 手整场与庄家/圈风轮转
-- v6 语义下的 DAgger/PPO 增益、对手池、自博弈和冻结对手评估曲线
+- 无动作保护的全动作模型独立棋力增益；对手池/自博弈接口已实现，尚待正式验证
 - WebGPU 增强与公网 GitHub Pages 发布（WASM 数值验证、浏览器对局、Worker 推理和静态子路径构建已通过）
 
 完整规则来源与边界见 `docs/rules.md`，技术契约见 `docs/architecture.md`。

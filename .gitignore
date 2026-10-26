@@ -16,11 +16,13 @@ web/public/runtime/
 web/public/ort/
 web/public/models/
 web/public/training.json
+web/public/THIRD_PARTY_NOTICES.txt
 web/test-results/
 web/playwright-report/
 web/tests/fixtures/
 *.onnx
 !web/assets/candidate.onnx
+!docs/models/candidate.onnx
 *.onnx.data
 *.pt
 *.ckpt

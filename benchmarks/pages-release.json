@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-26",
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "base": "/play_mahjong/",
+  "pages_source": "main:/docs",
+  "files": 16,
+  "bytes": 15955244,
+  "onnx_sha256": "2d5b8d0c91032a940b0c1644f5201be38c591dc49965170150a22ec7336fa8ec",
+  "dist_matches_docs": true,
+  "wasm_single_thread": true,
+  "webgpu_required": false,
+  "native_wasm_parity": {
+    "passed": true,
+    "games": 4,
+    "decisions": 291,
+    "samples": 207,
+    "maxFeatures": 0,
+    "maxLogits": 1.71661376953125e-05,
+    "maxValue": 2.6673078536987305e-06,
+    "backend": "ORT WASM single thread",
+    "webgpu": false
+  }
+}

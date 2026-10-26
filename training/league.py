@@ -232,6 +232,8 @@ def main():
         torch.set_rng_state(initial["rng_state"]["torch"])
         if device.type == "cuda":
             torch.cuda.set_rng_state_all(initial["rng_state"]["cuda"])
+        if device.type == "mps" and initial["rng_state"].get("mps") is not None:
+            torch.mps.set_rng_state(initial["rng_state"]["mps"])
     args.output.mkdir(parents=True)
     config = {k: str(v) if isinstance(v, Path) else v for k,v in vars(args).items()}
     (args.output/"config.json").write_text(json.dumps(config, indent=2))
@@ -284,12 +286,16 @@ def main():
                 learned_scope="all", discard_guard="none", scaffold_variant=None, training_seed=args.seed,
                 is_smoke=update*args.games<1000, value_activation="linear", initial_checkpoint_sha256=digest(args.resume or args.init),
                 engine_source_sha256=core_hash,
+                sampler_version="all-seats-full-mask-choice-windows-v1", time_step="one non-forced player choice",
                 rng_state={"shuffle":rng.getstate(), "torch":torch.get_rng_state(),
-                           "cuda":torch.cuda.get_rng_state_all() if device.type=="cuda" else []})
+                           "cuda":torch.cuda.get_rng_state_all() if device.type=="cuda" else [],
+                           "mps":torch.mps.get_rng_state() if device.type=="mps" else None})
             if update % args.snapshot_every == 0 or update == args.updates:
                 snapshot = args.output/f"u{update:04d}.pt"
                 # Pool members are immutable and added only between rollout batches.
-                torch.save(checkpoint, snapshot)
+                pending_snapshot = snapshot.with_suffix(".tmp")
+                torch.save(checkpoint, pending_snapshot)
+                pending_snapshot.replace(snapshot)
                 if args.phase == "ppo":
                     opponents.append({"path":str(snapshot.resolve()),"sha256":digest(snapshot)})
                 checkpoint["opponent_pool"] = list(opponents)

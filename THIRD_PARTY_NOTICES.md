@@ -57,3 +57,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## 浏览器运行时
+
+静态发布包同时提供以下许可证原文（网页的 `licenses/` 目录；源码在 `web/public/licenses/`）：
+
+- ONNX Runtime Web 1.30.0，Microsoft Corporation，MIT：`licenses/onnxruntime.txt`。
+  来源：https://github.com/microsoft/onnxruntime/blob/v1.30.0/LICENSE
+- wasm_of_ocaml / js_of_ocaml 6.5.0，LGPL 2.1 含链接例外：`licenses/wasm_of_ocaml.txt`。
+  原文来自固定版本 opam 安装包。生成的 loader 的两处适配见 `web/scripts/prepare.mjs`。
+- OCaml 5.5.2，LGPL 2.1 含链接例外及随附组件条款：`licenses/ocaml.txt`。
+- Yojson 3.0.0，BSD：`licenses/yojson.txt`。
+
+上述 opam 许可证原文取自本地已安装的固定版本，随静态包一起分发。
