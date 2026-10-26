@@ -1,6 +1,7 @@
 export type LegalAction = { id: number; key: string };
 export type Meld = { kind: 'chow' | 'pung' | 'kong'; tile: string | null; concealed: boolean; claimed_from: number | null };
 export type Outcome = { kind: 'win' | 'exhaustive-draw'; winner?: number; discarder?: number | null;
+  winning_tile?: string;
   total_fan?: number; qualifying_fan?: number; flower_fan?: number; deltas?: number[];
   awards?: { fan: string; points: number; count: number }[] };
 export type Observation = {
@@ -17,6 +18,7 @@ export type Replay = { format: 'mahjong-browser-replay-v1'; ruleset_id: string; 
   actions: { seat: number; action_id: number }[]; outcome: Outcome };
 export type View = { observation: Observation; actor: number | null; seat: number; seed: number;
   mode: 'human' | 'watch' | 'replay'; log: string[]; ended: boolean; backend: string; modelId: string;
+  table: { flowers: string[]; melds: (Meld & { claimed_tile?: string })[]; hand?: number[] }[];
   replayPosition?: number; replayLength?: number };
 export type Advice = { kind: 'model' | 'heuristic'; actions: { id: number; probability: number }[]; value?: number };
 export const codes = [...['W', 'T', 'B'].flatMap(s => Array.from({ length: 9 }, (_, i) => `${s}${i + 1}`)),

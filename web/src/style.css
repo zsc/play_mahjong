@@ -3,3 +3,56 @@
 @media(max-width:1150px){.site-header{padding:0 24px}main{padding:25px 24px}.play-layout{grid-template-columns:minmax(0,1fr) 255px;gap:18px}.tile{width:33px;height:51px}.tile b{font-size:19px}.tile span{font-size:14px}.hand{gap:3px}.tile.small{width:21px;height:30px}.tile.small b{font-size:12px}.river-grid{gap:60px 48px;padding-left:0;padding-right:0}.board{grid-template-columns:62px minmax(0,1fr) 62px}.table-center{width:73px;height:91px}.panel{padding:14px}.hand .drawn{margin-left:5px}}
 @media(max-width:900px){.local-badge{display:none}.play-layout{grid-template-columns:minmax(0,1fr)}aside{padding-top:0;display:grid;grid-template-columns:1fr 1fr}.log-panel{grid-column:1/-1}.board{min-height:610px}.tile{width:40px;height:59px}.tile.small{width:26px;height:36px}.hand{gap:5px}.river-grid{gap:60px 95px;padding:0 18px 14px}.version-tag{display:none}.records-grid{gap:10px}.metric{padding:15px}.metric strong{font-size:27px}.metric .rate{font-size:18px}}
 @media(max-width:560px){.site-header{height:73px;padding:0 16px}.brand{font-size:17px;gap:8px;letter-spacing:1px}.brand small{font-size:6px;letter-spacing:1.5px}.brand-tile{width:28px;height:36px;font-size:22px}nav{gap:15px}nav a{font-size:10px}main{padding:22px 12px 10px}h1{font-size:25px}.page-heading{margin:0 4px 15px}.page-heading p{font-size:10px}.board-topline{font-size:9px}.board{border-width:4px;grid-template-columns:39px minmax(0,1fr) 39px;grid-template-rows:87px 1fr 111px;min-height:552px;border-radius:11px}.river-grid{gap:69px 30px;padding:0 3px 12px}.river-tiles{gap:2px}.tile.small{width:20px;height:29px}.tile.small .single{font-size:17px}.tile.small b{font-size:11px}.tile.small span{font-size:9px}.tile{width:24px;height:40px;border-bottom-width:3px;border-radius:4px}.tile b{font-size:15px}.tile span{font-size:12px}.tile .single{font-size:22px}.hand{gap:2px}.human-player{padding:6px 5px 13px}.human-info{margin:0 4px 7px;font-size:9px;gap:5px}.human-info>span:not(.wind-icon){display:none}.human-info .wind-icon{width:20px;height:20px;font-size:12px}.flowers{font-size:8px}.hand .drawn{margin-left:3px}.own-melds{bottom:83px;left:9px}.player-label b{font-size:9px}.player-label small{font-size:7px}.wind-icon{width:23px;height:23px;font-size:14px}.table-center{width:66px;height:80px;top:45%;outline-width:3px}.center-wind{font-size:25px}.round-label{font-size:8px}.remaining{font-size:8px}.backs .tile-back{width:13px;height:18px}.west .backs,.east .backs{grid-template-columns:7px 7px}.west .tile-back,.east .tile-back{width:7px;height:14px}.opponent{gap:6px}.decision-bar{padding:12px;gap:12px}.turn-copy{font-size:11px}.action-buttons{width:100%;justify-content:flex-start}.action-buttons button{flex:1;white-space:nowrap;padding:10px 11px}.table-note{font-size:9px;line-height:1.8}.panel-heading h2{font-size:11px}.panel-heading>span{font-size:7px}.panel{padding:14px}.play-layout{gap:18px}aside{grid-template-columns:1fr}.log-panel{grid-column:auto}.records-grid{grid-template-columns:1fr}.metric{padding:20px}.metric strong,.metric .rate{font-size:30px}.record-wide{padding:15px;overflow:auto}.comparison-list{grid-template-columns:1fr}.record-wide>p{font-size:10px}table{font-size:10px;min-width:360px}.about-card{padding:22px}.about-card p{font-size:12px}.about-card h2{font-size:16px}footer{padding:18px 16px;display:block;line-height:2}footer>span{display:block}}
+
+/* Table coordinates follow each player's perspective. The first river row is
+   nearest the centre; subsequent rows grow towards that player's hand. */
+.board{display:block;container-type:inline-size;aspect-ratio:1;min-height:0;grid-template:none}
+.table-seat{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;width:66%;gap:1.2cqw}
+.seat-south{bottom:2%;left:5%;width:90%}
+.seat-north{top:2%;left:17%;transform:rotate(180deg)}
+.seat-west{left:9%;top:50%;transform:translate(-50%,-50%) rotate(90deg)}
+.seat-east{left:91%;top:50%;transform:translate(-50%,-50%) rotate(-90deg)}
+.table-seat .player-label{gap:1cqw;font-size:1.7cqw;min-height:3.6cqw}
+.table-seat .player-label b{font-size:1.7cqw;white-space:nowrap}
+.table-seat .wind-icon{height:3.6cqw;width:3.6cqw;font-size:2.3cqw}
+.seat-north .player-label{transform:rotate(180deg)}
+.table-seat .hand,.revealed-hand,.concealed-hand{display:flex;justify-content:center;align-items:flex-end;gap:.35cqw;padding:0;margin:0}
+.table-seat .tile,.table-seat .tile-back{width:3.4cqw;height:5cqw;border-radius:.5cqw;border-width:1px;border-bottom-width:.5cqw;padding:.2cqw 0}
+.table-seat .tile b{font-size:2cqw}.table-seat .tile span{font-size:1.5cqw}.table-seat .tile .single{font-size:2.7cqw}
+.table-seat .hand .tile{width:5.4cqw;height:8cqw}
+.table-seat .hand .tile b{font-size:3.2cqw}.table-seat .hand .tile span{font-size:2.2cqw}.table-seat .hand .tile .single{font-size:4.1cqw}
+.table-seat .drawn{margin-left:1.2cqw}
+.exposed-area{display:flex;justify-content:center;align-items:flex-end;gap:2cqw;min-height:4.4cqw}
+.table-seat .public-melds{display:flex;flex-direction:row;gap:1.1cqw;align-items:flex-end}
+.table-seat .meld{padding:0;gap:.15cqw;align-items:flex-end}
+.table-seat .meld small{font-size:1.1cqw;top:-1.5cqw;left:0;line-height:1}
+.table-seat .tile.small,.table-seat .tile-back.tiny{width:2.5cqw;height:3.7cqw;border-bottom-width:.3cqw}
+.table-seat .tile.small b{font-size:1.6cqw}.table-seat .tile.small span{font-size:1.1cqw}.table-seat .tile.small .single{font-size:2cqw}
+.flower-tiles{display:flex;gap:.15cqw;align-items:flex-end}
+.claimed-tile{display:inline-flex;position:relative;width:33px;height:24px;flex-shrink:0;align-self:flex-end}
+.claimed-tile>.tile{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(90deg)}
+.table-seat .claimed-tile{width:3.7cqw;height:2.5cqw}
+.winning-tile{border-color:#d9a63e!important;box-shadow:0 0 0 2px #e5bc67!important;background:linear-gradient(150deg,#fff7cb,#e9d79f)}
+.winner-badge{color:#f3d79b;font-size:1.7cqw;font-weight:500}
+.winner .wind-icon{border-color:#e5bc67;color:#ffe2a6}
+.river-position{position:absolute;width:0;height:0;z-index:1}
+.river-south{left:46%;top:60%}.river-north{left:54%;top:40%;transform:rotate(180deg)}
+.river-west{left:40%;top:46%;transform:rotate(90deg)}.river-east{left:60%;top:54%;transform:rotate(-90deg)}
+.river-position .river{position:absolute;left:0;top:0;width:21.8cqw;transform:translateX(-50%)}
+.river-position .river-tiles{display:grid;grid-template-columns:repeat(6,3.3cqw);gap:.35cqw;min-height:0}
+.river-position .tile.small{width:3.3cqw;height:4.5cqw;border-radius:.4cqw;border-bottom-width:.3cqw;padding:.1cqw 0}
+.river-position .tile.small b{font-size:1.9cqw}.river-position .tile.small span{font-size:1.35cqw}.river-position .tile.small .single{font-size:2.5cqw}
+.board .table-center{left:50%;top:50%;width:15cqw;height:15cqw;gap:.7cqw;outline-width:.6cqw;border-radius:1cqw;z-index:1}
+.board .round-label{font-size:1.3cqw;letter-spacing:.2cqw}.board .center-wind{font-size:4.3cqw}.board .remaining{font-size:1.3cqw}.board .remaining strong{font-size:1.7cqw;margin-left:.4cqw}.response-name{font-size:2.5cqw;color:#e7d2a5}
+.winning-summary{margin-top:15px;padding-top:12px;border-top:1px solid #e3e7db;color:#496247}
+.winning-summary>span{font-size:11px}.winning-summary small{font-size:9px;color:#8d987e;margin-left:6px}
+.winning-summary-tiles{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.winning-summary .hand,.winning-summary .revealed-hand{padding:0;gap:2px;justify-content:flex-start;flex-wrap:wrap}
+.winning-summary .tile{width:24px;height:35px;border-radius:3px;border-bottom-width:3px}
+.winning-summary .tile b{font-size:14px}.winning-summary .tile span{font-size:10px}.winning-summary .tile .single{font-size:20px}
+.winning-summary .drawn{margin-left:8px}.winning-summary .public-melds{align-items:flex-end;flex-wrap:wrap;gap:9px}
+.winning-summary .meld{align-items:flex-end}.winning-summary .meld small{display:none}
+.winning-summary .claimed-tile{width:35px;height:24px}
+@media(max-width:560px){.board{aspect-ratio:1;min-height:0}.table-seat .player-label b,.winner-badge{font-size:2cqw}.table-seat .hand .tile{width:5.65cqw;height:8.8cqw}.board .round-label,.board .remaining{font-size:1.7cqw}.board .round-label{letter-spacing:0}.winning-summary .tile{width:20px;height:30px}.winning-summary .tile b{font-size:12px}.winning-summary .tile span{font-size:9px}.winning-summary .tile .single{font-size:17px}.winning-summary .claimed-tile{width:30px;height:20px}}
+
+.river-position .long-river{width:17.3cqw}.river-position .long-river .river-tiles{grid-template-columns:repeat(6,2.55cqw)}.river-position .long-river .tile.small{width:2.55cqw;height:3.3cqw}.river-position .long-river .tile.small b{font-size:1.4cqw}.river-position .long-river .tile.small span{font-size:1cqw}.river-position .long-river .tile.small .single{font-size:1.9cqw}

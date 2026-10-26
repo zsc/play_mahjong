@@ -1,5 +1,6 @@
 import './style.css';
-import { actionName, codes, rankNames, tileName, winds, type Advice, type View } from './types';
+import { renderTable, winningHandSummary } from './table';
+import { actionName, codes, tileName, winds, type Advice, type View } from './types';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 const escape = (s: unknown) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
@@ -29,7 +30,7 @@ app.innerHTML = `
       </aside></div>
     </section>
     <section id="training-page" hidden><div class="page-heading"><div><p class="eyebrow">REAL RUNS, REAL RESULTS</p><h1>每一分，都来自真实对局。</h1><p>冻结模型、独立种子、正式单盘结算。训练运行成功不等于棋力提升。</p></div></div><div id="training-content" class="records-grid">正在读取记录…</div></section>
-    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用训练模型选择弃牌，并由辅助策略筛选候选。吃碰杠胡与花牌操作由辅助策略处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收。最新同墙四座测试中，对三个固定基准对手平均 +0.240 分/盘，95% 置信区间 [0.052, 0.428]。这是带启发式保护的复合策略成绩。后续 209 万盘训练尚未证明新模型更强，因此这里仍使用原已验收的模型。全动作无保护模型仍属实验，未接入本页。</p><h2>如何操作</h2><p>「换牌开新局」会更换牌墙；需要复现某一盘时，填写牌局编号并点击「按编号开局」。同一编号下四家 AI 的选择与结果可重复。点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对手暗手与尚未裁定的响应不会展示。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
+    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用训练模型选择弃牌，并由辅助策略筛选候选。吃碰杠胡与花牌操作由辅助策略处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收。最新同墙四座测试中，对三个固定基准对手平均 +0.240 分/盘，95% 置信区间 [0.052, 0.428]。这是带启发式保护的复合策略成绩。后续 209 万盘训练尚未证明新模型更强，因此这里仍使用原已验收的模型。全动作无保护模型仍属实验，未接入本页。</p><h2>如何操作</h2><p>「换牌开新局」会更换牌墙；需要复现某一盘时，填写牌局编号并点击「按编号开局」。同一编号下四家 AI 的选择与结果可重复。点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对局中不展示对手暗手与尚未裁定的响应。引擎确认结算后四家亮牌，供复盘查看；金色牌为和牌张。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
   </main><footer><span>一桌麻将 <span class="footer-dot">/</span> 真实训练 · 本机推理</span><span>规则 mcr-wmo2006-stage1 <span class="footer-dot">·</span> 不含浏览器现场训练 <span class="footer-dot">·</span> <a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">第三方许可</a></span></footer>`;
 
 let worker = new Worker(new URL('./game.worker.ts', import.meta.url), { type: 'module' });
@@ -60,42 +61,12 @@ worker.onerror = event => {
 function rpc<T = any>(type: string, data: Record<string, unknown> = {}): Promise<T> {
   return new Promise((resolve, reject) => { const id = ++requestId; pending.set(id, { resolve, reject }); worker.postMessage({ id, type, data: { generation, ...data } }); });
 }
-function tile(code: string, options: { small?: boolean; action?: number; selected?: boolean; drawn?: boolean } = {}) {
-  const suit = /^[WTB]/.test(code) ? code[0] : code.startsWith('J') ? code : 'honor';
-  const content = /^[WTB][1-9]$/.test(code) ? `<b>${rankNames[Number(code[1]) - 1]}</b><span>${({ W: '萬', T: '条', B: '筒' })[code[0]]}</span>` : `<b class="single">${tileName(code)}</b>`;
-  const classes = `tile suit-${suit}${options.small ? ' small' : ''}${options.selected ? ' selected' : ''}${options.drawn ? ' drawn' : ''}`;
-  return options.action !== undefined ? `<button class="${classes}" data-discard="${options.action}" aria-label="选择${escape(tileName(code))}" aria-pressed="${!!options.selected}">${content}</button>` : `<span class="${classes}" aria-label="${escape(tileName(code))}">${content}</span>`;
-}
-function publicMelds(owner: number) {
-  return state!.observation.melds[owner].map(m => {
-    if (!m.tile) return '<span class="meld concealed"><i class="tile-back tiny"></i><i class="tile-back tiny"></i><i class="tile-back tiny"></i><i class="tile-back tiny"></i><small>暗杠</small></span>';
-    const k = codes.indexOf(m.tile);
-    const tiles = m.kind === 'chow' ? codes.slice(k - 1, k + 2) : Array(m.kind === 'kong' ? 4 : 3).fill(m.tile);
-    return `<span class="meld">${tiles.map(c => tile(c, { small: true })).join('')}${m.concealed ? '<small>暗杠</small>' : ''}</span>`;
-  }).join('');
-}
-function player(owner: number, position: string) {
-  const s = state!;
-  const n = Math.max(0, 13 - s.observation.melds[owner].length * 3);
-  return `<section class="opponent ${position}${s.actor === owner ? ' current' : ''}" aria-label="${winds[owner]}家 AI"><div class="player-label"><span class="wind-icon">${winds[owner]}</span><div><b>AI ${winds[owner]}家</b><small>已补花 ${s.observation.flower_counts[owner]}</small></div>${s.actor === owner && !s.ended ? '<span class="thinking-dot"></span>' : ''}</div><div class="backs" aria-label="对手暗手，不公开牌种">${Array.from({ length: n }, () => '<i class="tile-back"></i>').join('')}</div><div class="public-melds">${publicMelds(owner)}</div></section>`;
-}
 function render() {
   if (!state) return;
   const o = state.observation;
   const yourTurn = state.mode === 'human' && state.actor === state.seat && !state.ended;
   const enabled = yourTurn && !busy;
-  const hand = o.hand.flatMap((n, k) => Array(n).fill(codes[k]) as string[]);
-  const drawnIndex = o.drawn ? hand.lastIndexOf(o.drawn) : -1;
-  if (drawnIndex >= 0) hand.splice(drawnIndex, 1);
-  const handHtml = hand.map(c => { const id = 12 + codes.indexOf(c); return tile(c, { action: enabled && o.legal_action_ids.includes(id) ? id : undefined, selected: selected === id }); }).join('')
-    + (drawnIndex >= 0 ? tile(o.drawn!, { action: enabled && o.legal_action_ids.includes(12 + codes.indexOf(o.drawn!)) ? 12 + codes.indexOf(o.drawn!) : undefined, selected: selected === 12 + codes.indexOf(o.drawn!), drawn: true }) : '')
-    + (o.drawn && /^[a-h]$/.test(o.drawn) ? tile(o.drawn, { drawn: true }) : '');
-  const riverOrder = [(state.seat + 2) % 4, (state.seat + 1) % 4, (state.seat + 3) % 4, state.seat];
-  const rivers = riverOrder.map(owner => `<section class="river" aria-label="${winds[owner]}家牌河"><div class="river-label">${winds[owner]}家<span>${o.rivers[owner].length} 张</span></div><div class="river-tiles">${o.rivers[owner].map(c => tile(c, { small: true })).join('') || '<span class="river-empty">尚未出牌</span>'}</div></section>`).join('');
-  let center = `<span class="round-label">东风圈</span><b class="center-wind">${winds[state.seat]}</b><span class="remaining">余牌 <strong>${o.wall_remaining}</strong></span>`;
-  if (o.phase.kind === 'response') center = `<span class="round-label">等待响应</span>${tile(o.phase.tile!, { small: true })}<span class="remaining">${winds[o.phase.discarder!]}家</span>`;
-  if (state.ended) center = `<span class="round-label">本盘结束</span><b class="center-wind">${o.phase.outcome!.kind === 'win' ? '和' : '流'}</b><span class="remaining">${o.phase.outcome!.kind === 'win' ? winds[o.phase.outcome!.winner!] + '家和牌' : '荒牌流局'}</span>`;
-  $('board').innerHTML = `${player((state.seat + 2) % 4, 'north')}${player((state.seat + 3) % 4, 'west')}${player((state.seat + 1) % 4, 'east')}<div class="river-grid">${rivers}</div><div class="table-center">${center}</div><section class="human-player${yourTurn ? ' current' : ''}"><div class="human-info"><span class="wind-icon">${winds[state.seat]}</span><b>${state.mode === 'human' ? '你' : '观测视角'} · ${winds[state.seat]}家</b><span>${state.mode === 'human' ? '真人玩家' : state.mode === 'watch' ? 'AI 自动对局' : '历史回放'}</span><div class="flowers">花牌 ${o.flowers.map(tileName).join(' ') || '—'}</div></div><div class="own-melds">${publicMelds(state.seat)}</div><div class="hand" aria-label="你的手牌">${handHtml}</div></section>`;
+  $('board').innerHTML = renderTable(state, enabled, selected);
   $('game-caption').textContent = `${state.mode === 'human' ? '人机对战' : state.mode === 'watch' ? 'AI 观战' : '历史回放'} · 种子 ${state.seed}`;
   $('engine-status').textContent = state.backend;
   $('step-count').textContent = `第 ${o.revision} 步`;
@@ -109,7 +80,7 @@ function render() {
   if (state.ended) {
     const outcome = o.phase.outcome!;
     const scores = (outcome.deltas ?? [0, 0, 0, 0]).map((score, i) => `<span>${winds[i]}家 <b class="${score >= 0 ? 'positive' : 'negative'}">${score > 0 ? '+' : ''}${score}</b></span>`).join('');
-    $('decision-bar').innerHTML = `<div class="result"><strong>${outcome.kind === 'win' ? `${winds[outcome.winner!]}家和牌 · ${outcome.total_fan} 番` : '本盘流局'}</strong><div class="score-row">${scores}</div>${outcome.awards?.length ? `<details><summary>查看计番</summary><p>${outcome.awards.map(a => `${escape(a.fan)} ${a.points}×${a.count}`).join(' · ')}</p></details>` : ''}</div>`;
+    $('decision-bar').innerHTML = `<div class="result"><strong>${outcome.kind === 'win' ? `${winds[outcome.winner!]}家和牌 · ${outcome.total_fan} 番` : '本盘流局'}</strong><div class="score-row">${scores}</div>${winningHandSummary(state)}${outcome.awards?.length ? `<details><summary>查看计番</summary><p>${outcome.awards.map(a => `${escape(a.fan)} ${a.points}×${a.count}`).join(' · ')}</p></details>` : ''}</div>`;
   } else if (yourTurn) {
     const discards = o.legal_actions.filter(a => a.id >= 12 && a.id < 46);
     const other = o.legal_actions.filter(a => a.id < 12 || a.id >= 46);

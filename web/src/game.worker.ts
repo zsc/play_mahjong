@@ -11,6 +11,8 @@ let log: string[] = [];
 let actions: Replay['actions'] = [];
 let replay: Replay | null = null;
 let generation = 0;
+// Presentation data only. Never fed to policy inference or observation encoding.
+let table: View['table'] = [];
 function actor(): number | null { return call({ op: 'actor', game }).actor; }
 function observe(viewer: number): Observation { return call({ op: 'observe', game, seat: viewer }).observation; }
 function view(): View {
@@ -19,11 +21,19 @@ function view(): View {
   // player's draw to the UI; actor observations used by policies are unchanged.
   if (observation.phase.seat !== seat || !['discard', 'flower'].includes(observation.phase.kind)) observation.drawn = null;
   const currentActor = actor();
+  if (currentActor === null) {
+    table = table.map((row, owner) => {
+      const final = owner === seat ? observation : observe(owner);
+      return { ...row, hand: final.hand, flowers: final.flowers,
+        melds: final.melds[owner].map((meld, i) => ({ ...row.melds[i], ...meld,
+          claimed_from: meld.claimed_from ?? row.melds[i]?.claimed_from ?? null })) };
+    });
+  }
   if (currentActor !== seat) {
     observation.legal_actions = [];
     observation.legal_action_ids = [];
   }
-  return { observation, actor: currentActor, seat, seed, mode, log: log.slice(-100), ended: currentActor === null,
+  return { observation, table, actor: currentActor, seat, seed, mode, log: log.slice(-100), ended: currentActor === null,
     backend: 'WASM · 本机推理', modelId: policy.manifest.model_id,
     replayPosition: mode === 'replay' ? actions.length : undefined, replayLength: replay?.actions.length };
 }
@@ -34,6 +44,17 @@ function apply(who: number, action: number) {
   call({ op: 'step', game, seat: who, action_id: action });
   actions.push({ seat: who, action_id: action });
   const after = observe(seat);
+  table = table.map((row, owner) => ({
+    // Exposed flower identities are public. Only query another observation when
+    // flowers change; never copy its hand into a live table view.
+    flowers: after.flower_counts[owner] === row.flowers.length ? row.flowers
+      : (owner === seat ? after : observe(owner)).flowers,
+    melds: after.melds[owner].map((meld, i) => {
+      const previous = row.melds[i];
+      return { ...meld, claimed_from: meld.claimed_from ?? previous?.claimed_from ?? null,
+        claimed_tile: previous?.claimed_tile ?? (meld.claimed_from !== null && before.phase.kind === 'response' ? before.phase.tile : undefined) };
+    }),
+  }));
   // Responses stay private until unified adjudication. Publish only the actual
   // resulting meld/outcome, never another player's pending pass/claim choice.
   if (before.phase.kind !== 'response') {
@@ -82,6 +103,10 @@ async function handle(type: string, data: any) {
     generation = data.generation;
     replay = data.replay ?? null;
     game = call({ op: 'new', seed, round_wind: 'F1' }).handle;
+    table = Array.from({ length: 4 }, (_, owner) => {
+      const initial = observe(owner);
+      return { flowers: initial.flowers, melds: [] };
+    });
     actions = []; log = [`${mode === 'replay' ? '历史回放' : '新对局'} · 种子 ${seed}`];
     return view();
   }

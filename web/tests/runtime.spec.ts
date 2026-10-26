@@ -19,7 +19,11 @@ test('native trace, features, PyTorch and browser WASM parity', async ({ page })
 });
 
 test('game Worker rejects stale/illegal actions, hides draws, and replays terminal scores', async ({ page }) => {
-  await page.goto('/');
+  // Isolate Worker checks from Vite dependency-discovery reloads, like parity above.
+  await page.route('**/game-worker-harness', route => route.fulfill({
+    contentType: 'text/html', body: '<!doctype html><title>Game Worker contracts</title>',
+  }));
+  await page.goto('/game-worker-harness');
   const result = await page.evaluate(() => new Promise<any>((resolve, reject) => {
     const worker = new Worker('/src/game.worker.ts', { type: 'module' });
     let id = 0;
@@ -40,6 +44,7 @@ test('game Worker rejects stale/illegal actions, hides draws, and replays termin
         state = await rpc('start', { seed: 16000100, seat: 0, mode: 'watch' });
         let steps = 0, hiddenDrawChecks = 0;
         while (!state.ended && steps++ < 2000) {
+          if (state.table.some((row: any) => row.hand !== undefined)) throw new Error('UI exposes live hands');
           state = await rpc('tick');
           if (state.actor !== state.seat) {
             if (state.observation.drawn !== null || state.observation.legal_actions.length) throw new Error('UI leaks opponent draw/actions');
@@ -47,10 +52,25 @@ test('game Worker rejects stale/illegal actions, hides draws, and replays termin
           }
         }
         if (!state.ended) throw new Error('watch did not finish');
+        if (state.table.length !== 4 || state.table.some((row: any) => !Array.isArray(row.hand))) throw new Error('settled hands missing');
+        const finalTable = JSON.stringify(state.table);
         const replay = await rpc('export');
         state = await rpc('start', { replay });
+        if (state.table.some((row: any) => row.hand !== undefined)) throw new Error('replay exposes future hands');
         for (let i = 0; i < replay.actions.length; i++) state = await rpc('tick');
         if (!state.ended || JSON.stringify(state.observation.phase.outcome) !== JSON.stringify(replay.outcome)) throw new Error('replay mismatch');
+        if (JSON.stringify(state.table) !== finalTable) throw new Error('replay table mismatch');
+        // Deterministic real candidate games cover both a discard win and self draw.
+        for (const [seed, discarder, winningTile] of [[16000001, 0, 'W6'], [16000012, null, 'T2']]) {
+          state = await rpc('start', { seed, seat: 1, mode: 'watch' });
+          let count = 0;
+          while (!state.ended && count++ < 2000) state = await rpc('tick');
+          const outcome = state.observation.phase.outcome;
+          if (!state.ended || outcome.discarder !== discarder || outcome.winning_tile !== winningTile) throw new Error('unexpected fixture outcome');
+          const winner = state.table[outcome.winner];
+          if (winner.hand.reduce((a: number, b: number) => a + b, 0) + winner.melds.length * 3 !== 14) throw new Error('winning tile omitted or duplicated');
+          if (state.table.some((row: any, owner: number) => row.flowers.length !== state.observation.flower_counts[owner])) throw new Error('flower mismatch');
+        }
         resolve({ steps, hiddenDrawChecks, errors, ended: state.ended });
       } catch (e) { reject(String(e)); } finally { worker.terminate(); }
     })();
