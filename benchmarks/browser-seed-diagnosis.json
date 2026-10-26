@@ -1,0 +1,1535 @@
+{
+  "purpose": "diagnose repeated AI spectator games, not a seat-bias strength evaluation",
+  "same_seed_runs": [
+    {
+      "seed": 16000001,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 0,
+        "winning_tile": "W6",
+        "qualifying_fan": 10,
+        "flower_fan": 2,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -20,
+          -8,
+          36,
+          -8
+        ]
+      },
+      "decisions": 63,
+      "actions_sha256": "37654721600a6d42b9dc9218acb6008f1b6d3f671e0a9edaed0798cbca93b31c"
+    },
+    {
+      "seed": 16000001,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 0,
+        "winning_tile": "W6",
+        "qualifying_fan": 10,
+        "flower_fan": 2,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -20,
+          -8,
+          36,
+          -8
+        ]
+      },
+      "decisions": 63,
+      "actions_sha256": "37654721600a6d42b9dc9218acb6008f1b6d3f671e0a9edaed0798cbca93b31c"
+    },
+    {
+      "seed": 16000001,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 0,
+        "winning_tile": "W6",
+        "qualifying_fan": 10,
+        "flower_fan": 2,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -20,
+          -8,
+          36,
+          -8
+        ]
+      },
+      "decisions": 63,
+      "actions_sha256": "37654721600a6d42b9dc9218acb6008f1b6d3f671e0a9edaed0798cbca93b31c"
+    }
+  ],
+  "other_seed_runs": [
+    {
+      "seed": 16000002,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 3,
+        "winning_tile": "B5",
+        "qualifying_fan": 8,
+        "flower_fan": 2,
+        "total_fan": 10,
+        "awards": [
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Dragon Pung",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -8,
+          -8,
+          34,
+          -18
+        ]
+      },
+      "decisions": 98,
+      "actions_sha256": "774596f76cafe4ed4fa14ce0e83fe10cc24db8d7e460a105edd9a462a104e44f"
+    },
+    {
+      "seed": 16000003,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": 2,
+        "winning_tile": "T1",
+        "qualifying_fan": 9,
+        "flower_fan": 1,
+        "total_fan": 10,
+        "awards": [
+          {
+            "fan": "Mixed Straight",
+            "points": 8,
+            "count": 1
+          },
+          {
+            "fan": "Two Terminal Chows",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -8,
+          -8,
+          -18,
+          34
+        ]
+      },
+      "decisions": 59,
+      "actions_sha256": "9d58a30578a85d94943cc03a828b2bcb8f9a483787f817297fa227f4411d6a23"
+    },
+    {
+      "seed": 16000004,
+      "outcome": {
+        "kind": "exhaustive-draw"
+      },
+      "decisions": 117,
+      "actions_sha256": "2f16d80a9982cb2650703bd069b7e44c67e08642d08dc6a2679fcb00c5746a1a"
+    },
+    {
+      "seed": 16000005,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 1,
+        "winning_tile": "W3",
+        "qualifying_fan": 18,
+        "flower_fan": 1,
+        "total_fan": 19,
+        "awards": [
+          {
+            "fan": "Pure Shifted Chows",
+            "points": 16,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "No Honors",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          43,
+          -27,
+          -8,
+          -8
+        ]
+      },
+      "decisions": 90,
+      "actions_sha256": "4bb304a318a6a5028b33280ff0a9f3a3e3f567e9d30462bbeaab6db02c0b5463"
+    },
+    {
+      "seed": 16000006,
+      "outcome": {
+        "kind": "win",
+        "winner": 1,
+        "discarder": 2,
+        "winning_tile": "T2",
+        "qualifying_fan": 24,
+        "flower_fan": 2,
+        "total_fan": 26,
+        "awards": [
+          {
+            "fan": "Seven Pairs",
+            "points": 24,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -8,
+          50,
+          -34,
+          -8
+        ]
+      },
+      "decisions": 40,
+      "actions_sha256": "c7cbbd90bafde8c6a7713593aeb5df43665dbb680272e1fec8413011363431ea"
+    },
+    {
+      "seed": 16000007,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 3,
+        "winning_tile": "T9",
+        "qualifying_fan": 14,
+        "flower_fan": 3,
+        "total_fan": 17,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 3
+          }
+        ],
+        "deltas": [
+          -8,
+          -8,
+          41,
+          -25
+        ]
+      },
+      "decisions": 98,
+      "actions_sha256": "46b4ed2b7504d7673037645aaabf62405928d09476427adde7e712e9c79c88a1"
+    },
+    {
+      "seed": 16000008,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 1,
+        "winning_tile": "T6",
+        "qualifying_fan": 21,
+        "flower_fan": 0,
+        "total_fan": 21,
+        "awards": [
+          {
+            "fan": "Three Concealed Pungs",
+            "points": 16,
+            "count": 1
+          },
+          {
+            "fan": "Dragon Pung",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Single Wait",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -8,
+          -29,
+          45,
+          -8
+        ]
+      },
+      "decisions": 71,
+      "actions_sha256": "02ee7034ac8d918b4f747f5dfbffdd625f299f531a19f9d403c464e55f039b73"
+    },
+    {
+      "seed": 16000009,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 1,
+        "winning_tile": "W6",
+        "qualifying_fan": 18,
+        "flower_fan": 2,
+        "total_fan": 20,
+        "awards": [
+          {
+            "fan": "Pure Straight",
+            "points": 16,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          44,
+          -28,
+          -8,
+          -8
+        ]
+      },
+      "decisions": 70,
+      "actions_sha256": "e25944b082bce4610d5d2ab34861fb1a1ce0bca022a08841b2bd121dbcbb900d"
+    },
+    {
+      "seed": 16000010,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 2,
+        "winning_tile": "T2",
+        "qualifying_fan": 8,
+        "flower_fan": 1,
+        "total_fan": 9,
+        "awards": [
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "No Honors",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          33,
+          -8,
+          -17,
+          -8
+        ]
+      },
+      "decisions": 115,
+      "actions_sha256": "fa6f7083e6029a1b0bd12bcff963e56d908bb3ec85c0bde87d9589f817139479"
+    },
+    {
+      "seed": 16000011,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 1,
+        "winning_tile": "T7",
+        "qualifying_fan": 11,
+        "flower_fan": 6,
+        "total_fan": 17,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Closed Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 6
+          }
+        ],
+        "deltas": [
+          41,
+          -25,
+          -8,
+          -8
+        ]
+      },
+      "decisions": 75,
+      "actions_sha256": "da85bb5d0ffc0b814f3c3ebbc7627256df2389f7395573b1f0a4d5a4cdf1aa41"
+    },
+    {
+      "seed": 16000012,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": null,
+        "winning_tile": "T2",
+        "qualifying_fan": 13,
+        "flower_fan": 4,
+        "total_fan": 17,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 4
+          }
+        ],
+        "deltas": [
+          -25,
+          -25,
+          75,
+          -25
+        ]
+      },
+      "decisions": 55,
+      "actions_sha256": "7f394ed9277773cc3fa9fc5e71c52a40cb19bcec3df48ef8327f020214bfbcb2"
+    },
+    {
+      "seed": 16000013,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 1,
+        "winning_tile": "W9",
+        "qualifying_fan": 10,
+        "flower_fan": 1,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -8,
+          -19,
+          35,
+          -8
+        ]
+      },
+      "decisions": 39,
+      "actions_sha256": "73f6842d01fa8432dc8df525c204d2d97bf4d210a326d2ccac44212980f90aac"
+    },
+    {
+      "seed": 16000014,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 2,
+        "winning_tile": "T2",
+        "qualifying_fan": 10,
+        "flower_fan": 1,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Two Concealed Pungs",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Pung of Terminals or Honors",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Closed Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          35,
+          -8,
+          -19,
+          -8
+        ]
+      },
+      "decisions": 107,
+      "actions_sha256": "d38d4ee1d34ff065586c4f2f334880540f2f5ad39430d5da85515e4142e22134"
+    },
+    {
+      "seed": 16000015,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": null,
+        "winning_tile": "B1",
+        "qualifying_fan": 8,
+        "flower_fan": 0,
+        "total_fan": 8,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -16,
+          -16,
+          -16,
+          48
+        ]
+      },
+      "decisions": 51,
+      "actions_sha256": "1beb94c3ae691627c89e949860cbf42699a6e6edd2485bb0fd057cc456b8fe3b"
+    },
+    {
+      "seed": 16000016,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": null,
+        "winning_tile": "B4",
+        "qualifying_fan": 8,
+        "flower_fan": 4,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Two Concealed Pungs",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "No Honors",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 4
+          }
+        ],
+        "deltas": [
+          60,
+          -20,
+          -20,
+          -20
+        ]
+      },
+      "decisions": 50,
+      "actions_sha256": "e693e18207a15dc05e76d459be50cdad332cbcab781ef04a6439b75f1b64b826"
+    },
+    {
+      "seed": 16000017,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 1,
+        "winning_tile": "T4",
+        "qualifying_fan": 9,
+        "flower_fan": 1,
+        "total_fan": 10,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Closed Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -8,
+          -18,
+          34,
+          -8
+        ]
+      },
+      "decisions": 76,
+      "actions_sha256": "f0da8564cc579451ebab9015dbf9af015a2886f42c002b0d5a9495d8c470332b"
+    },
+    {
+      "seed": 16000018,
+      "outcome": {
+        "kind": "win",
+        "winner": 1,
+        "discarder": null,
+        "winning_tile": "W4",
+        "qualifying_fan": 9,
+        "flower_fan": 3,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Simples",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 3
+          }
+        ],
+        "deltas": [
+          -20,
+          60,
+          -20,
+          -20
+        ]
+      },
+      "decisions": 64,
+      "actions_sha256": "31551430a6acea6b256c6e67884a740e2b84be911cd93d8e81420473c1f16ad6"
+    },
+    {
+      "seed": 16000019,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": null,
+        "winning_tile": "W3",
+        "qualifying_fan": 9,
+        "flower_fan": 2,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -19,
+          -19,
+          -19,
+          57
+        ]
+      },
+      "decisions": 103,
+      "actions_sha256": "b5a0d79aecb9ad65333569f27b00a70047a4cbacdd01696c0515a4137c4c1f23"
+    },
+    {
+      "seed": 16000020,
+      "outcome": {
+        "kind": "win",
+        "winner": 1,
+        "discarder": null,
+        "winning_tile": "W4",
+        "qualifying_fan": 14,
+        "flower_fan": 0,
+        "total_fan": 14,
+        "awards": [
+          {
+            "fan": "Two Dragons Pungs",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Two Concealed Pungs",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -22,
+          66,
+          -22,
+          -22
+        ]
+      },
+      "decisions": 67,
+      "actions_sha256": "4ab427c8098e16344b669c00eda0136804e515e39f1e7e8fa2b8f76b2d041cf7"
+    },
+    {
+      "seed": 16000021,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 2,
+        "winning_tile": "T5",
+        "qualifying_fan": 11,
+        "flower_fan": 0,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Mixed Shifted Chows",
+            "points": 6,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          35,
+          -8,
+          -19,
+          -8
+        ]
+      },
+      "decisions": 57,
+      "actions_sha256": "de2ace87825d56a8c6f1b6946b7303781d00792f6143572a3c62dd383a3fab50"
+    },
+    {
+      "seed": 16000022,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": null,
+        "winning_tile": "T1",
+        "qualifying_fan": 26,
+        "flower_fan": 1,
+        "total_fan": 27,
+        "awards": [
+          {
+            "fan": "Seven Pairs",
+            "points": 24,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Self-Drawn",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -35,
+          -35,
+          -35,
+          105
+        ]
+      },
+      "decisions": 52,
+      "actions_sha256": "b358599072b1be681acb7b450533579b5d9d9cc0a3087203151668037695e5f3"
+    },
+    {
+      "seed": 16000023,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 1,
+        "winning_tile": "B3",
+        "qualifying_fan": 9,
+        "flower_fan": 2,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -8,
+          -19,
+          35,
+          -8
+        ]
+      },
+      "decisions": 84,
+      "actions_sha256": "c9618607f8a0c8d3dcedc47ea358dfdd73074ff2e45fd903eeed22304fa10193"
+    },
+    {
+      "seed": 16000024,
+      "outcome": {
+        "kind": "win",
+        "winner": 1,
+        "discarder": null,
+        "winning_tile": "B7",
+        "qualifying_fan": 10,
+        "flower_fan": 1,
+        "total_fan": 11,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Dragon Pung",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Closed Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -19,
+          57,
+          -19,
+          -19
+        ]
+      },
+      "decisions": 64,
+      "actions_sha256": "a7ed4ab2f9bf63231ed8d99984a4ac5e91ecf16cadc090863440c7b3633194b5"
+    },
+    {
+      "seed": 16000025,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": null,
+        "winning_tile": "W3",
+        "qualifying_fan": 11,
+        "flower_fan": 2,
+        "total_fan": 13,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Simples",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "One Voided Suit",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Closed Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          63,
+          -21,
+          -21,
+          -21
+        ]
+      },
+      "decisions": 64,
+      "actions_sha256": "33a51c7dbc6183f5411a1e53bc4dff5b5113279be21dfb6de8b5660fd4343cf7"
+    },
+    {
+      "seed": 16000026,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 0,
+        "winning_tile": "B7",
+        "qualifying_fan": 8,
+        "flower_fan": 2,
+        "total_fan": 10,
+        "awards": [
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Seat Wind",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -18,
+          -8,
+          34,
+          -8
+        ]
+      },
+      "decisions": 95,
+      "actions_sha256": "3b1a3a997bca5448c3dfec24d14eb65de6e8cc83a34382877cb22a7f4c5692d1"
+    },
+    {
+      "seed": 16000027,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": null,
+        "winning_tile": "W5",
+        "qualifying_fan": 14,
+        "flower_fan": 2,
+        "total_fan": 16,
+        "awards": [
+          {
+            "fan": "Last Tile Draw",
+            "points": 8,
+            "count": 1
+          },
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "No Honors",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -24,
+          -24,
+          -24,
+          72
+        ]
+      },
+      "decisions": 111,
+      "actions_sha256": "f27ff7129e4f39ae5fee63e61f0d0af5ef1116ef2b951e106dc4b633e45ea544"
+    },
+    {
+      "seed": 16000028,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": null,
+        "winning_tile": "B3",
+        "qualifying_fan": 9,
+        "flower_fan": 1,
+        "total_fan": 10,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Edge Wait",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          54,
+          -18,
+          -18,
+          -18
+        ]
+      },
+      "decisions": 106,
+      "actions_sha256": "2c7b338b1fe0c8960a0973f3e7050bd7eca1e1c89349cb8cae3812ce2b9a5668"
+    },
+    {
+      "seed": 16000029,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 2,
+        "winning_tile": "T8",
+        "qualifying_fan": 8,
+        "flower_fan": 1,
+        "total_fan": 9,
+        "awards": [
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "All Simples",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Short Straight",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          33,
+          -8,
+          -17,
+          -8
+        ]
+      },
+      "decisions": 61,
+      "actions_sha256": "d246a70f27062f1e2999c7dc89098a7469088dc0d21b1ba181f83ed7f3eb0e3f"
+    },
+    {
+      "seed": 16000030,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": null,
+        "winning_tile": "B3",
+        "qualifying_fan": 11,
+        "flower_fan": 2,
+        "total_fan": 13,
+        "awards": [
+          {
+            "fan": "Fully Concealed Hand",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "Last Tile",
+            "points": 4,
+            "count": 1
+          },
+          {
+            "fan": "All Chows",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Mixed Double Chow",
+            "points": 1,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -21,
+          -21,
+          -21,
+          63
+        ]
+      },
+      "decisions": 91,
+      "actions_sha256": "83098e0a2292eb899e48c98308af55407e7cbc092a99f2bd0a99c5be877ae21d"
+    },
+    {
+      "seed": 16000031,
+      "outcome": {
+        "kind": "win",
+        "winner": 0,
+        "discarder": 1,
+        "winning_tile": "B7",
+        "qualifying_fan": 20,
+        "flower_fan": 1,
+        "total_fan": 21,
+        "awards": [
+          {
+            "fan": "Three Concealed Pungs",
+            "points": 16,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Double Pung",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          45,
+          -29,
+          -8,
+          -8
+        ]
+      },
+      "decisions": 72,
+      "actions_sha256": "10013199a30b3edaa5d99fe872e3278151dfd38de16e94a4acf012b3f46aed8b"
+    },
+    {
+      "seed": 16000032,
+      "outcome": {
+        "kind": "win",
+        "winner": 2,
+        "discarder": 0,
+        "winning_tile": "W3",
+        "qualifying_fan": 10,
+        "flower_fan": 2,
+        "total_fan": 12,
+        "awards": [
+          {
+            "fan": "Mixed Triple Chow",
+            "points": 8,
+            "count": 1
+          },
+          {
+            "fan": "Concealed Hand",
+            "points": 2,
+            "count": 1
+          },
+          {
+            "fan": "Flower Tiles",
+            "points": 1,
+            "count": 2
+          }
+        ],
+        "deltas": [
+          -20,
+          -8,
+          36,
+          -8
+        ]
+      },
+      "decisions": 103,
+      "actions_sha256": "08ceab62b6d1d4b6fc30c1579692e4363643bffb71b32bb878e45e2446feda0e"
+    },
+    {
+      "seed": 16000033,
+      "outcome": {
+        "kind": "win",
+        "winner": 3,
+        "discarder": 0,
+        "winning_tile": "T3",
+        "qualifying_fan": 26,
+        "flower_fan": 0,
+        "total_fan": 26,
+        "awards": [
+          {
+            "fan": "Seven Pairs",
+            "points": 24,
+            "count": 1
+          },
+          {
+            "fan": "All Simples",
+            "points": 2,
+            "count": 1
+          }
+        ],
+        "deltas": [
+          -34,
+          -8,
+          -8,
+          50
+        ]
+      },
+      "decisions": 54,
+      "actions_sha256": "6f46d2231c36decb0984bf99a963239bcceeb269bbd7084839e8a4d076f0e848"
+    }
+  ],
+  "other_seed_winners": {
+    "2": 9,
+    "3": 7,
+    "draw": 1,
+    "0": 11,
+    "1": 4
+  }
+}

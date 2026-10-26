@@ -11,6 +11,20 @@ test('static release: WASM, human action, evidence and hash navigation', async (
   await expect(page.locator('#engine-status')).toContainText('WASM · 本机推理');
   await expect(page.locator('#error')).toBeHidden();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  // New games must change the wall; explicit numbered restarts remain reproducible.
+  const initialSeed = await page.locator('#seed').inputValue();
+  await page.locator('#start').click();
+  await expect(page.locator('#seed')).not.toHaveValue(initialSeed);
+  await expect(page.locator('#game-caption')).toContainText(await page.locator('#seed').inputValue());
+  await expect(page.locator('#start-seeded')).toBeEnabled();
+  await page.locator('#seed').fill('16000001');
+  await page.locator('#start-seeded').click();
+  await expect(page.locator('#game-caption')).toContainText('16000001');
+  await expect(page.locator('.hand button')).toHaveCount(14);
+  const hand = await page.locator('.hand').innerText();
+  await page.locator('#start-seeded').click();
+  await expect(page.locator('#start-seeded')).toBeEnabled();
+  await expect(page.locator('.hand')).toHaveText(hand, { useInnerText: true });
   await page.locator('#hint').click();
   await expect(page.locator('#advice')).not.toBeEmpty();
   const before = await page.locator('#step-count').textContent();

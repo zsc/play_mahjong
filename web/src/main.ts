@@ -17,8 +17,10 @@ app.innerHTML = `
       </div><aside>
         <section class="panel settings"><div class="panel-heading"><h2>这盘怎么打</h2><span>01 / 对局设置</span></div>
           <div class="segmented"><button id="human-mode" class="chosen" type="button">我来打</button><button id="watch-mode" type="button">AI 观战</button></div>
-          <div class="form-row"><label>我的座位<select id="seat"><option value="0">东家</option><option value="1">南家</option><option value="2">西家</option><option value="3">北家</option></select></label><label>牌局种子<input id="seed" inputmode="numeric" type="number" min="0" max="1000000000" value="16000001" /></label></div>
+          <div class="form-row"><label>我的座位<select id="seat"><option value="0">东家</option><option value="1">南家</option><option value="2">西家</option><option value="3">北家</option></select></label><label>牌局编号<input id="seed" inputmode="numeric" type="number" min="0" max="1000000000" value="" /></label></div>
           <button id="start" class="primary full" disabled>加载中…</button>
+          <p class="muted">新一盘会更换牌局编号；按编号开局可重现相同牌墙。</p>
+          <button id="start-seeded" class="outline full" disabled>按编号开局</button>
           <div class="minor-buttons"><button id="pause" disabled>暂停</button><button id="download" disabled>保存回放</button><button id="import">打开回放</button></div>
           <input id="replay-file" type="file" accept=".json,application/json" hidden />
         </section>
@@ -27,7 +29,7 @@ app.innerHTML = `
       </aside></div>
     </section>
     <section id="training-page" hidden><div class="page-heading"><div><p class="eyebrow">REAL RUNS, REAL RESULTS</p><h1>每一分，都来自真实对局。</h1><p>冻结模型、独立种子、正式单盘结算。训练运行成功不等于棋力提升。</p></div></div><div id="training-content" class="records-grid">正在读取记录…</div></section>
-    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用训练模型选择弃牌，并由辅助策略筛选候选。吃碰杠胡与花牌操作由辅助策略处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收。最新同墙四座测试中，对三个固定基准对手平均 +0.240 分/盘，95% 置信区间 [0.052, 0.428]。这是带启发式保护的复合策略成绩。后续 209 万盘训练尚未证明新模型更强，因此这里仍使用原已验收的模型。全动作无保护模型仍属实验，未接入本页。</p><h2>如何操作</h2><p>点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对手暗手与尚未裁定的响应不会展示。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
+    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用训练模型选择弃牌，并由辅助策略筛选候选。吃碰杠胡与花牌操作由辅助策略处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收。最新同墙四座测试中，对三个固定基准对手平均 +0.240 分/盘，95% 置信区间 [0.052, 0.428]。这是带启发式保护的复合策略成绩。后续 209 万盘训练尚未证明新模型更强，因此这里仍使用原已验收的模型。全动作无保护模型仍属实验，未接入本页。</p><h2>如何操作</h2><p>「换牌开新局」会更换牌墙；需要复现某一盘时，填写牌局编号并点击「按编号开局」。同一编号下四家 AI 的选择与结果可重复。点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对手暗手与尚未裁定的响应不会展示。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
   </main><footer><span>一桌麻将 <span class="footer-dot">/</span> 真实训练 · 本机推理</span><span>规则 mcr-wmo2006-stage1 <span class="footer-dot">·</span> 不含浏览器现场训练 <span class="footer-dot">·</span> <a href="./THIRD_PARTY_NOTICES.txt" target="_blank" rel="noopener">第三方许可</a></span></footer>`;
 
 let worker = new Worker(new URL('./game.worker.ts', import.meta.url), { type: 'module' });
@@ -103,6 +105,7 @@ function render() {
   ($('download') as HTMLButtonElement).disabled = !state.ended;
   ($('hint') as HTMLButtonElement).disabled = !enabled;
   ($('start') as HTMLButtonElement).disabled = busy;
+  ($('start-seeded') as HTMLButtonElement).disabled = busy;
   if (state.ended) {
     const outcome = o.phase.outcome!;
     const scores = (outcome.deltas ?? [0, 0, 0, 0]).map((score, i) => `<span>${winds[i]}家 <b class="${score >= 0 ? 'positive' : 'negative'}">${score > 0 ? '+' : ''}${score}</b></span>`).join('');
@@ -149,7 +152,20 @@ $('decision-bar').addEventListener('click', event => {
   if (button.id === 'discard' && selected !== null) void act(selected);
   else if (button.dataset.action !== undefined) void act(Number(button.dataset.action));
 });
-$('start').onclick = () => { void start(); };
+function freshSeed(): number {
+  const random = new Uint32Array(1);
+  let next: number;
+  do { next = crypto.getRandomValues(random)[0] & 0x3fffffff; }
+  while (next > 1_000_000_000 || next === state?.seed);
+  return next;
+}
+function startFresh() {
+  if (!loaded || busy) return;
+  ($('seed') as HTMLInputElement).value = String(freshSeed());
+  void start();
+}
+$('start').onclick = startFresh;
+$('start-seeded').onclick = () => { if (loaded && !busy) void start(); };
 $('human-mode').onclick = () => { chosenMode = 'human'; $('human-mode').classList.add('chosen'); $('watch-mode').classList.remove('chosen'); };
 $('watch-mode').onclick = () => { chosenMode = 'watch'; $('watch-mode').classList.add('chosen'); $('human-mode').classList.remove('chosen'); };
 $('pause').onclick = () => { paused = !paused; render(); schedule(); };
@@ -217,7 +233,7 @@ function sofyRecord(data: any): string {
     通过非劣门槛，但未证明更强；牌桌继续使用原验收模型。</p></section>`;
 }
 async function load() {
-  try { await rpc('load', { base }); loaded = true; ($('start') as HTMLButtonElement).disabled = false; $('start').textContent = '开始新一盘'; await start(); }
+  try { await rpc('load', { base }); loaded = true; ($('start') as HTMLButtonElement).disabled = false; $('start').textContent = '换牌开新局'; startFresh(); }
   catch (e) { error(`加载失败：${(e as Error).message}`); $('engine-status').textContent = '加载失败'; $('start').textContent = '重新加载'; ($('start') as HTMLButtonElement).disabled = false; $('start').onclick = () => location.reload(); }
 }
 void load();
