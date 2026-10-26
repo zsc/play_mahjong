@@ -1,7 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync, writeFileSync } from 'node:fs';
 test('native trace, features, PyTorch and browser WASM parity', async ({ page }) => {
-  await page.goto('/');
+  // Keep numerical checks on a same-origin harness without Vite's HMR client:
+  // dependency discovery in a test Worker must not reload the awaiting page.
+  await page.route('**/parity-harness', route => route.fulfill({
+    contentType: 'text/html', body: '<!doctype html><title>Native/WASM parity</title>',
+  }));
+  await page.goto('/parity-harness');
   const traces = JSON.parse(readFileSync('tests/fixtures/native.json', 'utf8'));
   const result = await page.evaluate(traces => new Promise<any>((resolve, reject) => {
     const worker = new Worker('/tests/parity.worker.ts', { type: 'module' });

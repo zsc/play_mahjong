@@ -1,0 +1,160 @@
+{
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "observation_version": 1,
+  "feature_encoding_version": 6,
+  "action_catalog_version": 1,
+  "seat_rotation": "each wall replayed at seats 0,1,2,3; CI grouped by wall",
+  "seed_start": 41000000,
+  "seeds": 1000,
+  "workers": 32,
+  "old_sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62",
+  "new_sha256": "ceb031e49c0d57631e081d71393995290c88e19ff104c9edb955df72e5ed06e2",
+  "engine_sha256": "86ecf1738ed4824cfdafbebedbc7e82d6a8a625dcf0b3dc5e98daee641b3fe42",
+  "engine_source_sha256": "5ca19b41a52e3b853dc65198701e70323d21b0f697d70015de2b7b11341ee2c7",
+  "challengers": [
+    "old-guard",
+    "new-guard",
+    "qualified"
+  ],
+  "opponents": [
+    "closed",
+    "old-guard"
+  ],
+  "torch": "2.9.0",
+  "frozen_before_evaluation": true,
+  "summaries": {
+    "old-guard-vs-closed": {
+      "games": 4000,
+      "score": {
+        "mean": 1.0475,
+        "standard_error": 0.31171266181137647,
+        "ci95": [
+          0.4365431828497023,
+          1.6584568171502978
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.25225,
+      "discard_rate": 0.14725,
+      "draw_rate": 0.0785
+    },
+    "new-guard-vs-closed": {
+      "games": 4000,
+      "score": {
+        "mean": 0.74925,
+        "standard_error": 0.325492330469851,
+        "ci95": [
+          0.11128503227909203,
+          1.387214967720908
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.248,
+      "discard_rate": 0.15025,
+      "draw_rate": 0.08
+    },
+    "qualified-vs-closed": {
+      "games": 4000,
+      "score": {
+        "mean": 0.77125,
+        "standard_error": 0.18231318942011995,
+        "ci95": [
+          0.4139161487365649,
+          1.1285838512634352
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.246,
+      "discard_rate": 0.14725,
+      "draw_rate": 0.082
+    },
+    "old-guard-vs-old-guard": {
+      "games": 4000,
+      "score": {
+        "mean": 0.0,
+        "standard_error": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.23425,
+      "discard_rate": 0.16425,
+      "draw_rate": 0.063
+    },
+    "new-guard-vs-old-guard": {
+      "games": 4000,
+      "score": {
+        "mean": 0.3675,
+        "standard_error": 0.27659505341486784,
+        "ci95": [
+          -0.17462630469314094,
+          0.909626304693141
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.23525,
+      "discard_rate": 0.1595,
+      "draw_rate": 0.0695
+    },
+    "qualified-vs-old-guard": {
+      "games": 4000,
+      "score": {
+        "mean": 0.139,
+        "standard_error": 0.2786080157253671,
+        "ci95": [
+          -0.40707171082171945,
+          0.6850717108217195
+        ],
+        "independent_wall_groups": 1000
+      },
+      "win_rate": 0.233,
+      "discard_rate": 0.1605,
+      "draw_rate": 0.06875
+    }
+  },
+  "paired_vs_old_guard": {
+    "closed": {
+      "new-guard": {
+        "mean": -0.29825,
+        "standard_error": 0.289864849660266,
+        "ci95": [
+          -0.8663851053341214,
+          0.26988510533412136
+        ],
+        "independent_wall_groups": 1000
+      },
+      "qualified": {
+        "mean": -0.27625,
+        "standard_error": 0.2928305793213641,
+        "ci95": [
+          -0.8501979354698735,
+          0.29769793546987355
+        ],
+        "independent_wall_groups": 1000
+      }
+    },
+    "old-guard": {
+      "new-guard": {
+        "mean": 0.3675,
+        "standard_error": 0.27659505341486784,
+        "ci95": [
+          -0.17462630469314094,
+          0.909626304693141
+        ],
+        "independent_wall_groups": 1000
+      },
+      "qualified": {
+        "mean": 0.139,
+        "standard_error": 0.2786080157253671,
+        "ci95": [
+          -0.40707171082171945,
+          0.6850717108217195
+        ],
+        "independent_wall_groups": 1000
+      }
+    }
+  },
+  "wall_seconds": 40.36862705100066
+}

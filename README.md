@@ -2,7 +2,7 @@
 
 本项目使用 OCaml 实现单一规则核心，Python/PyTorch 负责训练，通过 C ABI/ctypes、JSON-lines 子进程与 WASM 服务本地训练和浏览器。目标规则是 WMO 2006 Mahjong Competition Rules（MCR）。
 
-> 当前仍是阶段一，不是完整 MCR。已有通过独立 6,400 局门槛的“PPO 模型 + 启发式保护”人测候选、ONNX 导出及浏览器人测网页；未证明强于 qualified 教师。完整番种排斥、补牌来源链和 16 手整场尚未完成。
+> 当前仍是阶段一，不是完整 MCR。已有“PPO 模型 + 启发式保护”人测候选、ONNX 导出及浏览器人测网页。最新同墙四座测试对固定 qualified 对手平均 +0.240 分/盘；无保护网络较弱，不能称为纯网络强 AI。完整番种排斥、补牌来源链和 16 手整场尚未完成。
 
 本机可直接运行 `./scripts/play_candidate.sh` 开始中文终端对战，输入动作 ID，`q` 退出。
 实际成绩、权重来源和限制见 [人测候选模型卡](docs/model-card-human-candidate-20261026.md)。
@@ -10,6 +10,9 @@
 浏览器人测：`cd web && npm ci && npm run prepare:assets && npm run dev`，然后打开
 `http://127.0.0.1:5173/`。提供人机对局、AI 观战、回放和真实训练记录，规则与推理均在本机 Worker 中执行。
 完整启动、静态子路径构建和验证说明见 [浏览器人测](docs/browser-human-test.md)。
+
+[棋力测量与 18.4 万盘结果](docs/arena-evaluation.md)记录同墙四座、按牌墙分组的置信区间和人测方式。
+[SOFY 大规模 PPO](docs/sofy-ppo-plan.md)已完成四分支共 2,097,152 盘，尚未证明优于网页旧候选。
 
 ## 目录
 
@@ -116,7 +119,7 @@ uv run python training/compare_runs.py \
 - 81 番完整金标准、全部组合/排斥关系和规范歧义认证
 - 16 手整场与庄家/圈风轮转
 - v6 语义下的 DAgger/PPO 增益、对手池、自博弈和冻结对手评估曲线
-- ONNX 的 WASM/WebGPU 数值验证、可运行 WASM、浏览器对局、Worker 推理和 GitHub Pages 部署
+- WebGPU 增强与公网 GitHub Pages 发布（WASM 数值验证、浏览器对局、Worker 推理和静态子路径构建已通过）
 
 完整规则来源与边界见 `docs/rules.md`，技术契约见 `docs/architecture.md`。
 

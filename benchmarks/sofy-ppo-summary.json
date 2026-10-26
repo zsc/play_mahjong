@@ -1,0 +1,189 @@
+{
+  "games": 2097152,
+  "branches": [
+    {
+      "branch": 0,
+      "evaluations": [
+        {
+          "name": "previous-candidate",
+          "score": 1.0946875
+        },
+        {
+          "name": "qualified",
+          "score": 0.979375
+        },
+        {
+          "name": "closed",
+          "score": 0.129375
+        },
+        {
+          "name": "u0032-none",
+          "score": 0.1946875
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "score": 1.0925
+        },
+        {
+          "name": "u0064-none",
+          "score": 0.8165625
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "score": 1.2575
+        },
+        {
+          "name": "u0096-none",
+          "score": 0.3465625
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "score": 0.9103125
+        },
+        {
+          "name": "u0128-none",
+          "score": 0.566875
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "score": 1.2228125
+        }
+      ]
+    },
+    {
+      "branch": 1,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "score": -0.02125
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "score": 0.771875
+        },
+        {
+          "name": "u0064-none",
+          "score": 0.078125
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "score": 1.2184375
+        },
+        {
+          "name": "u0096-none",
+          "score": 0.4571875
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "score": 1.160625
+        },
+        {
+          "name": "u0128-none",
+          "score": 0.28
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "score": 1.065
+        }
+      ]
+    },
+    {
+      "branch": 2,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "score": 0.6715625
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "score": 1.295
+        },
+        {
+          "name": "u0064-none",
+          "score": 0.5565625
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "score": 1.22125
+        },
+        {
+          "name": "u0096-none",
+          "score": 0.4184375
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "score": 0.9575
+        },
+        {
+          "name": "u0128-none",
+          "score": 0.1421875
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "score": 0.598125
+        }
+      ]
+    },
+    {
+      "branch": 3,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "score": -0.0778125
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "score": 0.8565625
+        },
+        {
+          "name": "u0064-none",
+          "score": -0.249375
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "score": 0.6696875
+        },
+        {
+          "name": "u0096-none",
+          "score": 0.143125
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "score": 0.79625
+        },
+        {
+          "name": "u0128-none",
+          "score": -0.144375
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "score": 0.96625
+        }
+      ]
+    }
+  ],
+  "selected": "b2-u0032 + teacher-optimal",
+  "holdout_games": 6400,
+  "new_score": 0.57890625,
+  "old_score": 0.4753125,
+  "qualified_score": 0.74953125,
+  "comparisons": {
+    "previous": {
+      "difference": 0.10359375,
+      "ci95": [
+        -0.31456364048473184,
+        0.5217511404847318
+      ]
+    },
+    "qualified": {
+      "difference": -0.170625,
+      "ci95": [
+        -0.6292781258596393,
+        0.2880281258596392
+      ]
+    }
+  },
+  "passed_noninferiority": true,
+  "proven_improvement": false,
+  "browser_model_changed": false
+}

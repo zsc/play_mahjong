@@ -1,0 +1,488 @@
+{
+  "training_games": 2097152,
+  "ruleset_id": "mcr-wmo2006-stage1",
+  "training_tasks": [
+    59337,
+    59338,
+    59339,
+    59340
+  ],
+  "development_tasks": [
+    59341,
+    59342,
+    59343,
+    59344
+  ],
+  "development_seed_start": 30000000,
+  "development_games": 3200,
+  "branches": [
+    {
+      "branch": 0,
+      "snapshots": [
+        "latest-u0032.pt",
+        "latest-u0064.pt",
+        "latest-u0096.pt",
+        "latest-u0128.pt"
+      ],
+      "training_complete": true,
+      "evaluations": [
+        {
+          "name": "previous-candidate",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/initial.bin",
+          "guard": "teacher-optimal",
+          "sha256": "1f865a82f1d0ff30266ec9ae0857993bb600700727de3799987b2f86b390dc62",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/previous-candidate.json",
+          "mean_net_score": 1.0946875,
+          "win_rate": 0.2471875,
+          "discard_rate": 0.1575,
+          "exhaustive_draw_rate": 0.0725,
+          "games": 3200
+        },
+        {
+          "name": "qualified",
+          "checkpoint": null,
+          "guard": "none",
+          "sha256": null,
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/qualified.json",
+          "mean_net_score": 0.979375,
+          "win_rate": 0.24375,
+          "discard_rate": 0.151875,
+          "exhaustive_draw_rate": 0.07625,
+          "games": 3200
+        },
+        {
+          "name": "closed",
+          "checkpoint": null,
+          "guard": "none",
+          "sha256": null,
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/closed.json",
+          "mean_net_score": 0.129375,
+          "win_rate": 0.2228125,
+          "discard_rate": 0.1540625,
+          "exhaustive_draw_rate": 0.083125,
+          "games": 3200
+        },
+        {
+          "name": "u0032-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0032.pt",
+          "guard": "none",
+          "sha256": "c1920f606dfc4bb14a52e29e7c78fa85365841848c6734b5cfae0b4a065ae40a",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0032-none.json",
+          "mean_net_score": 0.1946875,
+          "win_rate": 0.22875,
+          "discard_rate": 0.1421875,
+          "exhaustive_draw_rate": 0.08625,
+          "games": 3200
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0032.pt",
+          "guard": "teacher-optimal",
+          "sha256": "c1920f606dfc4bb14a52e29e7c78fa85365841848c6734b5cfae0b4a065ae40a",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0032-teacher-optimal.json",
+          "mean_net_score": 1.0925,
+          "win_rate": 0.2484375,
+          "discard_rate": 0.14875,
+          "exhaustive_draw_rate": 0.075,
+          "games": 3200
+        },
+        {
+          "name": "u0064-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0064.pt",
+          "guard": "none",
+          "sha256": "1cd82c6ce76eeaeffe024f9d8473d1f86539cf4836ee669ced52d7d908fed762",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0064-none.json",
+          "mean_net_score": 0.8165625,
+          "win_rate": 0.2375,
+          "discard_rate": 0.14,
+          "exhaustive_draw_rate": 0.084375,
+          "games": 3200
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0064.pt",
+          "guard": "teacher-optimal",
+          "sha256": "1cd82c6ce76eeaeffe024f9d8473d1f86539cf4836ee669ced52d7d908fed762",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0064-teacher-optimal.json",
+          "mean_net_score": 1.2575,
+          "win_rate": 0.249375,
+          "discard_rate": 0.1465625,
+          "exhaustive_draw_rate": 0.0753125,
+          "games": 3200
+        },
+        {
+          "name": "u0096-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0096.pt",
+          "guard": "none",
+          "sha256": "7d74dd0f41d21c1c8d4c38934fbd0f88cfcfb9073e99eca82af0702ce2ee65cf",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0096-none.json",
+          "mean_net_score": 0.3465625,
+          "win_rate": 0.2390625,
+          "discard_rate": 0.1459375,
+          "exhaustive_draw_rate": 0.0815625,
+          "games": 3200
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0096.pt",
+          "guard": "teacher-optimal",
+          "sha256": "7d74dd0f41d21c1c8d4c38934fbd0f88cfcfb9073e99eca82af0702ce2ee65cf",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0096-teacher-optimal.json",
+          "mean_net_score": 0.9103125,
+          "win_rate": 0.246875,
+          "discard_rate": 0.151875,
+          "exhaustive_draw_rate": 0.0753125,
+          "games": 3200
+        },
+        {
+          "name": "u0128-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0128.pt",
+          "guard": "none",
+          "sha256": "0bde87f944a1e36a849b8683b5fb8146ee0cb326eadf716cf5a7b5036c2c5c37",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0128-none.json",
+          "mean_net_score": 0.566875,
+          "win_rate": 0.238125,
+          "discard_rate": 0.141875,
+          "exhaustive_draw_rate": 0.0840625,
+          "games": 3200
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/latest-u0128.pt",
+          "guard": "teacher-optimal",
+          "sha256": "0bde87f944a1e36a849b8683b5fb8146ee0cb326eadf716cf5a7b5036c2c5c37",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b0/development/u0128-teacher-optimal.json",
+          "mean_net_score": 1.2228125,
+          "win_rate": 0.2509375,
+          "discard_rate": 0.1484375,
+          "exhaustive_draw_rate": 0.0759375,
+          "games": 3200
+        }
+      ]
+    },
+    {
+      "branch": 1,
+      "snapshots": [
+        "latest-u0032.pt",
+        "latest-u0064.pt",
+        "latest-u0096.pt",
+        "latest-u0128.pt"
+      ],
+      "training_complete": true,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0032.pt",
+          "guard": "none",
+          "sha256": "f8ca9f654eca7717b1fa72ac07a50f1fe2bf01bdb6edb5ab8ce44c5bd45c0607",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0032-none.json",
+          "mean_net_score": -0.02125,
+          "win_rate": 0.22875,
+          "discard_rate": 0.149375,
+          "exhaustive_draw_rate": 0.085625,
+          "games": 3200
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0032.pt",
+          "guard": "teacher-optimal",
+          "sha256": "f8ca9f654eca7717b1fa72ac07a50f1fe2bf01bdb6edb5ab8ce44c5bd45c0607",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0032-teacher-optimal.json",
+          "mean_net_score": 0.771875,
+          "win_rate": 0.245,
+          "discard_rate": 0.155,
+          "exhaustive_draw_rate": 0.0746875,
+          "games": 3200
+        },
+        {
+          "name": "u0064-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0064.pt",
+          "guard": "none",
+          "sha256": "48899d89500df3ed5a20eb8f9a79dcd92c41df3be74ddeb0b2c484b4dd403fc2",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0064-none.json",
+          "mean_net_score": 0.078125,
+          "win_rate": 0.229375,
+          "discard_rate": 0.14625,
+          "exhaustive_draw_rate": 0.0871875,
+          "games": 3200
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0064.pt",
+          "guard": "teacher-optimal",
+          "sha256": "48899d89500df3ed5a20eb8f9a79dcd92c41df3be74ddeb0b2c484b4dd403fc2",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0064-teacher-optimal.json",
+          "mean_net_score": 1.2184375,
+          "win_rate": 0.2478125,
+          "discard_rate": 0.1490625,
+          "exhaustive_draw_rate": 0.075625,
+          "games": 3200
+        },
+        {
+          "name": "u0096-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0096.pt",
+          "guard": "none",
+          "sha256": "f80c8b413e0dcd463f46ed0dc1e634c622039db0cffc222f65273433c3bf9201",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0096-none.json",
+          "mean_net_score": 0.4571875,
+          "win_rate": 0.2365625,
+          "discard_rate": 0.1440625,
+          "exhaustive_draw_rate": 0.085,
+          "games": 3200
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0096.pt",
+          "guard": "teacher-optimal",
+          "sha256": "f80c8b413e0dcd463f46ed0dc1e634c622039db0cffc222f65273433c3bf9201",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0096-teacher-optimal.json",
+          "mean_net_score": 1.160625,
+          "win_rate": 0.24875,
+          "discard_rate": 0.150625,
+          "exhaustive_draw_rate": 0.074375,
+          "games": 3200
+        },
+        {
+          "name": "u0128-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0128.pt",
+          "guard": "none",
+          "sha256": "b315d31bc1a1436495290d4a940c85546a77deee514e17409e10d1b6eb5b64c4",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0128-none.json",
+          "mean_net_score": 0.28,
+          "win_rate": 0.234375,
+          "discard_rate": 0.1446875,
+          "exhaustive_draw_rate": 0.085625,
+          "games": 3200
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/latest-u0128.pt",
+          "guard": "teacher-optimal",
+          "sha256": "b315d31bc1a1436495290d4a940c85546a77deee514e17409e10d1b6eb5b64c4",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b1/development/u0128-teacher-optimal.json",
+          "mean_net_score": 1.065,
+          "win_rate": 0.2465625,
+          "discard_rate": 0.151875,
+          "exhaustive_draw_rate": 0.07625,
+          "games": 3200
+        }
+      ]
+    },
+    {
+      "branch": 2,
+      "snapshots": [
+        "latest-u0032.pt",
+        "latest-u0064.pt",
+        "latest-u0096.pt",
+        "latest-u0128.pt"
+      ],
+      "training_complete": true,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0032.pt",
+          "guard": "none",
+          "sha256": "ceb031e49c0d57631e081d71393995290c88e19ff104c9edb955df72e5ed06e2",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0032-none.json",
+          "mean_net_score": 0.6715625,
+          "win_rate": 0.2359375,
+          "discard_rate": 0.140625,
+          "exhaustive_draw_rate": 0.0840625,
+          "games": 3200
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0032.pt",
+          "guard": "teacher-optimal",
+          "sha256": "ceb031e49c0d57631e081d71393995290c88e19ff104c9edb955df72e5ed06e2",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0032-teacher-optimal.json",
+          "mean_net_score": 1.295,
+          "win_rate": 0.2465625,
+          "discard_rate": 0.144375,
+          "exhaustive_draw_rate": 0.08,
+          "games": 3200
+        },
+        {
+          "name": "u0064-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0064.pt",
+          "guard": "none",
+          "sha256": "fa166d427ad848facffa04a65c09e837986b76dc66dabda104b8788e77d2f1a4",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0064-none.json",
+          "mean_net_score": 0.5565625,
+          "win_rate": 0.2359375,
+          "discard_rate": 0.1478125,
+          "exhaustive_draw_rate": 0.0815625,
+          "games": 3200
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0064.pt",
+          "guard": "teacher-optimal",
+          "sha256": "fa166d427ad848facffa04a65c09e837986b76dc66dabda104b8788e77d2f1a4",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0064-teacher-optimal.json",
+          "mean_net_score": 1.22125,
+          "win_rate": 0.2478125,
+          "discard_rate": 0.1475,
+          "exhaustive_draw_rate": 0.0765625,
+          "games": 3200
+        },
+        {
+          "name": "u0096-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0096.pt",
+          "guard": "none",
+          "sha256": "8dd5f7b2a4d3d1aba45ce5c6ce985c6f7cb00eaf1fe75d17a5ea500f662909e6",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0096-none.json",
+          "mean_net_score": 0.4184375,
+          "win_rate": 0.2346875,
+          "discard_rate": 0.144375,
+          "exhaustive_draw_rate": 0.0834375,
+          "games": 3200
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0096.pt",
+          "guard": "teacher-optimal",
+          "sha256": "8dd5f7b2a4d3d1aba45ce5c6ce985c6f7cb00eaf1fe75d17a5ea500f662909e6",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0096-teacher-optimal.json",
+          "mean_net_score": 0.9575,
+          "win_rate": 0.248125,
+          "discard_rate": 0.15,
+          "exhaustive_draw_rate": 0.0725,
+          "games": 3200
+        },
+        {
+          "name": "u0128-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0128.pt",
+          "guard": "none",
+          "sha256": "2d7118f0d5f07b7f0a71cf25972aff2c4ae9c0debb038a3456c8c2f8e1023f88",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0128-none.json",
+          "mean_net_score": 0.1421875,
+          "win_rate": 0.2315625,
+          "discard_rate": 0.1478125,
+          "exhaustive_draw_rate": 0.0840625,
+          "games": 3200
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/latest-u0128.pt",
+          "guard": "teacher-optimal",
+          "sha256": "2d7118f0d5f07b7f0a71cf25972aff2c4ae9c0debb038a3456c8c2f8e1023f88",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b2/development/u0128-teacher-optimal.json",
+          "mean_net_score": 0.598125,
+          "win_rate": 0.241875,
+          "discard_rate": 0.1471875,
+          "exhaustive_draw_rate": 0.07125,
+          "games": 3200
+        }
+      ]
+    },
+    {
+      "branch": 3,
+      "snapshots": [
+        "latest-u0032.pt",
+        "latest-u0064.pt",
+        "latest-u0096.pt",
+        "latest-u0128.pt"
+      ],
+      "training_complete": true,
+      "evaluations": [
+        {
+          "name": "u0032-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0032.pt",
+          "guard": "none",
+          "sha256": "64ee1f7138174b750db86d8329abd458293ec338bb6b7d5ec75d40c2775d9eff",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0032-none.json",
+          "mean_net_score": -0.0778125,
+          "win_rate": 0.2296875,
+          "discard_rate": 0.146875,
+          "exhaustive_draw_rate": 0.0796875,
+          "games": 3200
+        },
+        {
+          "name": "u0032-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0032.pt",
+          "guard": "teacher-optimal",
+          "sha256": "64ee1f7138174b750db86d8329abd458293ec338bb6b7d5ec75d40c2775d9eff",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0032-teacher-optimal.json",
+          "mean_net_score": 0.8565625,
+          "win_rate": 0.24375,
+          "discard_rate": 0.15,
+          "exhaustive_draw_rate": 0.0759375,
+          "games": 3200
+        },
+        {
+          "name": "u0064-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0064.pt",
+          "guard": "none",
+          "sha256": "550b91d12a69e113a3169c8059c091515ff4b048135541b042152e80d794f89a",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0064-none.json",
+          "mean_net_score": -0.249375,
+          "win_rate": 0.228125,
+          "discard_rate": 0.154375,
+          "exhaustive_draw_rate": 0.083125,
+          "games": 3200
+        },
+        {
+          "name": "u0064-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0064.pt",
+          "guard": "teacher-optimal",
+          "sha256": "550b91d12a69e113a3169c8059c091515ff4b048135541b042152e80d794f89a",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0064-teacher-optimal.json",
+          "mean_net_score": 0.6696875,
+          "win_rate": 0.2403125,
+          "discard_rate": 0.153125,
+          "exhaustive_draw_rate": 0.07625,
+          "games": 3200
+        },
+        {
+          "name": "u0096-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0096.pt",
+          "guard": "none",
+          "sha256": "9e65b4124f115506c640e58c11636c1cf04f80f316f9c0107b8dacb329fd0c12",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0096-none.json",
+          "mean_net_score": 0.143125,
+          "win_rate": 0.2309375,
+          "discard_rate": 0.15,
+          "exhaustive_draw_rate": 0.0803125,
+          "games": 3200
+        },
+        {
+          "name": "u0096-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0096.pt",
+          "guard": "teacher-optimal",
+          "sha256": "9e65b4124f115506c640e58c11636c1cf04f80f316f9c0107b8dacb329fd0c12",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0096-teacher-optimal.json",
+          "mean_net_score": 0.79625,
+          "win_rate": 0.243125,
+          "discard_rate": 0.158125,
+          "exhaustive_draw_rate": 0.075625,
+          "games": 3200
+        },
+        {
+          "name": "u0128-none",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0128.pt",
+          "guard": "none",
+          "sha256": "725e6aafc6445803896245723d18b698be6fcf3ef2642c9965071aff133f4f94",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0128-none.json",
+          "mean_net_score": -0.144375,
+          "win_rate": 0.2253125,
+          "discard_rate": 0.151875,
+          "exhaustive_draw_rate": 0.085,
+          "games": 3200
+        },
+        {
+          "name": "u0128-teacher-optimal",
+          "checkpoint": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/latest-u0128.pt",
+          "guard": "teacher-optimal",
+          "sha256": "725e6aafc6445803896245723d18b698be6fcf3ef2642c9965071aff133f4f94",
+          "report": "/dataset-cpfs5/vtm-foundation-pretrain/temp/zhousc6/sofy/sofy-20261013-040152-0f100ab2/bundles/6a3a5aed44d98587/large-ppo-b3/development/u0128-teacher-optimal.json",
+          "mean_net_score": 0.96625,
+          "win_rate": 0.245,
+          "discard_rate": 0.1553125,
+          "exhaustive_draw_rate": 0.07375,
+          "games": 3200
+        }
+      ]
+    }
+  ]
+}

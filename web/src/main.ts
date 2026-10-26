@@ -27,7 +27,7 @@ app.innerHTML = `
       </aside></div>
     </section>
     <section id="training-page" hidden><div class="page-heading"><div><p class="eyebrow">REAL RUNS, REAL RESULTS</p><h1>每一分，都来自真实对局。</h1><p>冻结模型、独立种子、正式单盘结算。训练运行成功不等于棋力提升。</p></div></div><div id="training-content" class="records-grid">正在读取记录…</div></section>
-    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用 PPO40 神经网络选择标准弃牌，并由 teacher-optimal 保护筛选候选。吃碰杠胡与花牌操作由 qualified-tenpai 启发式处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收；相对闭门教师表现更好，但尚未统计证明强于 qualified 教师。最新续训分支没有胜过开发集原候选，因此这里仍使用已验收的 PPO40。</p><h2>如何操作</h2><p>点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对手暗手与尚未裁定的响应不会展示。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
+    <section id="about-page" hidden><div class="page-heading"><div><p class="eyebrow">BEFORE YOU PLAY</p><h1>这次我们在测什么</h1></div></div><div class="about-card panel"><h2>真实模型，阶段一规则。</h2><p>你的三个对手使用 PPO40 神经网络选择标准弃牌，并由 teacher-optimal 保护筛选候选。吃碰杠胡与花牌操作由 qualified-tenpai 启发式处理。真人始终拥有当前规则引擎给出的全部合法选择。</p><p>这是 WMO 2006 MCR 的阶段一实现，不是完整国标麻将成品。完整番种排斥、连续补牌来源链、16 手整场和部分规则边界尚未验收。页面提供单盘对局，不能将当前结果当作完整 MCR 整场棋力。</p><h2>模型达到人测门槛，不代表最强。</h2><p>候选通过了预先规定的 6,400 局独立验收；相对闭门教师表现更好，但尚未统计证明强于 qualified 教师。后续 SOFY 209 万局训练通过了新的非劣验收，但尚未证明更强，因此这里仍使用原已验收的 PPO40。</p><h2>如何操作</h2><p>点选手牌，再点击「打出」。遇到响应窗口，选择吃、碰、杠、胡或过。所有操作由同一 OCaml 规则核心校验。建议中的百分比是动作选择概率，不是胜率。</p><h2>记录与隐私</h2><p>规则和 ONNX 推理都在浏览器 Worker 中执行，不需要持续在线的推理服务器。对手暗手与尚未裁定的响应不会展示。结束后可下载回放，回放文件包含整盘动作，加载时会明确标记「历史回放」。关闭网页会停止当前对局。</p><p>建议使用近期的 Chrome、Edge、Safari 或 Firefox。无需 WebGPU；默认单线程 WASM 推理。若资源下载失败会显示错误，不会悄悄换成启发式或随机模型。</p></div></section>
   </main><footer><span>一桌麻将 <span class="footer-dot">/</span> 真实训练 · 本机推理</span><span>规则 mcr-wmo2006-stage1 <span class="footer-dot">·</span> 不含浏览器现场训练</span></footer>`;
 
 let worker = new Worker(new URL('./game.worker.ts', import.meta.url), { type: 'module' });
@@ -182,6 +182,40 @@ function navigate() {
 }
 window.addEventListener('hashchange', navigate); navigate();
 const base = new URL(import.meta.env.BASE_URL, document.baseURI).href;
+function arenaRecord(data: any): string {
+  const names: Record<string, string> = { 'old-guard': '网页模型 + 保护', 'new-guard': '新 PPO + 保护', 'old-raw': '网页模型 · 无弃牌保护', 'new-raw': '新 PPO · 无弃牌保护' };
+  const diff = data.paired_vs_old_guard.qualified['new-guard'];
+  const interval = (values: number[]) => `[${values.map(v => v.toFixed(3)).join(', ')}]`;
+  return `<section class="panel record-wide"><h2>棋力实测 · 同墙四座</h2>
+    <p>每个策略 32,000 盘，对战三个冻结 qualified 教师。每副牌墙轮换四个座位，置信区间按 8,000 副牌墙分组。</p>
+    <table><thead><tr><th>策略</th><th>净分 / 盘</th><th>95% CI</th></tr></thead><tbody>${Object.entries(names).map(([key, name]) => {
+      const score = data.summaries[`${key}-vs-qualified`].score;
+      return `<tr><td>${name}</td><td>${score.mean.toFixed(3)}</td><td>${interval(score.ci95)}</td></tr>`;
+    }).join('')}</tbody></table>
+    <p>主比较：新旧带保护模型的配对差为 ${diff.mean.toFixed(3)}，95% CI ${interval(diff.ci95)}，尚未证明新模型更强。网页继续使用旧模型。</p>
+    <p>当前成绩依赖启发式保护。无弃牌保护的策略仍由启发式处理其他动作，不能称为全动作纯网络。加上闭门教师与旧模型直接对战，本轮共 184,000 盘。</p>
+    <p class="muted">这是 stage1 规则内的相对成绩，不是完整 MCR 的 Elo 或段位。人测建议连续保存 20–50 盘终局回放，用于定位具体弱点。</p></section>`;
+}
+function sofyRecord(data: any): string {
+  const colors = ['#246b54', '#3d6b9c', '#b46e38', '#946c98'];
+  const rows = data.branches.map((branch: any) => ({
+    branch: branch.branch,
+    points: branch.evaluations.filter((r: any) => /^u\d+-teacher-optimal$/.test(r.name)),
+  }));
+  const curves = rows.map((row: any) => {
+    const points = row.points.map((p: any) => `${35 + (Number(p.name.slice(1, 5)) - 32) / 96 * 630},${195 - p.score / 1.6 * 150}`).join(' ');
+    return `<polyline points="${points}" fill="none" stroke="${colors[row.branch]}" stroke-width="2.5"/>`;
+  }).join('');
+  return `<section class="panel record-wide"><h2>SOFY 大规模 PPO · ${Number(data.games).toLocaleString()} 局</h2>
+    <p>四条分支各训练 128 次更新。下图为同一 3,200 局开发集上的冻结快照均分（网络 + teacher-optimal 保护），用于选择模型，不能代替独立验收。</p>
+    <svg class="training-chart" viewBox="0 0 700 230" role="img" aria-label="四条 PPO 分支固定开发集的平均净得分">
+      <line x1="35" x2="665" y1="195" y2="195" stroke="#d3ded5"/>${curves}
+      <text x="5" y="50">1.6</text><text x="5" y="195">0</text><text x="35" y="220">更新 32</text><text x="600" y="220">更新 128</text></svg>
+    <p>${rows.map((r: any) => `<span style="color:${colors[r.branch]};margin-right:25px">● 分支 b${r.branch}</span>`).join('')}</p>
+    <p>开发集选定 ${escape(data.selected)}。新的 6,400 局独立验收：新候选 ${data.new_score.toFixed(3)} 分/盘，旧候选 ${data.old_score.toFixed(3)}，qualified 教师 ${data.qualified_score.toFixed(3)}。</p>
+    <p>相对旧候选 ${data.comparisons.previous.difference >= 0 ? '+' : ''}${data.comparisons.previous.difference.toFixed(3)}，95% CI [${data.comparisons.previous.ci95.map((n: number) => n.toFixed(3)).join(', ')}]。
+    通过非劣门槛，但未证明更强；牌桌继续使用原验收模型。</p></section>`;
+}
 async function load() {
   try { await rpc('load', { base }); loaded = true; ($('start') as HTMLButtonElement).disabled = false; $('start').textContent = '开始新一盘'; await start(); }
   catch (e) { error(`加载失败：${(e as Error).message}`); $('engine-status').textContent = '加载失败'; $('start').textContent = '重新加载'; ($('start') as HTMLButtonElement).disabled = false; $('start').onclick = () => location.reload(); }
@@ -195,4 +229,6 @@ void fetch(new URL('training.json', base)).then(async response => {
   const min = Math.min(...points.map(p => p[1]), -4); const max = Math.max(...points.map(p => p[1]), 4);
   const line = points.map(([x, y]) => `${35 + (x - 1) / 39 * 630},${195 - (y - min) / (max - min) * 150}`).join(' ');
   $('training-content').innerHTML = `<div class="metric"><small>独立验收</small><strong>${r.games.toLocaleString()}<span> 局</span></strong><p>未参与模型选择的 holdout</p></div><div class="metric"><small>平均净得分</small><strong>+${r.mean_net_score.toFixed(2)}<span> 分 / 盘</span></strong><p>三个冻结 qualified 对手</p></div><div class="metric"><small>和牌 / 放炮 / 流局</small><strong class="rate">${(r.win_rate * 100).toFixed(1)} / ${(r.discard_rate * 100).toFixed(1)} / ${(r.exhaustive_draw_rate * 100).toFixed(1)}<span> %</span></strong><p>席位按 0 / 1 / 2 / 3 轮换</p></div><section class="panel record-wide"><h2>独立评估 · 配对净得分差</h2><p class="muted">与相同种子、相同席位的基线比较；95% 置信区间。</p><table><thead><tr><th>相对基线</th><th>平均差</th><th>95% CI</th><th>结论</th></tr></thead><tbody>${['closed', 'qualified'].map(k => { const c = data.comparisons[k]; return `<tr><td>${k === 'closed' ? '闭门教师' : 'qualified 教师'}</td><td>+${c.mean_difference.toFixed(3)}</td><td>[${c.ci95.map((n: number) => n.toFixed(3)).join(', ')}]</td><td>${k === 'closed' ? '通过优于基线门槛' : '通过非劣门槛，未证明更强'}</td></tr>`; }).join('')}</tbody></table></section><section class="panel record-wide"><h2>后续 PPO 分支 · 真实训练记录</h2><p class="muted">40 次更新 · 19,200 局 · 8 个采样进程。下图是训练批次平均净得分，不是固定对手评估曲线，也不是胜率。</p><svg class="training-chart" viewBox="0 0 700 230" role="img" aria-label="PPO v2 各训练批次真实平均净得分曲线"><line x1="35" x2="665" y1="195" y2="195" stroke="#d3ded5"/><polyline points="${line}" fill="none" stroke="#246b54" stroke-width="2.5"/><text x="35" y="220">更新 1</text><text x="610" y="220">更新 40</text><text x="5" y="50">${max.toFixed(0)}</text><text x="5" y="195">${min.toFixed(0)}</text></svg><p>这个新分支没有超过开发集原候选，所以牌桌仍使用已验收的 PPO40 + 启发式保护，没有自动换成最新权重。</p></section><section class="panel record-wide"><h2>开发集模型比较</h2><p class="muted">用于选择模型的 1,600 局，不作为最终验收。保护配置与原始网络分开记录。</p><div class="comparison-list">${data.selection.candidates.map((c: any) => `<div><span>${escape(c.checkpoint.split('/').at(-1).replace('.pt', ''))}<small>${c.guard === 'none' ? '原始网络 + scaffold' : '网络 + teacher-optimal 保护'}</small></span><b>${c.mean_net_score >= 0 ? '+' : ''}${c.mean_net_score.toFixed(3)}</b></div>`).join('')}</div></section>`;
+  if (data.sofy) $('training-content').insertAdjacentHTML('afterbegin', sofyRecord(data.sofy));
+  if (data.arena) $('training-content').insertAdjacentHTML('afterbegin', arenaRecord(data.arena));
 }).catch(e => { $('training-content').textContent = `${e.message}，请重新加载页面。`; });
