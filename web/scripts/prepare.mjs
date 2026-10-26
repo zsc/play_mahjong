@@ -36,7 +36,7 @@ const evidence = JSON.parse(readFileSync(path.join(root, 'benchmarks/human-candi
 const timings = JSON.parse(readFileSync(path.join(root, 'benchmarks/ppo-batch-v2-training.json')));
 const stats = { selection: evidence.selection, comparisons: evidence.comparisons,
   evaluations: evidence.reports, training: { games: timings.games, samples: timings.samples,
-    history: timings.history }, modelCard: 'PPO40 + teacher-optimal · 不是纯神经网络策略',
+    history: timings.history }, modelCard: '训练模型 + 策略辅助 · 并非模型独立决策',
   sofy: JSON.parse(readFileSync(path.join(root, 'benchmarks/sofy-ppo-summary.json'))),
   arena: JSON.parse(readFileSync(path.join(root, 'benchmarks/arena-primary.json'))) };
 writeFileSync(path.join(web, 'public/training.json'), JSON.stringify(stats));
