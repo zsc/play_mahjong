@@ -4,6 +4,12 @@
 
 ## 最新进度
 
+- 浏览器人测已接入已验收 PPO40 + teacher-optimal：`web/` 提供人机对局、全合法动作、AI 观战、
+  模型建议、终局回放导入/导出、真实训练记录。OCaml CPS WASM 和 ORT 单线程 WASM 均在 Worker 中运行。
+  `cd web && npm ci && npm run prepare:assets && npm run dev`；精选 ONNX 随源码保留。
+  4 盘 291 次原生/WASM 转移、207 次模型决策一致，特征误差 0，另通过回放/非法动作/加载失败测试。
+  纯静态 `/mahjong/` 子路径已加载验证。详见 `docs/browser-human-test.md`。
+
 - 优化已部署到 `/home/zsc/play_mahjong_releases/batch-20261026`，之前的 frontier 部署和
   `/home/zsc/play_mahjong` 未覆盖。直接 SSH 在应用进程不可达，仍通过独立 tmux 会话执行 SSH。
   tmux 读取 Downloads 可能被 macOS 拒绝，上传/下载经 `/tmp` 中转。
@@ -17,7 +23,7 @@
   8 个常驻进程、16 局/进程、CUDA 更新，快照已取回本地 `training/checkpoints/ppo-batch-v2-u*.pt`。
 - PPO 支持保存优化器、RNG、配置并精确 `--resume`；改变 sampler 使用明确的 `--init` 新分支。
 - 最新核心 22 项、Python 123 项通过；批量接口 JSON-lines 对照 9 项、远端批量/恢复 10 项通过。
-  规则仍是 stage1，完整番种排斥、补牌来源链、整场和网页/Pages 尚未完成。
+  规则仍是 stage1，完整番种排斥、补牌来源链、整场尚未完成；网页静态构建已可用，公网 Pages 尚未发布。
 - 人测选择及独立验收见 `docs/human-test-plan.md`；完整证据见 `docs/env-performance.md`。
   下方旧模型失败记录仅为历史，不能用来替代新模型的独立验收结果。
 - **人测门槛已通过**：选定 v1-u0040 + teacher-optimal。6,400 局相对 closed 的配对差

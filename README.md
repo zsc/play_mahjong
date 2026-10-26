@@ -2,17 +2,21 @@
 
 本项目使用 OCaml 实现单一规则核心，Python/PyTorch 负责训练，通过 C ABI/ctypes、JSON-lines 子进程与 WASM 服务本地训练和浏览器。目标规则是 WMO 2006 Mahjong Competition Rules（MCR）。
 
-> 当前仍是阶段一，不是完整 MCR。已有通过独立 6,400 局门槛的“PPO 模型 + 启发式保护”人测候选及 ONNX 导出；未证明强于 qualified 教师。完整番种排斥、补牌来源链、16 手整场、WASM 网页和 Pages 尚未完成。
+> 当前仍是阶段一，不是完整 MCR。已有通过独立 6,400 局门槛的“PPO 模型 + 启发式保护”人测候选、ONNX 导出及浏览器人测网页；未证明强于 qualified 教师。完整番种排斥、补牌来源链和 16 手整场尚未完成。
 
 本机可直接运行 `./scripts/play_candidate.sh` 开始中文终端对战，输入动作 ID，`q` 退出。
 实际成绩、权重来源和限制见 [人测候选模型卡](docs/model-card-human-candidate-20261026.md)。
+
+浏览器人测：`cd web && npm ci && npm run prepare:assets && npm run dev`，然后打开
+`http://127.0.0.1:5173/`。提供人机对局、AI 观战、回放和真实训练记录，规则与推理均在本机 Worker 中执行。
+完整启动、静态子路径构建和验证说明见 [浏览器人测](docs/browser-human-test.md)。
 
 ## 目录
 
 - `ocaml/mahjong_core/`: 无 UI 的规则核心与测试
 - `ocaml/mahjong_ffi/`: C ABI、JSON-lines 子进程与 WASM 导出
 - `training/`: teacher 数据、网络、BC、评估和后续 PPO
-- `web/`: 浏览器牌桌与 Worker（尚未实现）
+- `web/`: 浏览器人机牌桌、AI 观战、回放、真实训练记录与 WASM Worker
 - `docs/`: 规则基线、架构和真实进度
 
 ## 环境

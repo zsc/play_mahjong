@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "games": 4,
+  "decisions": 291,
+  "samples": 207,
+  "maxFeatures": 0,
+  "maxLogits": 0.0000171661376953125,
+  "maxValue": 0.0000026673078536987305,
+  "backend": "ORT WASM single thread",
+  "webgpu": false
+}

@@ -1,0 +1,47 @@
+name: Build and publish browser demo
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: 5.5.2
+      - run: opam install dune.3.24.2 yojson.3.0.0 js_of_ocaml.6.5.0 wasm_of_ocaml-compiler.6.5.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26.12.1
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+        working-directory: web
+      - name: Compile the shared rules and prepare verified model
+        run: OPAM_SWITCH=$(opam switch show) npm run prepare:assets
+        working-directory: web
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: npm run build
+        working-directory: web
+        env:
+          MAHJONG_BASE: ${{ steps.pages.outputs.base_path }}/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -12,7 +12,15 @@ training/checkpoints/
 training/logs/
 web/dist/
 web/node_modules/
+web/public/runtime/
+web/public/ort/
+web/public/models/
+web/public/training.json
+web/test-results/
+web/playwright-report/
+web/tests/fixtures/
 *.onnx
+!web/assets/candidate.onnx
 *.onnx.data
 *.pt
 *.ckpt
