@@ -15,7 +15,7 @@ from evaluate import RULESET_ID, load_policy, model_action
 from mahjong_ai.engine import DEFAULT_LIBRARY, ROOT, MahjongEngine
 from mahjong_ai.restrictions import teacher_optimal_discards
 
-POLICIES = ("old-guard", "new-guard", "old-raw", "new-raw", "qualified", "closed")
+POLICIES = ("old-guard", "new-guard", "old-raw", "new-raw", "new-full", "qualified", "closed")
 _models = {}
 _engine = None
 
@@ -24,13 +24,21 @@ def initialize(old: str, new: str):
     global _engine, _models
     torch.set_num_threads(1)
     _engine = MahjongEngine()
-    _models = {name: load_policy(Path(path), torch.device("cpu"))[0] for name, path in [("old", old), ("new", new)]}
+    _models = {}
+    for name, path in [("old", old), ("new", new)]:
+        model, checkpoint = load_policy(Path(path), torch.device("cpu"))
+        model.learned_scope = checkpoint.get("learned_scope")
+        _models[name] = model
 
 
 def choose(engine, models, game, actor, policy):
     if policy in ("qualified", "closed"):
         return engine.heuristic_action(game, actor, "qualified-tenpai" if policy == "qualified" else "closed")
     observation, _ = engine.observe(game, actor)
+    if policy == "new-full":
+        if models["new"].learned_scope != "all":
+            raise ValueError("new-full requires an all-action checkpoint")
+        return model_action(models["new"], observation, torch.device("cpu"))
     legal = set(observation["legal_action_ids"])
     if observation["phase"]["kind"] != "discard" or 0 in legal:
         return engine.heuristic_action(game, actor, "qualified-tenpai")

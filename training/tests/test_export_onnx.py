@@ -7,7 +7,7 @@ import torch
 from export_onnx import RULESET_ID, evaluation_record, export_model
 from mahjong_ai.actions import ACTION_CATALOG_VERSION, ACTION_COUNT
 from mahjong_ai.features import FEATURE_ENCODING_VERSION, FEATURE_SIZE, OBSERVATION_VERSION
-from model import PolicyValueNet
+from model import PolicyValueNet, TilePolicyValueNet
 
 
 def test_onnx_export_writes_contract_and_parity(tmp_path) -> None:
@@ -74,3 +74,23 @@ def test_export_rejects_evaluation_of_different_weights(tmp_path):
     report.write_text(json.dumps({"checkpoint": str(checkpoint), "checkpoint_sha256": "0" * 64}))
     with pytest.raises(ValueError, match="checksum mismatch"):
         evaluation_record(report, checkpoint)
+
+
+def test_full_action_tile_model_export_has_no_scaffold_or_guard(tmp_path):
+    model = TilePolicyValueNet(hidden=16)
+    torch.nn.init.normal_(model.tile_score[-1].weight, std=.01)
+    checkpoint = tmp_path / "full.pt"
+    torch.save({"format_version": 1, "ruleset_id": RULESET_ID, "observation_version": OBSERVATION_VERSION,
+                "feature_encoding_version": FEATURE_ENCODING_VERSION, "action_catalog_version": ACTION_CATALOG_VERSION,
+                "feature_size": FEATURE_SIZE, "action_count": ACTION_COUNT, "hidden": 16,
+                "model_kind": "tile-shared-v1", "model": model.state_dict(), "learned_scope": "all",
+                "discard_guard": "none", "scaffold_variant": None, "value_activation": "linear",
+                "is_smoke": True}, checkpoint)
+    manifest = export_model(checkpoint, tmp_path / "full.onnx")
+    assert manifest["contract"]["learned_scope"] == "all"
+    assert manifest["deployment"]["discard_guard"] == "none"
+    assert manifest["deployment"]["scaffold_variant"] is None
+    assert manifest["io"]["value_semantics"].startswith("linear")
+    assert manifest["parity"]["logits_max_abs_error"] < 1e-4
+    with pytest.raises(ValueError, match="without heuristic protection"):
+        export_model(checkpoint, tmp_path / "guarded.onnx", deployment_discard_guard="teacher-optimal")

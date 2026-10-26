@@ -21,7 +21,7 @@ from mahjong_ai.features import (
 )
 from mahjong_ai.restrictions import teacher_optimal_discards
 from mahjong_ai.teachers import HEURISTIC_VARIANTS, resolve_scaffold_variant
-from model import PolicyValueNet
+from model import PolicyValueNet, model_from_checkpoint
 from train_bc import choose_device
 
 RULESET_ID = "mcr-wmo2006-stage1"
@@ -46,7 +46,7 @@ def load_policy(checkpoint_path: Path, device: torch.device) -> tuple[PolicyValu
     }
     if mismatches:
         raise ValueError(f"checkpoint contract does not match this evaluator: {mismatches}")
-    model = PolicyValueNet(hidden=int(checkpoint["hidden"])).to(device)
+    model = model_from_checkpoint(checkpoint).to(device)
     model.load_state_dict(checkpoint["model"])
     model.eval()
     return model, checkpoint

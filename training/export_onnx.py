@@ -12,7 +12,7 @@ import onnxruntime as ort
 import torch
 from mahjong_ai.actions import ACTION_CATALOG_VERSION, ACTION_COUNT
 from mahjong_ai.features import FEATURE_ENCODING_VERSION, FEATURE_SIZE, OBSERVATION_VERSION
-from model import PolicyValueNet
+from model import model_from_checkpoint
 
 RULESET_ID = "mcr-wmo2006-stage1"
 
@@ -88,7 +88,10 @@ def export_model(
     guard = deployment_discard_guard if deployment_discard_guard is not None else checkpoint.get("discard_guard", "none")
     if guard not in ("none", "teacher-optimal"):
         raise ValueError("unsupported deployment discard guard")
-    model = PolicyValueNet(hidden=int(checkpoint["hidden"]))
+    full_policy = checkpoint.get("learned_scope") == "all"
+    if full_policy and guard != "none":
+        raise ValueError("all-action candidates must be evaluated and exported without heuristic protection")
+    model = model_from_checkpoint(checkpoint)
     model.load_state_dict(checkpoint["model"])
     model.eval()
 
@@ -154,6 +157,7 @@ def export_model(
             "feature_size": FEATURE_SIZE,
             "action_count": ACTION_COUNT,
             "hidden": int(checkpoint["hidden"]),
+            "model_kind": checkpoint.get("model_kind", "mlp-v1"),
             "teacher_variant": checkpoint.get("teacher_variant"),
             "scaffold_variant": checkpoint.get("scaffold_variant"),
             "learned_scope": checkpoint.get("learned_scope"),
@@ -162,7 +166,8 @@ def export_model(
         "deployment": {
             "discard_guard": guard,
             "scaffold_variant": checkpoint.get("scaffold_variant"),
-            "policy_description": "trained discard network + heuristic scaffold" +
+            "policy_description": "trained all-action network; legal mask only" if full_policy else
+                                  "trained discard network + heuristic scaffold" +
                                   (" + teacher-optimal discard protection" if guard != "none" else ""),
             "guard_applied_by": "caller constructs the supplied mask; guard is not embedded in ONNX",
         },
@@ -176,7 +181,8 @@ def export_model(
                 {"name": "value", "shape": ["batch"], "dtype": "float32"},
             ],
             "mask_semantics": "true means legal; legal logits use argmax after applying the supplied mask",
-            "value_semantics": "tanh-scaled expected final score divided by 64, not a win probability",
+            "value_semantics": ("linear" if checkpoint.get("value_activation") == "linear" else "tanh-scaled") +
+                               " expected final score divided by 64, not a win probability",
             "seat_mapping": "absolute seat indices 0..3 and one-hot seat/round winds; no relative-seat rotation",
             "normalization": "see feature_encoding_version 6; counts are divided by their tile limits and hint arrays are clipped",
             "selection": "deterministic argmax; illegal logits must never be selected by the caller",

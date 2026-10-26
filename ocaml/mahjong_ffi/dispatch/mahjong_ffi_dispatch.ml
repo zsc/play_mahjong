@@ -135,17 +135,46 @@ let teacher_chunk json =
   Hashtbl.replace games handle next;
   ok [ ("rows", `List rows); ("outcome", outcome) ]
 
+(* All seats may be neural policies. Only single-legal-action windows are
+   advanced automatically; every actual choice retains the full legal mask. *)
+let decision json =
+  let handle = int_member "game" json in
+  let limit = int_member "max_steps" json in
+  let state = current handle in
+  let state = match member "action_id" json with
+    | `Null -> state
+    | action ->
+        if int_member "revision" json <> state.State.revision then invalid_arg "stale decision";
+        apply_action state (int_member "seat" json) (Yojson.Safe.Util.to_int action)
+  in
+  let rec loop state =
+    match state.State.phase with
+    | State.Ended outcome -> (state, [ ("outcome", Observation_json.outcome_json outcome) ])
+    | _ when state.revision >= limit -> invalid_arg "game exceeded max_steps"
+    | _ ->
+        let seat = Option.get (Observation.actor state) in
+        match Action_catalog.legal state seat with
+        | [] -> invalid_arg "empty legal decision"
+        | [action] -> loop (apply_action state seat action)
+        | _ ->
+            let action, observation = prepared_decision state seat "qualified-tenpai" in
+            (state, [ ("actor", `Int seat); ("teacher_action", `Int action); ("observation", observation) ])
+  in
+  let next, fields = loop state in
+  Hashtbl.replace games handle next;
+  `Assoc (("game", `Int handle) :: ("revision", `Int next.revision) :: fields)
+
 let handle_request request =
   let json = Yojson.Safe.from_string request in
   match Yojson.Safe.Util.member "op" json |> Yojson.Safe.Util.to_string with
-  | "advance_batch" ->
+  | ("advance_batch" | "decision_batch") as operation ->
       let requests = member "requests" json |> Yojson.Safe.Util.to_list in
       let handles = List.map (int_member "game") requests in
       if List.length handles <> List.length (List.sort_uniq compare handles) then
         invalid_arg "duplicate game in batch";
       (* Commit all games together, so errors never leave a half-applied batch. *)
       let saved = List.map (fun handle -> (handle, current handle)) handles in
-      (try ok [ ("results", `List (List.map advance requests)) ]
+      (try ok [ ("results", `List (List.map (if operation = "decision_batch" then decision else advance) requests)) ]
        with exn -> List.iter (fun (handle, state) -> Hashtbl.replace games handle state) saved; raise exn)
   | "teacher_chunk" -> teacher_chunk json
   | "new" ->

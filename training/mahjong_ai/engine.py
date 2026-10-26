@@ -144,6 +144,10 @@ class MahjongEngine:
         return self._call({"op": "teacher_chunk", "game": game, "variant": variant,
                            "max_steps": max_steps, "count": count})
 
+    def decision_batch(self, requests: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Full legal choices for any seat; skip only windows with one legal action."""
+        return self._call({"op": "decision_batch", "requests": requests})["results"]
+
     def close(self, game: int) -> None:
         if game in self._handles:
             self._call({"op": "close", "game": game})
